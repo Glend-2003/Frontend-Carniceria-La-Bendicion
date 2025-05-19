@@ -1,0 +1,161 @@
+
+.pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
+  }
+  
+  .pagination .page-item:first-child .page-link {
+    margin-left: 0;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+  }
+  
+  .pagination .page-item:last-child .page-link {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+  
+  .pagination .page-item .page-link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #387623; 
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+  }
+  
+  .pagination .page-item .page-link:hover {
+    color: #103f1b; 
+    background-color: #f1f7e9; 
+    border-color: #9fc45a; 
+    z-index: 2;
+  }
+  
+  .pagination .page-item .page-link:focus {
+    z-index: 3;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(159, 196, 90, 0.25); 
+  }
+  
+  .pagination .page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #387623; 
+    border-color: #103f1b;
+  }
+  
+  .pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: auto;
+    background-color: #fff;
+    border-color: #dee2e6;
+  }
+  
+  .pagination .page-item:first-child .page-link,
+  .pagination .page-item:last-child .page-link {
+    font-weight: 500;
+  }
+  
+  .pagination .page-item:not(.active):not(.disabled) .page-link:hover {
+    transform: translateY(-2px);
+  }
+  
+/* Media query existente mejorada */
+@media (max-width: 576px) {
+  .pagination .page-link {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Mejoras adicionales */
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+  }
+  
+  .pagination .page-item .page-link {
+    margin-left: 0; /* Eliminar márgenes negativos para evitar problemas en flex-wrap */
+    border-radius: 0.25rem; /* Hacer todos los botones redondeados cuando están en wrap */
+    min-width: 32px; /* Ancho mínimo para mejorar la experiencia táctil */
+    text-align: center;
+  }
+}
+
+/* Media query para móviles pequeños */
+@media (max-width: 360px) {
+  .pagination .page-link {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.85rem;
+    min-width: 30px;
+  }
+  
+  /* Ocultar algunos números de página en pantallas muy pequeñas */
+  .pagination .page-item:not(:first-child):not(:last-child):not(.active):not(.ellipsis) {
+    display: none;
+  }
+  
+  /* Mostrar siempre los puntos suspensivos */
+  .pagination .page-item.ellipsis {
+    display: flex;
+  }
+}
+
+/* Media query para mejorar experiencia táctil */
+@media (pointer: coarse) {
+  .pagination .page-item .page-link {
+    padding: 0.5rem 0.75rem; /* Aumentar área táctil */
+    min-height: 40px; /* Altura mínima para mejorar accesibilidad táctil */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Aumentar espacio entre elementos para evitar toques accidentales */
+  .pagination {
+    gap: 8px;
+  }
+}
+
+/* Media query para orientación horizontal en móviles */
+@media (max-width: 576px) and (orientation: landscape) {
+  .pagination {
+    max-width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 5px; /* Espacio para scrollbar */
+  }
+  
+  .pagination::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .pagination::-webkit-scrollbar-thumb {
+    background-color: rgba(56, 118, 35, 0.3);
+    border-radius: 2px;
+  }
+  
+  .pagination .page-item .page-link {
+    margin-left: -1px; /* Restaurar para el diseño horizontal */
+    border-radius: 0;
+  }
+  
+  .pagination .page-item:first-child .page-link {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+  }
+  
+  .pagination .page-item:last-child .page-link {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+}

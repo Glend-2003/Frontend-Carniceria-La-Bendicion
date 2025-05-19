@@ -1,0 +1,458 @@
+
+:root {
+  --dark-green: #103f1b;
+  --medium-green: #387623;
+  --light-green: #9fc45a;
+  --golden: #958933;
+  --brown: #875725;
+  --light-gray: #f8f9fa;
+  --border-color: #ddd;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --focus-shadow: rgba(56, 118, 35, 0.2);
+}
+
+.login-sidebar {
+  width: 350px !important;
+  max-width: 100%;
+  z-index: 1100; 
+}
+
+.login-header {
+  padding: 20px 20px 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.login-title {
+  color: var(--dark-green);
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-left: 8px;
+}
+
+.auth-form-container {
+  padding: 20px;
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--dark-green);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-control, 
+input[type="email"], 
+input[type="password"], 
+input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  height: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  background-color: #fff;
+}
+
+.form-control:focus,
+input:focus {
+  outline: none;
+  border-color: var(--medium-green);
+  box-shadow: 0 0 0 3px var(--focus-shadow);
+}
+
+.password-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d;
+  transition: color 0.2s;
+}
+
+.password-toggle-icon:hover {
+  color: var(--medium-green);
+}
+
+.options-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-check-input {
+  margin: 0;
+  cursor: pointer;
+}
+
+.form-check-label {
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
+
+.forgot-password-link {
+  background: none;
+  border: none;
+  color: var(--brown);
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.forgot-password-link:hover {
+  color: var(--dark-green);
+  text-decoration: underline;
+}
+
+.btn-acceso {
+  width: 100%;
+  background-color: var(--medium-green);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.btn-acceso:hover {
+  background-color: var(--dark-green);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.btn-acceso:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.create-account-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.divider {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  line-height: 0.1em;
+  margin: 20px 0 30px;
+}
+
+.divider span {
+  background: #fff;
+  padding: 0 10px;
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.user-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  background-color: var(--light-gray);
+  border-radius: 50%;
+  margin-bottom: 15px;
+  color: var(--medium-green);
+}
+
+.no-account-text {
+  margin: 0 0 15px;
+  font-size: 15px;
+  color: #555;
+}
+
+.btn-crear-cuenta {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  background-color: var(--light-green);
+  color: var(--dark-green);
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.btn-crear-cuenta:hover {
+  background-color: #8fb349;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+  text-decoration: none;
+  color: var(--dark-green);
+}
+
+.reset-message {
+  background-color: rgba(159, 196, 90, 0.15);
+  border-left: 4px solid var(--light-green);
+  padding: 15px;
+  margin-bottom: 25px;
+  border-radius: 6px;
+}
+
+.reset-message p {
+  margin: 5px 0;
+  color: var(--dark-green);
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.btn-volver {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var(--light-gray);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--medium-green);
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 20px;
+  cursor: pointer;
+  width: 100%;
+  padding: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.btn-volver:hover {
+  background-color: #e9ecef;
+  color: var(--dark-green);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+main.flex-grow-2 {
+  padding-top: 20px;
+}
+
+/* Media queries para adaptación móvil */
+@media (max-width: 992px) {
+  .login-sidebar {
+    width: 320px !important;
+  }
+  
+  .login-title {
+    font-size: 1.4rem;
+  }
+  
+  main.flex-grow-2 {
+    padding-top: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-sidebar {
+    width: 100% !important;
+    max-width: 450px;
+    margin: 0 auto;
+  }
+  
+  .auth-form-container {
+    padding: 15px;
+  }
+  
+  .login-header {
+    padding: 15px 15px 10px;
+  }
+  
+  .form-control, 
+  input[type="email"], 
+  input[type="password"], 
+  input[type="text"] {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+  
+  .btn-acceso {
+    padding: 12px;
+    font-size: 15px;
+  }
+  
+  .btn-crear-cuenta {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .options-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .forgot-password-link {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-sidebar {
+    max-width: 100%;
+  }
+  
+  .login-title {
+    font-size: 1.3rem;
+  }
+  
+  .form-group {
+    margin-bottom: 18px;
+  }
+  
+  .form-group label {
+    font-size: 13px;
+  }
+  
+  .form-control, 
+  input[type="email"], 
+  input[type="password"], 
+  input[type="text"] {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .form-check-label {
+    font-size: 13px;
+  }
+  
+  .forgot-password-link {
+    font-size: 13px;
+  }
+  
+  .btn-acceso {
+    padding: 12px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  .divider {
+    margin: 15px 0 25px;
+  }
+  
+  .divider span {
+    font-size: 13px;
+  }
+  
+  .user-icon-container {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 12px;
+  }
+  
+  .no-account-text {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .btn-crear-cuenta {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .reset-message {
+    padding: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .reset-message p {
+    font-size: 13px;
+  }
+  
+  .btn-volver {
+    padding: 10px;
+    font-size: 14px;
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .login-header {
+    padding: 12px 12px 8px;
+  }
+  
+  .auth-form-container {
+    padding: 12px;
+  }
+  
+  .login-title {
+    font-size: 1.2rem;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-control, 
+  input[type="email"], 
+  input[type="password"], 
+  input[type="text"] {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  
+  .password-toggle-icon {
+    right: 10px;
+  }
+  
+  .user-icon-container {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .btn-acceso,
+  .btn-crear-cuenta,
+  .btn-volver {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,580 @@
+
+:root {
+  --color-primary: #103f1b;      /* Verde oscuro - Color principal */
+  --color-primary-light: #387623; /* Verde medio */
+  --color-primary-lighter: #9fc45a; /* Verde claro */
+  --color-primary-dark: #0a2911;  /* Verde muy oscuro */
+  --color-accent: #958933;        /* Dorado/mostaza */
+  --color-accent-dark: #875725;   /* Marrón */
+  --color-primary-bg: #f1f7e9;    /* Fondo verde muy claro */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-700: #334155;
+}
+
+/* Estilos generales del contenido de la página de historia */
+.historia-container {
+  font-family: 'Georgia', serif; /* Esta fuente se aplicará al contenido de historia */
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-700);
+}
+
+.historia-hero {
+  position: relative;
+  height: 16rem;
+  background-image: url('../../assets/images/backgroundTitulo.png');
+  overflow: hidden;
+}
+
+.historia-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(16, 63, 27, 0.7); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.historia-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-white);
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.historia-intro {
+  max-width: 48rem;
+  margin: 0 auto;
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.historia-intro-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+}
+
+.historia-intro-text {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+}
+
+.historia-icon-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.historia-icon-circle {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 9999px;
+  background-color: var(--color-primary-lighter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.5rem auto;
+}
+
+.historia-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-primary-dark);
+}
+
+.historia-timeline {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 1rem 4rem 1rem;
+}
+
+.historia-timeline-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-primary);
+  margin-bottom: 3rem;
+}
+
+.historia-timeline-container {
+  position: relative;
+}
+
+.historia-timeline-line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  width: 0.25rem;
+  background-color: var(--color-primary-lighter);
+}
+
+.historia-event {
+  position: relative;
+  margin-bottom: 4rem;
+}
+
+.historia-event-flex {
+  display: flex;
+  align-items: center;
+}
+
+.historia-event-left {
+  width: 50%;
+  padding-right: 2rem;
+  text-align: right;
+}
+
+.historia-event-right {
+  width: 50%;
+  padding-left: 2rem;
+}
+
+.historia-event-circle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--color-primary-light);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.historia-event-number {
+  color: var(--color-white);
+  font-weight: 700;
+}
+
+.historia-event-year {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary-light);
+}
+
+.historia-event-text {
+  color: var(--color-gray-700);
+  margin-top: 0.5rem;
+}
+
+.historia-event-image-container {
+  background-color: var(--color-gray-200);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 2px solid var(--color-primary-lighter);
+}
+
+.historia-event-image-placeholder {
+  height: 12rem;
+  background-color: var(--color-gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.historia-event-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.historia-values {
+  background-color: var(--color-primary-bg);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  max-width: 64rem;
+  margin: 0 auto 4rem auto;
+  border: 1px solid var(--color-primary-lighter);
+}
+
+.historia-values-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-primary);
+  margin-bottom: 2rem;
+}
+
+.historia-values-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .historia-values-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.historia-value-card {
+  background-color: var(--color-white);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(16, 63, 27, 0.1);
+  text-align: center;
+  border-top: 3px solid var(--color-primary-light);
+  transition: transform 0.3s ease;
+}
+
+.historia-value-card:hover {
+  transform: translateY(-5px);
+}
+
+.historia-value-icon-circle {
+  width: 4rem;
+  height: 4rem;
+  background-color: var(--color-primary-lighter);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem auto;
+}
+
+.historia-value-icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-primary-dark);
+}
+
+.historia-value-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.historia-value-text {
+  color: var(--color-gray-700);
+}
+
+.historia-testimonial {
+  max-width: 48rem;
+  margin: 0 auto 4rem auto;
+  text-align: center;
+  background-color: var(--color-white);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(16, 63, 27, 0.1);
+  border-left: 5px solid var(--color-accent);
+}
+
+.historia-quote {
+  font-size: 3rem;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+}
+
+.historia-testimonial-text {
+  font-size: 1.25rem;
+  color: var(--color-gray-700);
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.historia-testimonial-author {
+  font-weight: 700;
+  color: var(--color-primary-light);
+}
+
+.historia-testimonial-role {
+  color: var(--color-gray-700);
+}
+
+.historia-location-info {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  max-width: 64rem;
+  margin: 0 auto 4rem auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.historia-location-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-primary-lighter);
+}
+
+.historia-location-link {
+  display: inline-block;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-weight: 700;
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  margin-top: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.historia-location-link:hover {
+  background-color: var(--color-accent-dark);
+}
+/* Media queries existentes */
+@media (max-width: 768px) {
+  .historia-icon-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .historia-event-flex {
+    flex-direction: column;
+  }
+  
+  .historia-event-left,
+  .historia-event-right {
+    width: 100%;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  
+  .historia-event-image-container {
+    margin-top: 1.5rem;
+  }
+  
+  .historia-timeline-line {
+    left: 1.25rem;
+  }
+  
+  .historia-event-circle {
+    left: 1.25rem;
+  }
+  
+  /* Mejoras adicionales para tablets */
+  .historia-hero {
+    height: 12rem;
+  }
+  
+  .historia-title {
+    font-size: 2.5rem;
+  }
+  
+  .historia-intro {
+    padding: 3rem 1rem;
+  }
+  
+  .historia-intro-title {
+    font-size: 1.5rem;
+  }
+  
+  .historia-intro-text {
+    font-size: 1rem;
+  }
+  
+  .historia-timeline-title {
+    font-size: 1.25rem;
+  }
+  
+  .historia-event-year {
+    font-size: 1.1rem;
+  }
+  
+  .historia-values {
+    padding: 1.5rem;
+  }
+  
+  .historia-testimonial {
+    padding: 1.5rem;
+  }
+  
+  .historia-testimonial-text {
+    font-size: 1.1rem;
+  }
+}
+
+/* Media query adicional para dispositivos más pequeños */
+@media (max-width: 576px) {
+  .historia-hero {
+    height: 10rem;
+  }
+  
+  .historia-title {
+    font-size: 2rem;
+  }
+  
+  .historia-intro {
+    padding: 2rem 1rem;
+  }
+  
+  .historia-intro-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .historia-intro-text {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .historia-icon-circle {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .historia-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  
+  .historia-timeline {
+    padding: 0 0.75rem 3rem 0.75rem;
+  }
+  
+  .historia-timeline-title {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .historia-event {
+    margin-bottom: 3rem;
+  }
+  
+  .historia-event-circle {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .historia-event-number {
+    font-size: 0.9rem;
+  }
+  
+  .historia-event-year {
+    font-size: 1rem;
+  }
+  
+  .historia-event-text {
+    font-size: 0.95rem;
+  }
+  
+  .historia-event-image-placeholder {
+    height: 10rem;
+  }
+  
+  .historia-values {
+    padding: 1.25rem;
+    margin-bottom: 3rem;
+  }
+  
+  .historia-values-title {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .historia-value-card {
+    padding: 1.25rem;
+  }
+  
+  .historia-value-icon-circle {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .historia-value-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  
+  .historia-value-title {
+    font-size: 1.1rem;
+  }
+  
+  .historia-value-text {
+    font-size: 0.9rem;
+  }
+  
+  .historia-testimonial {
+    padding: 1.25rem;
+    margin-bottom: 3rem;
+  }
+  
+  .historia-quote {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .historia-testimonial-text {
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .historia-location-info {
+    padding: 1.25rem;
+    margin-bottom: 3rem;
+    border-radius: 0.5rem;
+  }
+}
+
+/* Para dispositivos muy pequeños */
+@media (max-width: 360px) {
+  .historia-hero {
+    height: 8rem;
+  }
+  
+  .historia-title {
+    font-size: 1.75rem;
+  }
+  
+  .historia-intro-title {
+    font-size: 1.1rem;
+  }
+  
+  .historia-intro-text {
+    font-size: 0.9rem;
+  }
+  
+  .historia-icon-circle {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .historia-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .historia-event-left,
+  .historia-event-right {
+    padding: 0 0.5rem 0 2rem; /* Ajuste para la línea de tiempo */
+  }
+  
+  .historia-timeline-line {
+    left: 0.75rem;
+  }
+  
+  .historia-event-circle {
+    left: 0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .historia-event-number {
+    font-size: 0.8rem;
+  }
+  
+  .historia-value-card {
+    padding: 1rem;
+  }
+  
+  .historia-location-link {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}

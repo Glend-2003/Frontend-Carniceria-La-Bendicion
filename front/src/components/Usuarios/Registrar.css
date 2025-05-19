@@ -1,0 +1,616 @@
+
+:root {
+  --color-dark-green: #103f1b;
+  --color-medium-green: #387623;
+  --color-light-green: #9fc45a;
+  --color-gold: #958933;
+  --color-brown: #875725;
+  --color-error: #dc3545;
+  --color-success: #28a745;
+  --color-white: #ffffff;
+  --color-light-gray: #f8f9fa;
+  --color-border: #dee2e6;
+}
+
+.registrar-page {
+  min-height: 100vh;
+  width: 100%;
+  background-image: url('../../../images/vaca2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+}
+
+.registrar-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(16, 63, 27, 0.1); 
+  z-index: 1;
+}
+
+.registrar-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  position: relative;
+  z-index: 2; 
+}
+
+.registro-card {
+  background-color: var(--color-white);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 850px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.registro-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.registro-header {
+  background-color: var(--color-medium-green);
+  color: var(--color-white);
+  padding: 18px;
+  text-align: center;
+  position: relative;
+}
+
+.shield-icon {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23ffffff' d='M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.registro-header h4 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.registro-form {
+  padding: 24px 28px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px 10px;
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 200px;
+  padding: 0 10px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.form-control::placeholder {
+  color: #adb5bd;
+  opacity: 0.8;
+}
+
+.form-control:focus {
+  border-color: var(--color-light-green);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(159, 196, 90, 0.25);
+}
+
+.form-control.is-invalid {
+  border-color: var(--color-error);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23dc3545' d='M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 35px center;
+  background-size: 16px 16px;
+  padding-right: 35px;
+}
+
+.invalid-feedback {
+  color: var(--color-error);
+  font-size: 13px;
+  margin-top: 4px;
+  display: block;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--color-dark-green);
+  font-size: 14px;
+}
+
+.password-input-container {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-brown);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eye-icon, .eye-icon.eye-slash {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.eye-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3Cpath fill='%23875725' d='M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z'/%3E%3C/svg%3E");
+}
+
+.eye-icon.eye-slash {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath fill='%23875725' d='M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c8.4-19.3 10.6-41.4 4.8-63.3c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zM373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5L373 389.9z'/%3E%3C/svg%3E");
+}
+
+.password-requirements {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+  color: #6c757d;
+  font-size: 12px;
+}
+
+.password-requirements span {
+  margin-bottom: 2px;
+}
+
+.btn-registrar {
+  background-color: var(--color-medium-green);
+  color: var(--color-white);
+  border: none;
+  border-radius: 6px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  transition: background-color 0.2s, transform 0.1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-registrar:hover {
+  background-color: var(--color-dark-green);
+}
+
+.btn-registrar:active {
+  transform: scale(0.98);
+}
+
+.return-link {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.return-link span {
+  color: var(--color-medium-green);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.return-link span:hover {
+  background-color: rgba(159, 196, 90, 0.1);
+  text-decoration: none;
+}
+
+.arrow-left-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23387623' d='M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .form-row .form-group {
+    width: 100%;
+    padding: 0;
+  }
+  
+  .registro-card {
+    max-width: 95%;
+  }
+  
+  .registro-form {
+    padding: 20px;
+  }
+  
+  /* Mejoras adicionales */
+  .registro-header {
+    padding: 15px;
+  }
+  
+  .shield-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+  }
+  
+  .registro-header h4 {
+    font-size: 20px;
+  }
+  
+  .form-control {
+    padding: 9px 10px;
+    font-size: 14px;
+  }
+  
+  label {
+    font-size: 13px;
+  }
+  
+  .invalid-feedback {
+    font-size: 12px;
+  }
+  
+  .password-requirements {
+    font-size: 11px;
+  }
+  
+  .btn-registrar {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+}
+
+
+.MuiAlert-root {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  font-size: 15px !important;
+  border-radius: 6px !important;
+}
+
+.MuiAlert-filledSuccess {
+  background-color: var(--color-medium-green) !important;
+}
+
+.MuiAlert-filledError {
+  background-color: var(--color-error) !important;
+}
+
+@keyframes shake {
+  0%, 100% {transform: translateX(0);}
+  10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
+  20%, 40%, 60%, 80% {transform: translateX(5px);}
+}
+
+.form-control.is-invalid:focus {
+  animation: shake 0.6s;
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.25);
+}
+
+.password-strength-meter {
+  height: 8px;
+  width: 100%;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.password-strength-meter-bar {
+  height: 100%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.password-strength-text {
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 10px;
+  text-align: right;
+}
+
+.password-strength-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.strength-weak {
+  color: var(--color-error);
+}
+
+.strength-medium {
+  color: var(--color-gold);
+}
+
+.strength-strong {
+  color: var(--color-success);
+}
+
+.strength-bar-weak {
+  width: 33%;
+  background-color: var(--color-error);
+}
+
+.strength-bar-medium {
+  width: 66%;
+  background-color: var(--color-gold);
+}
+
+.strength-bar-strong {
+  width: 100%;
+  background-color: var(--color-success);
+}
+
+@media (max-width: 576px) {
+  .registrar-container {
+    padding: 10px;
+  }
+  
+  .registro-card {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  
+  .registro-form {
+    padding: 15px;
+  }
+  
+  .shield-icon {
+    width: 35px;
+    height: 35px;
+    margin-bottom: 6px;
+  }
+  
+  .registro-header h4 {
+    font-size: 18px;
+  }
+  
+  .form-group {
+    margin-bottom: 12px;
+  }
+  
+  .form-control {
+    padding: 8px 10px;
+  }
+  
+  .form-control.is-invalid {
+    background-position: right 30px center;
+    padding-right: 30px;
+  }
+  
+  .toggle-password {
+    right: 8px;
+  }
+  
+  .eye-icon, .eye-icon.eye-slash {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .password-strength-meter {
+    height: 6px;
+  }
+  
+  .password-strength-text {
+    font-size: 12px;
+  }
+  
+  .btn-registrar {
+    padding: 10px 15px;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  
+  .return-link span {
+    font-size: 13px;
+    padding: 6px;
+  }
+  
+  .arrow-left-icon {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .MuiAlert-root {
+    font-size: 14px !important;
+  }
+}
+
+/* Media query para móviles pequeños */
+@media (max-width: 400px) {
+  .registro-header {
+    padding: 12px;
+  }
+  
+  .shield-icon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+  }
+  
+  .registro-header h4 {
+    font-size: 16px;
+  }
+  
+  .registro-form {
+    padding: 12px;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .form-control {
+    padding: 8px;
+    font-size: 13px;
+  }
+  
+  label {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  
+  .invalid-feedback {
+    font-size: 11px;
+    margin-top: 2px;
+  }
+  
+  .password-requirements {
+    font-size: 10px;
+  }
+  
+  .password-requirements span {
+    margin-bottom: 1px;
+  }
+  
+  .password-strength-meter {
+    height: 5px;
+    margin-top: 6px;
+    margin-bottom: 3px;
+  }
+  
+  .password-strength-text {
+    font-size: 11px;
+  }
+  
+  .btn-registrar {
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+  
+  .return-link {
+    margin-top: 12px;
+  }
+  
+  .return-link span {
+    font-size: 12px;
+  }
+  
+  .arrow-left-icon {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .MuiAlert-root {
+    font-size: 12px !important;
+  }
+}
+
+/* Media query para dispositivos con orientación horizontal y altura limitada */
+@media (max-height: 600px) and (orientation: landscape) {
+  .registrar-container {
+    padding: 10px;
+    align-items: flex-start;
+  }
+  
+  .registro-card {
+    overflow-y: auto;
+    max-height: 95vh;
+  }
+  
+  .registro-header {
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+  
+  .shield-icon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+  }
+  
+  .registro-header h4 {
+    font-size: 16px;
+  }
+  
+  .registro-form {
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    max-height: calc(95vh - 70px);
+    overflow-y: auto;
+  }
+  
+  .form-group, .form-row {
+    margin-bottom: 10px;
+  }
+  
+  .form-group:last-child, 
+  .return-link, 
+  .btn-registrar {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Media query para soporte táctil específico */
+@media (pointer: coarse) {
+  .form-control {
+    padding: 10px 12px; /* Aumentar área táctil */
+  }
+  
+  .toggle-password {
+    padding: 10px; /* Aumentar área táctil */
+    right: 5px;
+  }
+  
+  .btn-registrar {
+    padding: 12px 20px; /* Aumentar área táctil */
+  }
+  
+  .return-link span {
+    padding: 10px; /* Aumentar área táctil */
+  }
+}

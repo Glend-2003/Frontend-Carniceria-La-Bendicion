@@ -1,0 +1,465 @@
+.MuiSnackbar-root.MuiSnackbar-anchorOriginTopCenter {
+  top: 5% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.resena-container {
+  background-color: #f5f5f0;
+  padding: 3rem 2rem;
+  border-radius: 10px;
+  margin-top: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.resena-login-required {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: rgba(159, 196, 90, 0.1);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  text-align: center;
+}
+
+.resena-login-required p {
+  color: #875725;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.resena-login-link {
+  background-color: #387623;
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.resena-login-link:hover {
+  background-color: #103f1b;
+}
+
+.resena-usuario-info {
+  background-color: #f5f5f0;
+  padding: 0.8rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  border-left: 3px solid #9fc45a;
+}
+
+.resena-usuario-info p {
+  margin: 0;
+  color: #103f1b;
+}
+
+.resena-title {
+  color: #103f1b;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 700;
+  position: relative;
+}
+
+.resena-title:after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: #9fc45a;
+}
+
+.resena-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.resena-loading, .resena-error, .resena-empty {
+  text-align: center;
+  padding: 2rem;
+  color: #875725;
+  background-color: rgba(159, 196, 90, 0.1);
+  border-radius: 8px;
+}
+
+.resena-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  border-left: 5px solid #387623;
+  transition: transform 0.3s ease;
+}
+
+.resena-card:hover {
+  transform: translateY(-5px);
+}
+
+.resena-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.resena-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.resena-avatar {
+  width: 45px;
+  height: 45px;
+  background-color: #387623;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.resena-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.resena-name {
+  margin: 0;
+  color: #103f1b;
+  font-weight: 600;
+}
+
+.resena-date {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.resena-rating {
+  display: flex;
+  gap: 2px;
+}
+
+.star-filled {
+  fill: #ffc107;
+  color: #ffc107;
+}
+
+.star-empty {
+  fill: none;
+  color: #ddd;
+}
+
+.resena-content {
+  color: #333;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.resena-form-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  border-top: 5px solid #9fc45a;
+}
+
+.resena-form-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #103f1b;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+
+.resena-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.resena-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.resena-form-group label {
+  font-weight: 600;
+  color: #387623;
+  font-size: 0.95rem;
+}
+
+.resena-form-group input,
+.resena-form-group textarea {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.resena-form-group input:focus,
+.resena-form-group textarea:focus {
+  outline: none;
+  border-color: #9fc45a;
+  box-shadow: 0 0 0 2px rgba(159, 196, 90, 0.2);
+}
+
+.resena-rating-selector {
+  display: flex;
+  gap: 5px;
+}
+
+.star-selector {
+  cursor: pointer;
+  fill: none;
+  color: #ddd;
+  transition: color 0.2s ease;
+}
+
+.star-selector:hover,
+.star-selector.filled {
+  color: #ffc107;
+  fill: #ffc107;
+}
+
+.resena-submit-btn {
+  background-color: #387623;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color 0.3s ease;
+  margin-top: 0.5rem;
+  align-self: flex-end;
+}
+
+.resena-submit-btn:hover {
+  background-color: #103f1b;
+}
+
+.resena-note {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #875725;
+  font-style: italic;
+}
+
+@media (min-width: 768px) {
+  .resena-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .resena-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1.5rem;
+  }
+  
+  .resena-form-group:nth-child(4) {
+    grid-column: 1 / 3;
+  }
+  
+  .resena-submit-btn {
+    grid-column: 2 / 3;
+  }
+}
+
+@media (max-width: 767px) {
+  .resena-container {
+    padding: 2rem 1rem;
+  }
+  
+  .resena-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .resena-rating {
+    align-self: flex-start;
+  }
+}
+
+/* Media queries existentes */
+@media (min-width: 768px) {
+  .resena-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .resena-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1.5rem;
+  }
+  
+  .resena-form-group:nth-child(4) {
+    grid-column: 1 / 3;
+  }
+  
+  .resena-submit-btn {
+    grid-column: 2 / 3;
+  }
+}
+
+@media (max-width: 767px) {
+  .resena-container {
+    padding: 2rem 1rem;
+  }
+  
+  .resena-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .resena-rating {
+    align-self: flex-start;
+  }
+}
+
+/* Media queries adicionales para mejorar la adaptación */
+@media (max-width: 576px) {
+  .resena-container {
+    padding: 1.5rem 0.75rem;
+    margin-top: 1rem;
+  }
+  
+  .resena-title {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .resena-title:after {
+    width: 60px;
+  }
+  
+  .resena-login-required {
+    padding: 1.5rem 1rem;
+  }
+  
+  .resena-login-required p {
+    font-size: 1rem;
+  }
+  
+  .resena-card {
+    padding: 1.2rem;
+    border-left-width: 4px;
+  }
+  
+  .resena-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .resena-name {
+    font-size: 0.95rem;
+  }
+  
+  .resena-date {
+    font-size: 0.8rem;
+  }
+  
+  .resena-content {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  .resena-form-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .resena-form-title {
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .resena-form-group label {
+    font-size: 0.9rem;
+  }
+  
+  .resena-form-group input,
+  .resena-form-group textarea {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+  
+  .resena-submit-btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+  
+  .resena-note {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .resena-title {
+    font-size: 1.4rem;
+  }
+  
+  .resena-usuario-info {
+    padding: 0.6rem;
+  }
+  
+  .resena-usuario-info p {
+    font-size: 0.9rem;
+  }
+  
+  .resena-card {
+    padding: 1rem;
+  }
+  
+  .resena-user {
+    gap: 0.7rem;
+  }
+  
+  .resena-avatar {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .resena-rating {
+    transform: scale(0.9);
+    transform-origin: left;
+  }
+  
+  .star-selector {
+    transform: scale(0.9);
+  }
+  
+  .resena-loading, .resena-error, .resena-empty {
+    padding: 1.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}

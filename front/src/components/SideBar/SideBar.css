@@ -1,0 +1,463 @@
+
+.admin-sidebar__container {
+    width: 250px;
+    height: 100vh;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 900;
+    background-color: #103f1b;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.admin-sidebar__inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.admin-sidebar__header {
+    padding: 16px 10px;
+    background-color: #103f1b;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
+}
+
+.admin-sidebar__title {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.admin-sidebar__title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 1px;
+    background-color: #9fc45a;
+}
+
+.admin-sidebar__content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 5px 0;
+}
+
+.admin-sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 8px;
+}
+
+.admin-sidebar__link {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: #f8f9fa;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 15px;
+    position: relative;
+    border-radius: 4px;
+}
+
+.admin-sidebar__link:hover {
+    background-color: rgba(159, 196, 90, 0.2);
+    color: #fff;
+}
+
+.admin-sidebar__link--active {
+    background-color: rgba(159, 196, 90, 0.3);
+    color: #fff;
+    font-weight: 500;
+}
+
+.admin-sidebar__link--active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background-color: #9fc45a;
+}
+
+.admin-sidebar__icon {
+    margin-right: 12px;
+    font-size: 16px;
+    width: 24px;
+    color: #9fc45a;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-sidebar__link:hover .admin-sidebar__icon {
+    color: #fff;
+}
+
+.admin-sidebar__link--active .admin-sidebar__icon {
+    color: #fff;
+}
+
+.admin-sidebar__footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    margin-top: auto;
+    background-color: #387623;
+    position: sticky;
+    bottom: 0;
+}
+
+.admin-sidebar__profile {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: #fff;
+    background-color: transparent;
+    transition: all 0.2s ease;
+    width: 100%;
+    position: relative;
+    border-radius: 4px;
+}
+
+.admin-sidebar__profile:hover {
+    background-color: rgba(159, 196, 90, 0.2);
+    color: #fff;
+}
+
+.admin-sidebar__profile--active {
+    background-color: rgba(159, 196, 90, 0.3);
+    color: #fff;
+    font-weight: 500;
+}
+
+.admin-sidebar__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    color: #9fc45a;
+}
+
+.admin-sidebar__avatar-icon {
+    font-size: 18px;
+}
+
+.admin-sidebar__user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-sidebar__user-name {
+    font-weight: 500;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.admin-sidebar__user-role {
+    font-size: 12px;
+    color: #f8f9fa;
+    opacity: 0.8;
+    line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+    body.admin-page main {
+        margin-left: 65px;
+    }
+    
+    .admin-sidebar__container {
+        width: 65px;
+        overflow: hidden;
+    }
+    
+    .admin-sidebar__container:hover {
+        width: 250px;
+    }
+    
+    .admin-sidebar__title {
+        font-size: 0;
+    }
+    
+    .admin-sidebar__container:hover .admin-sidebar__title {
+        font-size: 20px;
+    }
+    
+    .admin-sidebar__user-info {
+        display: none;
+    }
+    
+    .admin-sidebar__container:hover .admin-sidebar__user-info {
+        display: flex;
+    }
+    
+    .admin-sidebar__icon {
+        margin-right: 0;
+        font-size: 20px;
+    }
+    
+    .admin-sidebar__container:hover .admin-sidebar__icon {
+        margin-right: 12px;
+        font-size: 16px;
+    }
+    
+    .admin-sidebar__link {
+        justify-content: center;
+    }
+    
+    .admin-sidebar__container:hover .admin-sidebar__link {
+        justify-content: flex-start;
+    }
+    
+    .admin-sidebar__profile {
+        justify-content: center;
+        padding: 5px;
+    }
+    
+    .admin-sidebar__container:hover .admin-sidebar__profile {
+        justify-content: flex-start;
+        padding: 10px 16px;
+    }
+    
+    /* Mejoras adicionales */
+    .admin-sidebar__header {
+        padding: 12px 5px;
+    }
+    
+    .admin-sidebar__link--active::before {
+        width: 3px;
+        left: 0;
+        height: 70%;
+        top: 15%;
+    }
+    
+    /* Optimizar touch para dispositivos táctiles */
+    .admin-sidebar__link {
+        min-height: 48px;
+    }
+    
+    .admin-sidebar__profile {
+        min-height: 48px;
+    }
+}
+@media (max-height: 700px) {
+    .admin-sidebar__header {
+        padding: 10px;
+        margin-bottom: 5px;
+    }
+    
+    .admin-sidebar__title {
+        font-size: 18px;
+        padding-bottom: 6px;
+    }
+    
+    .admin-sidebar__nav {
+        gap: 6px;
+    }
+    
+    .admin-sidebar__link {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+    
+    .admin-sidebar__icon {
+        font-size: 15px;
+    }
+    
+    .admin-sidebar__profile {
+        padding: 8px 16px;
+    }
+    
+    .admin-sidebar__avatar {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .admin-sidebar__avatar-icon {
+        font-size: 16px;
+    }
+    
+    /* Mejoras adicionales */
+    .admin-sidebar__content {
+        padding: 3px 0;
+    }
+    
+    .admin-sidebar__footer {
+        padding: 5px;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-sidebar__container {
+        width: 60px;
+    }
+    
+    body.admin-page main {
+        margin-left: 60px;
+    }
+    
+    .admin-sidebar__link {
+        padding: 12px 8px;
+    }
+    
+    .admin-sidebar__icon {
+        font-size: 18px;
+    }
+    
+    /* Mejora del comportamiento de hover para dispositivos táctiles pequeños */
+    .admin-sidebar__container:hover {
+        width: 220px;
+    }
+    
+    .admin-sidebar__container:hover .admin-sidebar__title {
+        font-size: 18px;
+    }
+    
+    /* Asegurar que el hover persista en dispositivos táctiles */
+    .admin-sidebar__link:active {
+        background-color: rgba(159, 196, 90, 0.2);
+        color: #fff;
+    }
+    
+    .admin-sidebar__profile:active {
+        background-color: rgba(159, 196, 90, 0.2);
+        color: #fff;
+    }
+}
+
+/* Media query para dispositivos muy pequeños */
+@media (max-width: 360px) {
+    .admin-sidebar__container {
+        width: 50px;
+    }
+    
+    body.admin-page main {
+        margin-left: 50px;
+    }
+    
+    .admin-sidebar__container:hover {
+        width: 200px;
+    }
+    
+    .admin-sidebar__link {
+        padding: 10px 5px;
+    }
+    
+    .admin-sidebar__icon {
+        font-size: 16px;
+    }
+    
+    .admin-sidebar__avatar {
+        width: 26px;
+        height: 26px;
+    }
+    
+    .admin-sidebar__container:hover .admin-sidebar__icon {
+        margin-right: 10px;
+    }
+    
+    .admin-sidebar__container:hover .admin-sidebar__link {
+        font-size: 13px;
+    }
+    
+    .admin-sidebar__container:hover .admin-sidebar__user-name {
+        font-size: 13px;
+    }
+    
+    .admin-sidebar__container:hover .admin-sidebar__user-role {
+        font-size: 11px;
+    }
+}
+
+/* Media query para orientación horizontal con altura limitada */
+@media (max-height: 450px) and (orientation: landscape) {
+    .admin-sidebar__nav {
+        gap: 4px;
+    }
+    
+    .admin-sidebar__link {
+        padding: 8px 16px;
+        min-height: 40px;
+    }
+    
+    .admin-sidebar__header {
+        padding: 8px 5px;
+        margin-bottom: 3px;
+    }
+    
+    .admin-sidebar__content {
+        padding: 2px 0;
+    }
+    
+    .admin-sidebar__profile {
+        min-height: 40px;
+    }
+    
+    .admin-sidebar__footer {
+        padding: 3px;
+    }
+    
+    /* Compactar el menú vertical */
+    .admin-sidebar__nav {
+        overflow-y: auto;
+        max-height: calc(100vh - 120px);
+    }
+}
+
+/* Media query para soporte táctil explícito */
+@media (pointer: coarse) {
+    /* Hacer que los elementos sean más fáciles de tocar */
+    .admin-sidebar__link {
+        min-height: 52px;
+    }
+    
+    .admin-sidebar__profile {
+        min-height: 52px;
+    }
+    
+    /* Asegurarse de que el hover táctil funcione mejor */
+    .admin-sidebar__container.touch-active {
+        width: 250px;
+    }
+    
+    .admin-sidebar__container.touch-active .admin-sidebar__title {
+        font-size: 20px;
+    }
+    
+    .admin-sidebar__container.touch-active .admin-sidebar__user-info {
+        display: flex;
+    }
+    
+    .admin-sidebar__container.touch-active .admin-sidebar__icon {
+        margin-right: 12px;
+        font-size: 16px;
+    }
+    
+    .admin-sidebar__container.touch-active .admin-sidebar__link {
+        justify-content: flex-start;
+    }
+    
+    .admin-sidebar__container.touch-active .admin-sidebar__profile {
+        justify-content: flex-start;
+        padding: 10px 16px;
+    }
+}

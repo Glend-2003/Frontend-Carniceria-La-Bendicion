@@ -1,0 +1,469 @@
+/* Principal.css - Estilos específicos para panel de administración */
+
+:root {
+  --primary-dark: #0b3014;    
+  --primary-medium: #2a6119;  
+  --primary-light: #8cb23e;  
+  --accent-gold: #8f7800;     
+  --accent-brown: #6d4016;   
+  --text-light: #ffffff;      
+  --text-dark: #222222;      
+  --text-medium: #444444;     
+  --background-light: #f5f8f5; 
+  --card-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  --admin-accent: #2a6119;
+}
+
+.admin-dashboard {
+  margin-left: 260px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-light);
+}
+
+.admin-content-area {
+  flex: 1;
+  padding: 20px;
+}
+
+.admin-welcome-header {
+  background: linear-gradient(135deg, var(--primary-dark), var(--admin-accent));
+  color: var(--text-light);
+  border-radius: 8px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: var(--card-shadow);
+}
+
+.admin-dashboard-container {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 30px;
+}
+
+.admin-profile-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  height: fit-content;
+}
+
+.admin-profile-header {
+  background: linear-gradient(to right, var(--primary-dark), var(--admin-accent));
+  padding: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+}
+
+.admin-avatar {
+  background-color: white;
+  color: var(--primary-dark);
+  border-radius: 50%;
+  padding: 5px;
+  border: 3px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.admin-role-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: var(--accent-gold);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.admin-profile-details {
+  padding: 25px;
+}
+
+.admin-profile-title {
+  text-align: center;
+  color: var(--primary-dark);
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.admin-profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.admin-info-item {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 20px;
+}
+
+.admin-info-icon {
+  color: var(--admin-accent);
+  margin-right: 15px;
+  padding-top: 5px;
+  font-size: 1.2rem;
+}
+
+.admin-info-content {
+  flex: 1;
+}
+
+.admin-info-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 5px;
+}
+
+.admin-info-value {
+  display: block;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+}
+
+.admin-action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.admin-logout-btn {
+  padding: 10px 16px;
+  border-radius: 4px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  background-color: var(--accent-brown);
+  color: var(--text-light);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.admin-logout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  background-color: #7d4a1a;
+}
+
+.admin-tools-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.admin-section-title {
+  color: var(--admin-accent);
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--primary-medium);
+  padding-bottom: 10px;
+  font-weight: 600;
+}
+
+.admin-quick-access-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.admin-quick-access-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--text-dark);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.admin-quick-access-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.admin-card-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.admin-card-content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: white;
+}
+
+.admin-card-content h4 {
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  color: var(--admin-accent);
+  font-size: 1.1rem;
+}
+
+.admin-card-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-medium);
+  line-height: 1.4;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 1200px) {
+  .admin-dashboard-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-quick-access-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Mejoras adicionales */
+  .admin-content-area {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 992px) {
+  .admin-quick-access-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Mejoras adicionales */
+  .admin-welcome-header {
+    padding: 25px;
+    margin-bottom: 25px;
+  }
+  
+  .admin-profile-header {
+    height: 100px;
+  }
+  
+  .admin-role-badge {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
+  
+  .admin-profile-details {
+    padding: 20px;
+  }
+  
+  .admin-profile-title {
+    margin-bottom: 25px;
+    font-size: 1.4rem;
+  }
+  
+  .admin-info-item {
+    padding-bottom: 15px;
+  }
+  
+  .admin-info-value {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-dashboard {
+    margin-left: 0;
+  }
+  
+  .admin-quick-access-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Mejoras adicionales */
+  .admin-content-area {
+    padding: 12px;
+  }
+  
+  .admin-welcome-header {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .admin-section-title {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+  
+  .admin-profile-info {
+    gap: 12px;
+  }
+  
+  .admin-info-icon {
+    margin-right: 12px;
+    font-size: 1.1rem;
+  }
+  
+  .admin-logout-btn {
+    width: 100%;
+    padding: 10px 0;
+    justify-content: center;
+  }
+}
+
+/* Media query adicional para tablets pequeñas y móviles medianos */
+@media (max-width: 576px) {
+  .admin-content-area {
+    padding: 10px;
+  }
+  
+  .admin-welcome-header {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+  }
+  
+  .admin-profile-card,
+  .admin-quick-access-card {
+    border-radius: 6px;
+  }
+  
+  .admin-profile-header {
+    height: 90px;
+    padding: 15px;
+  }
+  
+  .admin-avatar {
+    transform: scale(0.9);
+  }
+  
+  .admin-role-badge {
+    top: 10px;
+    right: 10px;
+    padding: 3px 8px;
+    font-size: 0.7rem;
+  }
+  
+  .admin-profile-details {
+    padding: 15px;
+  }
+  
+  .admin-profile-title {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+  
+  .admin-info-item {
+    padding-bottom: 12px;
+  }
+  
+  .admin-info-label {
+    font-size: 0.8rem;
+  }
+  
+  .admin-info-value {
+    font-size: 0.95rem;
+  }
+  
+  .admin-card-icon {
+    padding: 15px 0;
+    font-size: 1.1rem;
+  }
+  
+  .admin-card-content {
+    padding: 12px;
+  }
+  
+  .admin-card-content h4 {
+    font-size: 1rem;
+  }
+  
+  .admin-card-content p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Media query para móviles pequeños */
+@media (max-width: 390px) {
+  .admin-welcome-header {
+    padding: 12px;
+  }
+  
+  .admin-profile-header {
+    height: 80px;
+  }
+  
+  .admin-profile-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+  
+  .admin-info-item {
+    flex-direction: column;
+  }
+  
+  .admin-info-icon {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+  
+  .admin-info-content {
+    width: 100%;
+  }
+  
+  .admin-section-title {
+    font-size: 1.2rem;
+  }
+  
+  .admin-avatar {
+    transform: scale(0.8);
+  }
+}
+
+/* Media query adicional para dispositivos pequeños con orientación horizontal */
+@media (max-height: 500px) and (orientation: landscape) {
+  .admin-dashboard {
+    min-height: auto;
+  }
+  
+  .admin-content-area {
+    padding: 10px;
+  }
+  
+  .admin-welcome-header {
+    margin-bottom: 10px;
+    padding: 10px 15px;
+  }
+  
+  .admin-profile-header {
+    height: 70px;
+  }
+  
+  .admin-profile-details {
+    padding: 10px 15px;
+  }
+  
+  .admin-quick-access-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .admin-profile-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .admin-info-item {
+    padding-bottom: 10px;
+  }
+}

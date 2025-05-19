@@ -1,0 +1,436 @@
+:root,
+[data-bs-theme=light] {
+    --bs-warning: #ffc107;
+    --bs-warning-rgb: 255, 193, 7;
+    --bs-warning-text-emphasis: #664D03;
+    --bs-warning-bg-subtle: #FFF3CD;
+    --bs-warning-border-subtle: #FFE69C;
+}
+
+.content-container {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+.btn-warning {
+    --bs-btn-color: #000000;
+    --bs-btn-bg: #ffc107;
+    --bs-btn-border-color: #ffc107;
+    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-bg: #FFCA2C;
+    --bs-btn-hover-border-color: #FFC720;
+    --bs-btn-focus-shadow-rgb: 38, 29, 1;
+    --bs-btn-active-color: #000000;
+    --bs-btn-active-bg: #FFCD39;
+    --bs-btn-active-border-color: #FFC720;
+    --bs-btn-disabled-color: #000000;
+    --bs-btn-disabled-bg: #ffc107;
+    --bs-btn-disabled-border-color: #ffc107;
+}
+
+.btn-outline-warning {
+    --bs-btn-color: #ffc107;
+    --bs-btn-border-color: #ffc107;
+    --bs-btn-focus-shadow-rgb: 255, 193, 7;
+    --bs-btn-hover-color: #000000;
+    --bs-btn-hover-bg: #ffc107;
+    --bs-btn-hover-border-color: #ffc107;
+    --bs-btn-active-color: #000000;
+    --bs-btn-active-bg: #ffc107;
+    --bs-btn-active-border-color: #ffc107;
+    --bs-btn-disabled-color: #ffc107;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #ffc107;
+}
+
+.bill-header {
+    font-size: 12px;
+    text-align: center;
+}
+
+.form-control:focus {
+    border-color: #25476a;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#trs-hd,
+.warning.no-result {
+    text-align: center;
+}
+
+.no-result,
+.results tr[visible=false] {
+    display: none;
+}
+
+.counter {
+    padding: 8px;
+    color: #ccc;
+}
+
+.fa.fa-warning {
+    font-size: 18px;
+    color: red;
+}
+
+.search.form-control {
+    border-radius: 0 !important;
+}
+
+.search-table-col {
+    margin-top: 100px;
+}
+
+.comentario-table-container {
+  margin-left: 5px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+.comentario-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin-bottom: 0;
+  background-color: white;
+  table-layout: auto;
+}
+
+.comentario-table-header-row {
+  background-color: #000000;
+  color: white;
+}
+
+.comentario-table-header-row th {
+  padding: 15px 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+  border-bottom: 3px solid #9fc45a;
+}
+
+.comentario-table-row:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+.comentario-table-row:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.comentario-table-row {
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.comentario-table-row:hover {
+  background-color: rgba(159, 196, 90, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.comentario-table-row td {
+  padding: 12px 10px;
+  vertical-align: middle;
+  border-bottom: 1px solid #e9f2dd;
+}
+
+.comentario-action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.comentario-edit-button,
+.comentario-delete-button {
+  font-size: 1.25rem;
+  color: #000 !important;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 6px;
+}
+
+.comentario-edit-button:hover,
+.comentario-delete-button:hover {
+  color: #333 !important;
+  transform: scale(1.15);
+}
+
+.comentario-status-button {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 0.8rem;
+  padding: 8px 12px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.comentario-status-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.comentario-status-active {
+  background-color: #ebf5e0 !important;
+  color: #2a5c19 !important;
+  border: 1px solid #9fc45a !important;
+}
+
+.comentario-status-active:before {
+  content: "•";
+  display: inline-block;
+  color: #387623;
+  font-size: 1.5rem;
+  margin-right: 5px;
+  line-height: 0;
+  position: relative;
+  top: 2px;
+}
+
+.comentario-status-inactive {
+  background-color: #f5ebe0 !important;
+  color: #875725 !important;
+  border: 1px solid #d4a76a !important;
+}
+
+.comentario-status-inactive:before {
+  content: "•";
+  display: inline-block;
+  color: #875725;
+  font-size: 1.5rem;
+  margin-right: 5px;
+  line-height: 0;
+  position: relative;
+  top: 2px;
+}
+
+.comentario-no-results {
+  background-color: #fff9e6 !important;
+}
+
+.comentario-no-results td {
+  padding: 20px !important;
+  text-align: center;
+}
+
+.comentario-warning-icon {
+  color: #958933 !important;
+  margin-right: 10px;
+}
+
+.comentario-letraNegrita {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.comentario-roll {
+  font-weight: 700; 
+  color: #000000;
+}
+
+.comentario-letraComun {
+  max-height: 100px;
+  overflow-y: auto;
+  padding-right: 5px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #444;
+  word-wrap: break-word;
+}
+
+.comentario-actions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fecha-columna {
+  font-family: sans-serif;
+  background-color: transparent;
+  padding: 8px 12px;
+  font-size: 14px;
+  text-align: center;
+  position: relative;
+  font-weight: 500;
+}
+
+.fecha {
+  color: #d35400;
+}
+
+.fecha::after {
+  display: block;
+  font-size: 10px;
+  color: #6c757d;
+  font-weight: normal;
+  margin-top: 2px;
+}
+
+.comentario-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  position: relative;
+}
+
+.comentario-main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  overflow-y: auto;
+  padding-bottom: 80px;
+  margin-left: 240px; 
+  width: calc(100% - 240px); 
+}
+
+.comentario-search-container {
+  margin-bottom: 25px;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e0e8d7;
+}
+
+.comentario-search-input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #d1e7b7;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.comentario-search-input:focus {
+  border-color: #9fc45a;
+  box-shadow: 0 0 0 0.2rem rgba(159, 196, 90, 0.25);
+  outline: none;
+}
+
+.comentario-add-button {
+  background-color: #387623 !important;
+  border-color: #387623 !important;
+  color: white !important;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+  max-width: 250px; 
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  .comentario-main-container {
+    margin-left: 0;
+    width: 100%;
+    padding: 20px 15px;
+  }
+  
+  .content-container {
+    margin-left: 0;
+    padding: 15px;
+  }
+  
+  .comentario-table-container {
+    overflow-x: auto;
+    margin-left: 0;
+  }
+  
+  .comentario-table {
+    min-width: 800px;
+  }
+  
+  .comentario-add-button {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .comentario-main-container {
+    padding: 15px 10px;
+    padding-bottom: 60px;
+  }
+  
+  .comentario-search-container {
+    padding: 12px 15px;
+  }
+  
+  .comentario-table-header-row th {
+    padding: 12px 8px;
+    font-size: 0.8rem;
+  }
+  
+  .comentario-table-row td {
+    padding: 10px 8px;
+  }
+  
+  .comentario-letraNegrita {
+    font-size: 0.95rem;
+  }
+  
+  .comentario-letraComun {
+    font-size: 0.85rem;
+  }
+  
+  .comentario-actions-container {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .comentario-status-button {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+  }
+  
+  .fecha-columna {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .comentario-add-button {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+  
+  .comentario-search-input {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .comentario-action-buttons {
+    flex-direction: row;
+  }
+  
+  .comentario-edit-button,
+  .comentario-delete-button {
+    font-size: 1.1rem;
+    margin: 0 3px;
+    padding: 4px;
+  }
+  
+  .comentario-status-button:before {
+    font-size: 1.2rem;
+  }
+  
+  .search-table-col {
+    margin-top: 50px;
+  }
+}

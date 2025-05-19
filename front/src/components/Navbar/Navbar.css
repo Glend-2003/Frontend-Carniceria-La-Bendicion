@@ -1,0 +1,425 @@
+/* Navbar.css */
+/* Paleta de colores: 
+    - Verde oscuro: #103f1b
+    - Verde medio: #387623
+    - Verde claro: #9fc45a
+    - Mostaza: #958933
+    - Café: #875725
+*/
+
+/* Definición de la fuente base para el Navbar para consistencia */
+:root {
+  --navbar-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Ajuste del container para mejor espaciado */
+.navbar > .container-lg {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+}
+
+.navbar-transition {
+  transition: all 0.3s ease-in-out;
+  background: #103f1b !important; 
+  border-bottom: 3px solid #9fc45a;
+}
+
+.navbar-top {
+  padding: 0.8rem 0;
+  box-shadow: none;
+}
+
+.navbar-scrolled {
+  padding: 0.4rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #103f1b !important;
+}
+
+.navbar-brand-container {
+  display: flex;
+  align-items: center;
+  margin-right: 30px; 
+}
+
+.navbar-logo {
+  height: 48px;
+  margin-right: 15px;
+  transition: all 0.3s ease;
+}
+
+.navbar-scrolled .navbar-logo {
+  height: 40px;
+}
+
+.brand-text {
+  font-family: var(--navbar-font-family); /* Usar la variable */
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.brand-link {
+  color: white !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.brand-link:hover {
+  color: #9fc45a !important;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  margin-left: 20px;
+}
+
+.nav-link-custom {
+  font-family: var(--navbar-font-family); /* MODIFICACIÓN: Añadida esta línea */
+  color: white !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  padding: 0.5rem 1rem !important;
+  margin: 0 0.4rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-link-custom::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #9fc45a;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link-custom:hover {
+  color: #9fc45a !important;
+}
+
+.nav-link-custom:hover::after {
+  width: 80%;
+}
+
+.nav-link-custom:active {
+  transform: translateY(1px);
+}
+
+.icons-nav {
+  display: flex;
+  align-items: center;
+}
+
+.icon-link {
+  color: white !important;
+  margin-left: 1.2rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.icon-link svg {
+  color: white !important;
+  width: 1.5em !important;
+  height: 1.5em !important;
+}
+
+.icon-link:hover {
+  color: #9fc45a !important;
+  transform: translateY(-2px);
+}
+
+.icon-link:active {
+  transform: translateY(0);
+}
+
+.user-dropdown-container {
+  position: relative;
+  z-index: 1100; 
+}
+
+.dropdown-menu {
+  z-index: 1102 !important; 
+  position: absolute;
+  right: 0;
+  left: auto;
+  margin-top: 0.5rem;
+  background-color: white;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.175);
+}
+
+.search-container-open ~ .navbar-collapse .user-dropdown-container .dropdown-menu {
+  margin-top: 0;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.cart-icon {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #958933 !important;
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border: 2px solid #103f1b;
+}
+
+.search-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  background-color: rgba(16, 63, 27, 0.95);
+  border-bottom: 3px solid #9fc45a;
+  z-index: 1100; 
+  animation: slideDown 0.3s ease-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.search-form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-input {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.search-input:focus {
+  background-color: white !important;
+  box-shadow: 0 0 0 3px rgba(159, 196, 90, 0.3) !important;
+}
+
+.search-close-btn {
+  position: absolute;
+  right: 80px; /* Ajusta este valor si es necesario para tu diseño */
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #387623; /* Color para el botón de cerrar */
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10; /* Asegúrate de que esté por encima del input */
+  transition: all 0.2s ease;
+}
+
+.search-close-btn:hover {
+  color: #103f1b; /* Color al pasar el mouse */
+}
+
+/* Estilos para dispositivos móviles - existentes con mejoras */
+@media (max-width: 991px) {
+  .navbar-brand-container {
+    margin-right: auto;
+  }
+  
+  .navbar-logo {
+    height: 38px;
+  }
+  
+  .brand-text {
+    font-size: 1rem !important;
+  }
+  
+  .main-nav {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+  }
+  
+  .nav-link-custom {
+    text-align: center;
+    margin: 0.25rem 0;
+    padding: 0.5rem !important;
+  }
+  
+  .nav-link-custom::after {
+    display: none;
+  }
+  
+  .icons-nav {
+    justify-content: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .icon-link {
+    margin: 0 0.75rem;
+  }
+  
+  .search-container {
+    padding: 0.75rem;
+  }
+  
+  .search-input {
+    padding: 0.5rem 0.75rem !important;
+  }
+  
+  /* Mejoras adicionales para el menú móvil */
+  .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    padding: 0.4rem 0.6rem !important;
+  }
+  
+  .navbar-toggler:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(159, 196, 90, 0.3) !important;
+  }
+  
+  .navbar-collapse {
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+  }
+  
+  .dropdown-menu {
+    position: static !important;
+    float: none !important;
+    width: 100% !important;
+    margin: 0.5rem 0 !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Mejora para el botón de cierre de búsqueda */
+  .search-close-btn {
+    right: 20px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .brand-text {
+    font-size: 0.9rem !important;
+  }
+  
+  .navbar-logo {
+    height: 36px;
+    margin-right: 8px;
+  }
+  
+  .icon-link {
+    margin-left: 0.8rem;
+  }
+  
+  .icon-link svg {
+    width: 1.4em !important;
+    height: 1.4em !important;
+  }
+  
+  /* Mejoras adicionales */
+  .navbar-top,
+  .navbar-scrolled {
+    padding: 0.5rem 0;
+  }
+  
+  .cart-badge {
+    font-size: 0.65rem;
+    padding: 0.1rem 0.35rem;
+    top: -5px;
+    right: -5px;
+    border-width: 1px;
+  }
+  
+  .search-container {
+    padding: 0.5rem;
+  }
+  
+  .search-form {
+    width: 100%;
+  }
+  
+  .search-input {
+    font-size: 0.9rem !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .navbar-brand-container {
+    max-width: 180px; /* Limita el ancho para evitar que el texto se desborde demasiado */
+  }
+  
+  .brand-text {
+    font-size: 0.8rem !important;
+    white-space: normal; /* Permite que el texto del brand se divida en múltiples líneas si es necesario */
+    line-height: 1.2;    /* Ajusta el interlineado si el texto se divide */
+  }
+  
+  /* Mejoras adicionales */
+  .navbar-logo {
+    height: 32px;
+    margin-right: 6px;
+  }
+  
+  .icon-link {
+    margin-left: 0.6rem;
+  }
+  
+  .icon-link svg {
+    width: 1.3em !important;
+    height: 1.3em !important;
+  }
+  
+  .navbar-top {
+    padding: 0.4rem 0;
+  }
+  
+  /* Optimizar iconos en móviles muy pequeños */
+  .icons-nav {
+    gap: 0.5rem;
+  }
+}
+
+/* Media query adicional para dispositivos con altura muy reducida */
+@media (max-height: 500px) and (orientation: landscape) {
+  .navbar-collapse {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .nav-link-custom {
+    padding: 0.3rem !important;
+    margin: 0.15rem 0;
+  }
+  
+  .icons-nav {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+}
