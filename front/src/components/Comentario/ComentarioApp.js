@@ -36,7 +36,7 @@ const ComentarioApp = () => {
   const cargarComentarios = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/comentario/admin"
+        "https://backend-carniceria-la-bendicion-qcvr.onrender.com/comentario/admin"
       );
       console.log("Comentarios recibidos del backend:", response.data);
       setComentarios(response.data); 
@@ -49,7 +49,7 @@ const ComentarioApp = () => {
   const cargarUsuario = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/usuario/obtenerPorId/${id}`
+        `https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/obtenerPorId/${id}`
       );
       console.log("Usuario recibido del backend:", response.data);
 
@@ -84,7 +84,7 @@ const ComentarioApp = () => {
       };
 
       await axios.post(
-        "http://localhost:8080/comentario/agregar",
+        "https://backend-carniceria-la-bendicion-qcvr.onrender.com/comentario/agregar",
         comentarioData
       );
 
@@ -101,7 +101,7 @@ const ComentarioApp = () => {
     if (!validarCamposComentario()) return;
 
     try {
-      await axios.put("http://localhost:8080/comentario/actualizar", {
+      await axios.put("https://backend-carniceria-la-bendicion-qcvr.onrender.com/comentario/actualizar", {
         idComentario: comentarioEdit.idComentario,
         descripcionComentario: descripcionComentario.trim(),
         numCalificacion,
@@ -118,7 +118,7 @@ const ComentarioApp = () => {
 
   const verificacionEstado = async (id) => {
     try {
-      await axios.put(`http://localhost:8080/comentario/verificar/${id}`);
+      await axios.put(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/comentario/verificar/${id}`);
       toast.success("Cambio realizado con éxito.");
       cargarComentarios();
     } catch (error) {
@@ -129,7 +129,7 @@ const ComentarioApp = () => {
 
   const activarComentario = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/comentario/activar/${id}`);
+      await axios.delete(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/comentario/activar/${id}`);
       toast.success("Comentario eliminado con éxito");
       cargarComentarios();
     } catch (error) {

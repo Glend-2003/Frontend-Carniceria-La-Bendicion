@@ -54,7 +54,7 @@ const PromocionApp = () => {
 
   const cargarPromociones = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/promocion/");
+      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/promocion/");
       console.log("Promociones recibidas del backend:", response.data);
       
       setPromociones(response.data);
@@ -66,7 +66,7 @@ const PromocionApp = () => {
 
   const cargarProductos = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/producto/", {
+      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/", {
         params: { estadoProducto: 1 }
       });
       setProductos(response.data);
@@ -157,7 +157,7 @@ const PromocionApp = () => {
     console.log(" Datos enviados al backend:", promocionData);
 
     try {
-      await axios.post("http://localhost:8080/promocion/agregarPromocion", promocionData);
+      await axios.post("hhttps://backend-carniceria-la-bendicion-qcvr.onrender.com/promocion/agregarPromocion", promocionData);
       toast.success("Promoción agregada con éxito");
 
     } catch (error) {
@@ -194,7 +194,7 @@ const PromocionApp = () => {
 
     try {
       console.log("Datos enviados al backend:", promocionData);
-      await axios.put("http://localhost:8080/promocion/actualizar", promocionData);
+      await axios.put("https://backend-carniceria-la-bendicion-qcvr.onrender.com/promocion/actualizar", promocionData);
       toast.success("Promoción actualizada con éxito");
       cargarPromociones();
       handleCloseModal();
@@ -218,7 +218,7 @@ const PromocionApp = () => {
     if (!isConfirmed) return;
 
     try {
-      await axios.delete(`http://localhost:8080/promocion/eliminar/${id}`);
+      await axios.delete(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/promocion/eliminar/${id}`);
 
       toast.success("Promoción eliminada con éxito");
       cargarPromociones();
@@ -244,7 +244,7 @@ const PromocionApp = () => {
     const loadingToast = toast.loading("Enviando mensaje...");
     try {
 
-      const response = await axios.post(`http://localhost:8080/promocion/mensaje?nombreProducto=${encodeURIComponent(promocion.nombreProducto)}`, promocion);
+      const response = await axios.post(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/promocion/mensaje?nombreProducto=${encodeURIComponent(promocion.nombreProducto)}`, promocion);
 
 
       if (response.status === 200) {
@@ -286,7 +286,7 @@ const PromocionApp = () => {
     }
 
     try {
-      await axios.put(`http://localhost:8080/promocion/activar/${id}`);
+      await axios.put(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/promocion/activar/${id}`);
       toast.success("Cambio realizado con éxito.");
       cargarPromociones();
     } catch (error) {

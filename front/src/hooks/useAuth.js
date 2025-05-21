@@ -30,7 +30,7 @@ const useAuth = (redirectIfNoToken = false) => {
     const token = localStorage.getItem('token');
     setLoadingAuth(true);
     if (token) {
-      axios.get('http://localhost:8080/usuario/datos', {
+      axios.get('https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/datos', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       .then(response => {

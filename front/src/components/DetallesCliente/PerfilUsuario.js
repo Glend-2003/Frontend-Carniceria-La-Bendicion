@@ -212,7 +212,7 @@ const handleSubmit = async (e) => {
     };
 
     try {
-      await axios.put("http://localhost:8080/usuario/actualizarCredenciales", userData);
+      await axios.put("https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/actualizarCredenciales", userData);
       showSnackbar("Tus datos se han actualizado correctamente", "success");
       setIsEditing(false);
     } catch (error) {
