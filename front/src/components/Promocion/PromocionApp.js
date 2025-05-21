@@ -157,7 +157,7 @@ const PromocionApp = () => {
     console.log(" Datos enviados al backend:", promocionData);
 
     try {
-      await axios.post("hhttps://backend-carniceria-la-bendicion-qcvr.onrender.com/promocion/agregarPromocion", promocionData);
+      await axios.post("https://backend-carniceria-la-bendicion-qcvr.onrender.com/promocion/agregarPromocion", promocionData);
       toast.success("Promoción agregada con éxito");
 
     } catch (error) {
