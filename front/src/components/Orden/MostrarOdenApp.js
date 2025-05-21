@@ -26,19 +26,25 @@ function MostrarOrdenApp() {
 
   useEffect(() => {
     if (!imagesLoaded && cart.length > 0) {
-      Promise.all(
-        cart.map((item) => {
-          return new Promise((resolve) => {
-            const img = new Image();
-            img.src = `http://localhost:8080/producto/images/${item.imgProducto}`;
-            img.onload = () => resolve();
-            img.onerror = () => resolve();
-          });
-        })
-      ).then(() => {
-        setImagesLoaded(true);
+  Promise.all(
+    cart.map((item) => {
+      return new Promise((resolve) => {
+        if (!item.imgProducto) {
+          resolve(); // Si no hay imagen, resolvemos inmediatamente
+          return;
+        }
+        
+        const img = new Image();
+        img.src = item.imgProducto;
+        
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
       });
-    }
+    })
+  ).then(() => {
+    setImagesLoaded(true);
+  });
+}
   }, [cart, imagesLoaded]);
 
   return (
@@ -102,7 +108,7 @@ function MostrarOrdenApp() {
                           <div className="producto-info">
                             <div className="producto-imagen-container">
                               <img
-                                src={`http://localhost:8080/producto/images/${item.imgProducto}`}
+                                src={item.imgProducto}
                                 alt={item.nombreProducto}
                                 className="producto-imagen"
                                 onError={(e) => {

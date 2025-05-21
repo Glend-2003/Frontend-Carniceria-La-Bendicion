@@ -311,12 +311,13 @@ const ProductoApp = () => {
       setIdCategoria(producto.categoria?.idCategoria || "");
       setEstadoProducto(producto.estadoProducto);
 
-      if (producto.imgProducto) {
-        const previewURL = `http://localhost:8080/producto/images/${producto.imgProducto}`;
-        setExistingImagePreview(previewURL);
-      } else {
-        setExistingImagePreview(null);
-      }
+      if (producto?.imgProducto) {
+      // URL directa de Cloudinary
+      setExistingImagePreview(producto.imgProducto);
+      
+    } else {
+      setExistingImagePreview(null);
+    }
     } else {
       setProductoEdit(null);
       setNombreProducto("");
@@ -669,7 +670,7 @@ const ProductoApp = () => {
                       {producto.imgProducto ? (
                         <div className="producto-image-wrapper">
                           <img
-                            src={`http://localhost:8080/producto/images/${producto.imgProducto}`}
+                            src={producto.imgProducto}
                             alt={producto.nombreProducto}
                             className="producto-image"
                             onError={(e) => {

@@ -340,16 +340,15 @@ function ListaProductosApp({ categoria }) {
       
       <div className="product-image-container">
     <img
-        src={`http://localhost:8080/producto/images/${product.imgProducto}`}
-        alt={product.nombreProducto || "Imagen del producto no disponible"}
-        style={{ width: "100%", height: "auto" }}
-        className="product-image"
-        onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "/placeholder-image.jpg";
-        }}
-        
-    />
+    src={product.imgProducto || "/placeholder-image.jpg" }
+    alt={product.nombreProducto || "Imagen del producto no disponible"}
+    style={{ width: "100%", height: "auto" }}
+    className="product-image"
+    onError={(e) => {
+        e.target.onerror = null;
+        e.target.src = "/placeholder-image.jpg";
+    }}
+/>
        <div 
         className="cart-icon-floating"
         onClick={() => {
@@ -458,7 +457,7 @@ function ListaProductosApp({ categoria }) {
             </div>
             
             <img
-              src={`http://localhost:8080/producto/images/${selectedProduct.imgProducto}`}
+              src={selectedProduct.imgProducto}
               alt={selectedProduct.nombreProducto}
               style={{
                 width: '100%',
