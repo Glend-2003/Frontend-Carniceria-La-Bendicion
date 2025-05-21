@@ -17,11 +17,11 @@ const NotificacionPedido = () => {
         setCargando(true);
         try {
             const [respNoLeidas, respLeidas] = await Promise.all([
-                axios.get("http://localhost:8080/notificacion/", { 
+                axios.get("https://backend-carniceria-la-bendicion-production.up.railway.app/notificacion/", { 
                     params: { leidos: 1 },
                     headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
                 }),
-                axios.get("http://localhost:8080/notificacion/", { 
+                axios.get("https://backend-carniceria-la-bendicion-production.up.railway.app/notificacion/", { 
                     params: { leidos: 0 },
                     headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
                 }),
@@ -95,7 +95,7 @@ const NotificacionPedido = () => {
 
     const marcarComoLeida = async (id) => {
         try {
-            await axios.put(`http://localhost:8080/notificacion/leer/${id}`);
+            await axios.put(`https://backend-carniceria-la-bendicion-production.up.railway.app/notificacion/leer/${id}`);
             toast.success('Notificación marcada como leída', {
                 icon: '✓',
                 style: {
@@ -113,7 +113,7 @@ const NotificacionPedido = () => {
 
     const eliminarNotificacion = async (id) => {
         try {
-            await axios.delete(`http://localhost:8080/notificacion/eliminar/${id}`);
+            await axios.delete(`https://backend-carniceria-la-bendicion-production.up.railway.app/notificacion/eliminar/${id}`);
             toast.success('Notificación eliminada', {
                 icon: '🗑️',
                 style: {

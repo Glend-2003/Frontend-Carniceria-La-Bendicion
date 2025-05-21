@@ -16,7 +16,7 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const fetchAllProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/producto/', { 
+        const response = await axios.get('https://backend-carniceria-la-bendicion-production.up.railway.app/producto/', { 
           params: { estadoProducto: 1 } 
         });
         setAllProducts(response.data);
@@ -36,7 +36,7 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const fetchAllProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/producto/', { 
+        const response = await axios.get('https://backend-carniceria-la-bendicion-production.up.railway.app/producto/', { 
           params: { estadoProducto: 1 } 
         });
         setAllProducts(response.data);

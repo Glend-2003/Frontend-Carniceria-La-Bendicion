@@ -29,7 +29,7 @@ const TipoPagoApp = () => {
 
   const cargarTipoPago = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/tipopago/");
+      const response = await axios.get("https://backend-carniceria-la-bendicion-production.up.railway.app/tipopago/");
       setTipoPagos(response.data);
     } catch (error) {
       console.error("Error al cargar tipos de pago:", error);
@@ -74,7 +74,7 @@ const TipoPagoApp = () => {
         estadoTipoPago: 1,
       };
 
-      await axios.post("http://localhost:8080/tipopago/agregar", tipoPagoData);
+      await axios.post("https://backend-carniceria-la-bendicion-production.up.railway.app/tipopago/agregar", tipoPagoData);
       toast.success("Tipo de pago agregado con éxito");
       cargarTipoPago();
       handleCloseModal();
@@ -106,7 +106,7 @@ const TipoPagoApp = () => {
     };
 
     try {
-      await axios.put("http://localhost:8080/tipopago/actualizar", tipoPagoData);
+      await axios.put("https://backend-carniceria-la-bendicion-production.up.railway.app/tipopago/actualizar", tipoPagoData);
       toast.success("Tipo pago actualizado con éxito");
       cargarTipoPago();
       handleCloseModal();
@@ -118,7 +118,7 @@ const TipoPagoApp = () => {
 
   const activarDesactivarTipoPago = async (id) => {
     try {
-      await axios.put(`http://localhost:8080/tipopago/activar/${id}`);
+      await axios.put(`https://backend-carniceria-la-bendicion-production.up.railway.app/tipopago/activar/${id}`);
       toast.success("Cambio realizado con éxito.");
       cargarTipoPago();
     } catch (error) {

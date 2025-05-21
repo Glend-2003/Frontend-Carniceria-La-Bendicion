@@ -66,7 +66,7 @@ const ProductoApp = () => {
 
   const cargarProductos = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/producto/", {
+      const response = await axios.get("https://backend-carniceria-la-bendicion-production.up.railway.app/producto/", {
         params: { estadoProducto: 0 }
       });
       const productos = response.data;
@@ -88,7 +88,7 @@ const ProductoApp = () => {
 
   const cargarCategorias = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/categoria/", {
+      const response = await axios.get("https://backend-carniceria-la-bendicion-production.up.railway.app/categoria/", {
         params: { estadoCategoria: 1 }
       });
       setCategorias(response.data);
@@ -140,7 +140,7 @@ const ProductoApp = () => {
       try {
         console.log(`Enviando producto con imagen optimizada: ${imageFile.name} (${(imageFile.size / (1024 * 1024)).toFixed(2)} MB)`);
         
-        const response = await axios.post("http://localhost:8080/producto/agregarConImagen", formData, {
+        const response = await axios.post("https://backend-carniceria-la-bendicion-production.up.railway.app/producto/agregarConImagen", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -182,7 +182,7 @@ const ProductoApp = () => {
           estadoProducto,
         };
         console.log("Enviando producto sin imagen...");
-        await axios.post("http://localhost:8080/producto/agregarProducto", productoData);
+        await axios.post("https://backend-carniceria-la-bendicion-production.up.railway.app/producto/agregarProducto", productoData);
         toast.success("Producto agregado con éxito");
       } catch (error) {
         console.error("Error al agregar producto sin imagen:", error);
@@ -223,7 +223,7 @@ const ProductoApp = () => {
     }
 
     try {
-      const response = await axios.put("http://localhost:8080/producto/actualizar", formData, {
+      const response = await axios.put("https://backend-carniceria-la-bendicion-production.up.railway.app/producto/actualizar", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       
@@ -267,7 +267,7 @@ const ProductoApp = () => {
     if (!isConfirmed) return;
 
     try {
-      await axios.delete(`http://localhost:8080/producto/eliminar/${id}`);
+      await axios.delete(`https://backend-carniceria-la-bendicion-production.up.railway.app/producto/eliminar/${id}`);
       toast.success("Producto eliminado con éxito");
       cargarProductos();
     } catch (error) {
@@ -278,7 +278,7 @@ const ProductoApp = () => {
 
   const activarDesactivarProductos = async (id) => {
     try {
-      await axios.put(`http://localhost:8080/producto/activar/${id}`);
+      await axios.put(`https://backend-carniceria-la-bendicion-production.up.railway.app/producto/activar/${id}`);
       toast.success("Cambio realizado con éxito.");
       cargarProductos();
     } catch (error) {

@@ -63,13 +63,13 @@ function CarritoApp() {
         cantidadCarrito: cantidadTotal
       };
   
-      const { data: carritoCreado } = await axios.post('http://localhost:8080/carrito', carritoData, {
+      const { data: carritoCreado } = await axios.post('https://backend-carniceria-la-bendicion-production.up.railway.app/carrito', carritoData, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
   
       await Promise.all(
         carritoLocal.map(item => 
-          axios.post(`http://localhost:8080/carrito/${carritoCreado.idCarrito}/productos`, {
+          axios.post(`https://backend-carniceria-la-bendicion-production.up.railway.app/carrito/${carritoCreado.idCarrito}/productos`, {
             idProducto: item.idProducto,
             cantidadProducto: item.cantidad
           }, {
@@ -131,7 +131,7 @@ function CarritoApp() {
                         src={
                           item.imgProducto.startsWith('http')
                             ? item.imgProducto
-                            : `http://localhost:8080/producto/images/${item.imgProducto}`
+                            : `https://backend-carniceria-la-bendicion-production.up.railway.app/producto/images/${item.imgProducto}`
                         }
                         alt={item.nombreProducto}
                         width="60"

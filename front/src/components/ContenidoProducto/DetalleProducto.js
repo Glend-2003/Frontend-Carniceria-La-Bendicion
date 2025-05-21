@@ -14,7 +14,7 @@ const DetalleProducto = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/producto/${id}`);
+        const response = await axios.get(`https://backend-carniceria-la-bendicion-production.up.railway.app/producto/${id}`);
         setProduct(response.data); 
       } catch (err) {
         setError("Error al cargar el producto"); 
@@ -56,7 +56,7 @@ const DetalleProducto = () => {
           <Col md={6}>
             <Card.Img
               variant="top"
-              src={`http://localhost:8080${product.imgProducto}`} 
+              src={`https://backend-carniceria-la-bendicion-production.up.railway.app${product.imgProducto}`} 
               className="product-detail-img"
             />
 

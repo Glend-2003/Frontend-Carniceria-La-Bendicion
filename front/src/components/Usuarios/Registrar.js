@@ -236,7 +236,7 @@ const Registrar = () => {
     };
 
     axios
-      .post("http://localhost:8080/usuario/registrar", registroData)
+      .post("https://backend-carniceria-la-bendicion-production.up.railway.app/usuario/registrar", registroData)
       .then((response) => {
         console.log("Usuario registrado con éxito:", response.data);
         showSnackbar("¡Usuario registrado con éxito! Redirigiendo...", "success");

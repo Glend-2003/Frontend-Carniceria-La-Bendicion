@@ -73,7 +73,7 @@ const DireccionUsuario = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:8080/direccion/buscar-por-correo`, 
+        `https://backend-carniceria-la-bendicion-production.up.railway.app/direccion/buscar-por-correo`, 
         {
           params: { correoUsuario: usuario.correoUsuario },
           headers: {
@@ -136,7 +136,7 @@ const DireccionUsuario = () => {
 
   const cargarProvincias = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/provincia/leer");
+      const response = await axios.get("https://backend-carniceria-la-bendicion-production.up.railway.app/provincia/leer");
       setProvincia(response.data);
     } catch (error) {
       console.error("Error al cargar las provincias:", error);
@@ -147,7 +147,7 @@ const DireccionUsuario = () => {
   const cargarCantonesPorProvincia = async (idProvincia) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/canton/leerPorProvincia/${idProvincia}`,
+        `https://backend-carniceria-la-bendicion-production.up.railway.app/canton/leerPorProvincia/${idProvincia}`,
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -165,7 +165,7 @@ const DireccionUsuario = () => {
   const cargarDistritosPorCanton = async (idCanton) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/distrito/leerPorCanton/${idCanton}`,
+        `https://backend-carniceria-la-bendicion-production.up.railway.app/distrito/leerPorCanton/${idCanton}`,
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -183,7 +183,7 @@ const DireccionUsuario = () => {
   const cargarCantones = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/canton/leerPorProvincia/${formData.idProvincia}`,
+        `https://backend-carniceria-la-bendicion-production.up.railway.app/canton/leerPorProvincia/${formData.idProvincia}`,
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -200,7 +200,7 @@ const DireccionUsuario = () => {
   const cargarDistritos = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/distrito/leerPorCanton/${formData.idCanton}`,
+        `https://backend-carniceria-la-bendicion-production.up.railway.app/distrito/leerPorCanton/${formData.idCanton}`,
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -247,7 +247,7 @@ const DireccionUsuario = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/direccion/guardar", 
+        "https://backend-carniceria-la-bendicion-production.up.railway.app/direccion/guardar", 
         null, 
         {
           params: {

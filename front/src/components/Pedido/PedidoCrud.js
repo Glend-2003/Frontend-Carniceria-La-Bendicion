@@ -94,7 +94,7 @@ function PedidoCrud() {
 
     const fetchTiposPago = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/tipopago/');
+        const response = await axios.get('https://backend-carniceria-la-bendicion-production.up.railway.app/tipopago/');
         setTiposPago(response.data);
 
         if (response.data && response.data.length > 0) {
@@ -376,7 +376,7 @@ function PedidoCrud() {
         cantidadCarrito: cart.length
       };
 
-      const carritoResponse = await axios.post('http://localhost:8080/carrito', carritoData);
+      const carritoResponse = await axios.post('https://backend-carniceria-la-bendicion-production.up.railway.app/carrito', carritoData);
       const idCarrito = carritoResponse.data.idCarrito;
 
       for (const item of cart) {
@@ -388,13 +388,13 @@ function PedidoCrud() {
           cantidadProducto: item.cantidad
         };
 
-        await axios.post(`http://localhost:8080/carrito/${idCarrito}/productos`, productoCarrito);
+        await axios.post(`https://backend-carniceria-la-bendicion-production.up.railway.app/carrito/${idCarrito}/productos`, productoCarrito);
       }
 
       await new Promise(resolve => setTimeout(resolve, 3000));
 
       try {
-        await axios.get(`http://localhost:8080/carrito/usuario/${idUsuario}`);
+        await axios.get(`https://backend-carniceria-la-bendicion-production.up.railway.app/carrito/usuario/${idUsuario}`);
       } catch (verifyError) {
       }
 
@@ -434,9 +434,9 @@ function PedidoCrud() {
         estadoEntregaPedido: "Pendiente"
       };
 
-      await axios.post('http://localhost:8080/pedido/agregar', pedidoData);
+      await axios.post('https://backend-carniceria-la-bendicion-production.up.railway.app/pedido/agregar', pedidoData);
 
-      await axios.put(`http://localhost:8080/carrito/${idCarrito}`, {
+      await axios.put(`https://backend-carniceria-la-bendicion-production.up.railway.app/carrito/${idCarrito}`, {
         usuario: {
           idUsuario: parseInt(idUsuario, 10)
         },

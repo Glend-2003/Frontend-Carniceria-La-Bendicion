@@ -198,7 +198,7 @@ function ResetPassword() {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/usuario/cambiarContrasena', {
+      const response = await axios.post('https://backend-carniceria-la-bendicion-production.up.railway.app/usuario/cambiarContrasena', {
         numCodigo: codigoCompleto,
         nuevaContrasenia: form.nuevaContrasenia,
       });
@@ -228,7 +228,7 @@ function ResetPassword() {
     setIsResendingCode(true);
 
     try {
-      const response = await axios.post("http://localhost:8080/usuario/verificarCambioContrasena", {
+      const response = await axios.post("https://backend-carniceria-la-bendicion-production.up.railway.app/usuario/verificarCambioContrasena", {
         correoUsuario: correoUsuario,
       });
 
