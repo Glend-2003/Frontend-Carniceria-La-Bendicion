@@ -10,7 +10,7 @@ const FooterApp = () => {
         <footer className="page-footer py-3">
             <div className="container footer-container py-1">
                 <p className="mb-0" style={{ fontSize: "0.9rem" }}>
-                    Desarrollado por: <a href="https://halobcompany.com" target="_blank" rel="noopener noreferrer">Halob Company</a>
+                    Desarrollado por: <a href="https://halobcompany.onrender.com/#hero" target="_blank" rel="noopener noreferrer">Halob Company</a>
                 </p>
 
                 <div className="social-icons">
