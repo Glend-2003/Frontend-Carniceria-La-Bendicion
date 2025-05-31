@@ -76,7 +76,7 @@ const ProductoApp = () => {
 
   const cargarProductos = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/producto/", {
+      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/", {
         params: { estadoProducto: 0 },
       });
       const productos = response.data;
@@ -98,7 +98,7 @@ const ProductoApp = () => {
 
   const cargarCategorias = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/categoria/", {
+      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/categoria/", {
         params: { estadoCategoria: 1 },
       });
       setCategorias(response.data);
@@ -194,7 +194,7 @@ const ProductoApp = () => {
       formData.append("file", imageFile);
       try {
         const response = await axios.post(
-          "http://localhost:8080/producto/agregarConImagen",
+          "https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/agregarConImagen",
           formData,
           {
             headers: {
@@ -238,7 +238,7 @@ const ProductoApp = () => {
           estadoProducto,
         };
         await axios.post(
-          "http://localhost:8080/producto/agregarProducto",
+          "https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/agregarProducto",
           productoData
         );
         toast.success("Producto agregado con éxito");
@@ -287,7 +287,7 @@ const ProductoApp = () => {
       }
 
       const response = await axios.put(
-        "http://localhost:8080/producto/actualizar",
+        "http://https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/actualizar",
         formData,
         {
           headers: {
@@ -337,7 +337,7 @@ const ProductoApp = () => {
     if (!isConfirmed) return;
 
     try {
-      await axios.delete(`http://localhost:8080/producto/eliminar/${id}`);
+      await axios.delete(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/eliminar/${id}`);
       toast.success("Producto eliminado con éxito");
       cargarProductos();
     } catch (error) {
@@ -347,7 +347,7 @@ const ProductoApp = () => {
 
   const activarDesactivarProductos = async (id) => {
     try {
-      await axios.put(`http://localhost:8080/producto/activar/${id}`);
+      await axios.put(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/activar/${id}`);
       toast.success("Cambio realizado con éxito.");
       cargarProductos();
     } catch (error) {
