@@ -91,7 +91,7 @@ function ListaProductosApp({ categoria }) {
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-             const response = await axios.get('https://backend-carniceria-la-bendicion-qcvr.onrender.com/categoria/', {
+             const response = await axios.get(' https://backend-carniceria-la-bendicion-qcvr.onrender.com/categoria/', {
           params: { estadoCategoria: 1 }
         });
         setCategorias(response.data);

@@ -51,7 +51,7 @@ const ProductoApp = () => {
     maxSizeMB: 5,
     quality: 0.7,
     onImageSelected: (file, preview) => {
-      // Callback opcional - ya no mostramos console.log
+      // Callback opcional
     },
   });
 
@@ -70,8 +70,8 @@ const ProductoApp = () => {
     cargarCategorias();
   }, []);
 
-    useEffect(() => {
-    setCurrentPage(1); // Reiniciar a la primera página cuando cambia el término de búsqueda
+  useEffect(() => {
+    setCurrentPage(1);
   }, [search]);
 
   const cargarProductos = async () => {
@@ -150,9 +150,7 @@ const ProductoApp = () => {
     }
 
     if (String(nombreProducto).length > 255) {
-      toast.error(
-        "El nombre del producto es demasiado largo (máximo 255 caracteres)"
-      );
+      toast.error("El nombre del producto es demasiado largo (máximo 255 caracteres)");
       return false;
     }
 
@@ -162,9 +160,7 @@ const ProductoApp = () => {
     }
 
     if (String(codigoProducto).length > 50) {
-      toast.error(
-        "El código del producto es demasiado largo (máximo 50 caracteres)"
-      );
+      toast.error("El código del producto es demasiado largo (máximo 50 caracteres)");
       return false;
     }
 
@@ -208,19 +204,13 @@ const ProductoApp = () => {
       } catch (error) {
         if (error.response) {
           if (error.response.status === 413) {
-            toast.error(
-              `Error: La imagen es demasiado grande. El servidor acepta un máximo de 10MB.`
-            );
+            toast.error(`Error: La imagen es demasiado grande. El servidor acepta un máximo de 10MB.`);
           } else {
-            const mensaje =
-              error.response.data.message ||
-              "Ocurrió un error al agregar el producto";
+            const mensaje = error.response.data.message || "Ocurrió un error al agregar el producto";
             toast.error(`Error: ${mensaje} (${error.response.status})`);
           }
         } else {
-          toast.error(
-            "Ocurrió un error al agregar el producto. Comprueba la conexión al servidor."
-          );
+          toast.error("Ocurrió un error al agregar el producto. Comprueba la conexión al servidor.");
         }
         return;
       }
@@ -271,10 +261,7 @@ const ProductoApp = () => {
       formData.append("idProducto", String(productoEdit.idProducto));
       formData.append("nombreProducto", String(nombreProducto || "").trim());
       formData.append("montoPrecioProducto", String(montoPrecioProducto || 0));
-      formData.append(
-        "descripcionProducto",
-        String(descripcionProducto || "").trim()
-      );
+      formData.append("descripcionProducto", String(descripcionProducto || "").trim());
       formData.append("cantidadProducto", String(cantidadProducto || 0));
       formData.append("tipoPesoProducto", String(unidadMedida || "Ud").trim());
       formData.append("codigoProducto", String(codigoProducto || "").trim());
@@ -287,7 +274,7 @@ const ProductoApp = () => {
       }
 
       const response = await axios.put(
-        "http://https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/actualizar",
+        "https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/actualizar",
         formData,
         {
           headers: {
@@ -305,14 +292,11 @@ const ProductoApp = () => {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 413) {
-          toast.error(
-            `Error: La imagen es demasiado grande. El servidor acepta un máximo de 10MB.`
-          );
+          toast.error(`Error: La imagen es demasiado grande. El servidor acepta un máximo de 10MB.`);
         } else {
-          const mensaje =
-            error.response.data?.error ||
-            error.response.data?.message ||
-            "Ocurrió un error al actualizar el producto";
+          const mensaje = error.response.data?.error || 
+                         error.response.data?.message || 
+                         "Ocurrió un error al actualizar el producto";
           toast.error(`Error: ${mensaje} (${error.response.status})`);
         }
       } else if (error.request) {
@@ -420,7 +404,6 @@ const ProductoApp = () => {
 
   const handleSearchChange = (e) => setSearch(e.target.value);
 
- // Función de filtrado mejorada
   const filteredProductos = productos.filter((producto) =>
     producto.nombreProducto.toLowerCase().includes(search.toLowerCase()) ||
     producto.codigoProducto.toLowerCase().includes(search.toLowerCase()) ||
@@ -430,10 +413,7 @@ const ProductoApp = () => {
   const totalPages = Math.ceil(filteredProductos.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentProductos = filteredProductos.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentProductos = filteredProductos.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -448,31 +428,23 @@ const ProductoApp = () => {
       <SideBar usuario={usuario} />
       <div className="producto-main-container">
         <h1>Gestión de productos</h1>
-        <Button
-          className="producto-add-button"
-          onClick={() => handleShowModal()}
-        >
+        <Button className="producto-add-button" onClick={() => handleShowModal()}>
           <FontAwesomeIcon icon={faUpload} className="me-2" />
           Agregar producto nuevo
         </Button>
-       <div className="producto-search-container">
-        <label>Buscar producto</label>
-        <input
-          type="text"
-          className="producto-search-input"
-          placeholder="Buscar por nombre, código o categoría"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
+        
+        <div className="producto-search-container">
+          <label>Buscar producto</label>
+          <input
+            type="text"
+            className="producto-search-input"
+            placeholder="Buscar por nombre, código o categoría"
+            value={search}
+            onChange={handleSearchChange}
+          />
+        </div>
 
-        <Modal
-          show={showModal}
-          onHide={handleCloseModal}
-          className="producto-modal"
-          size="lg"
-          centered
-        >
+        <Modal show={showModal} onHide={handleCloseModal} className="producto-modal" size="lg" centered>
           <Modal.Header
             closeButton
             className="producto-modal-header"
@@ -548,10 +520,7 @@ const ProductoApp = () => {
                     >
                       <option value="">Seleccionar Categoría</option>
                       {categorias.map((categoria) => (
-                        <option
-                          key={categoria.idCategoria}
-                          value={categoria.idCategoria}
-                        >
+                        <option key={categoria.idCategoria} value={categoria.idCategoria}>
                           {categoria.nombreCategoria}
                         </option>
                       ))}
@@ -563,9 +532,7 @@ const ProductoApp = () => {
                   <div className="producto-form-group">
                     <label htmlFor="imgProducto">
                       Imagen del producto
-                      <small className="ms-2 text-muted">
-                        (Máx. {maxSizeMB}MB)
-                      </small>
+                      <small className="ms-2 text-muted">(Máx. {maxSizeMB}MB)</small>
                     </label>
 
                     <div className="file-input-container">
@@ -578,13 +545,10 @@ const ProductoApp = () => {
                       />
                       <span className="file-status">
                         {isCompressing ? (
-                          <span className="text-warning">
-                            Comprimiendo imagen...
-                          </span>
+                          <span className="text-warning">Comprimiendo imagen...</span>
                         ) : imageFile ? (
                           <span className="text-success">
-                            {imageFile.name} (
-                            {(imageFile.size / (1024 * 1024)).toFixed(2)} MB)
+                            {imageFile.name} ({(imageFile.size / (1024 * 1024)).toFixed(2)} MB)
                           </span>
                         ) : (
                           "Ningún archivo seleccionado"
@@ -594,43 +558,27 @@ const ProductoApp = () => {
                       {originalFileInfo && (
                         <div className="original-file-info">
                           <small className="text-muted">
-                            Original: {originalFileInfo.name} (
-                            {originalFileInfo.sizeInMB} MB)
+                            Original: {originalFileInfo.name} ({originalFileInfo.sizeInMB} MB)
                           </small>
                         </div>
                       )}
 
                       <div className="formatos-soportados">
-                        <small>
-                          Formatos soportados: JPG, PNG, GIF, WebP, BMP, SVG
-                        </small>
+                        <small>Formatos soportados: JPG, PNG, GIF, WebP, BMP, SVG</small>
                       </div>
                     </div>
 
                     {isCompressing && (
                       <div className="compressing-indicator mt-2">
-                        <Spinner
-                          animation="border"
-                          variant="secondary"
-                          size="sm"
-                          className="me-2"
-                        />
+                        <Spinner animation="border" variant="secondary" size="sm" className="me-2" />
                         <small>Optimizando imagen para carga...</small>
                       </div>
                     )}
 
                     {imagePreview && (
                       <div className="producto-img-preview-container">
-                        <img
-                          src={imagePreview}
-                          alt="Vista previa"
-                          className="producto-img-preview"
-                        />
-                        <button
-                          type="button"
-                          className="clear-image-btn"
-                          onClick={clearImage}
-                        >
+                        <img src={imagePreview} alt="Vista previa" className="producto-img-preview" />
+                        <button type="button" className="clear-image-btn" onClick={clearImage}>
                           Eliminar
                         </button>
                       </div>
@@ -638,14 +586,8 @@ const ProductoApp = () => {
 
                     {!imagePreview && existingImagePreview && (
                       <div className="producto-img-preview-container">
-                        <img
-                          src={existingImagePreview}
-                          alt="Imagen actual"
-                          className="producto-img-preview"
-                        />
-                        <div className="existing-image-label">
-                          Imagen actual
-                        </div>
+                        <img src={existingImagePreview} alt="Imagen actual" className="producto-img-preview" />
+                        <div className="existing-image-label">Imagen actual</div>
                       </div>
                     )}
                   </div>
@@ -672,9 +614,7 @@ const ProductoApp = () => {
                         className="producto-form-control"
                         min="1"
                         value={cantidadProducto}
-                        onChange={(e) =>
-                          setCantidadProducto(parseInt(e.target.value) || 1)
-                        }
+                        onChange={(e) => setCantidadProducto(parseInt(e.target.value) || 1)}
                       />
                     </div>
 
@@ -704,9 +644,7 @@ const ProductoApp = () => {
                       className="producto-form-control"
                       min="0"
                       value={stockProducto}
-                      onChange={(e) =>
-                        setStockProducto(parseInt(e.target.value) || 0)
-                      }
+                      onChange={(e) => setStockProducto(parseInt(e.target.value) || 0)}
                     />
                   </div>
                 </div>
@@ -716,11 +654,7 @@ const ProductoApp = () => {
                 <Button variant="outline-secondary" onClick={handleCloseModal}>
                   Cancelar
                 </Button>
-                <Button
-                  className="producto-submit-button"
-                  type="submit"
-                  disabled={isCompressing}
-                >
+                <Button className="producto-submit-button" type="submit" disabled={isCompressing}>
                   {isCompressing ? (
                     <>
                       <Spinner animation="border" size="sm" className="me-2" />
@@ -756,11 +690,7 @@ const ProductoApp = () => {
               {currentProductos.length === 0 ? (
                 <tr className="producto-no-results">
                   <td colSpan="7">
-                    <FontAwesomeIcon
-                      icon={faExclamationTriangle}
-                      className="producto-warning-icon"
-                      size="lg"
-                    />
+                    <FontAwesomeIcon icon={faExclamationTriangle} className="producto-warning-icon" size="lg" />
                     <span>No hay productos disponibles</span>
                   </td>
                 </tr>
@@ -769,12 +699,8 @@ const ProductoApp = () => {
                   <tr key={producto.idProducto} className="producto-table-row">
                     <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
                     <td className="producto-info-cell">
-                      <div className="producto-name">
-                        {producto.nombreProducto}
-                      </div>
-                      <div className="producto-code">
-                        {producto.codigoProducto}
-                      </div>
+                      <div className="producto-name">{producto.nombreProducto}</div>
+                      <div className="producto-code">{producto.codigoProducto}</div>
                       <div className="producto-quantity">
                         {producto.cantidadProducto} {producto.tipoPesoProducto}
                       </div>
@@ -788,8 +714,7 @@ const ProductoApp = () => {
                             className="producto-image"
                             onError={(e) => {
                               e.target.onerror = null;
-                              e.target.src =
-                                "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f0f0f0'/%3E%3Cpath d='M30 40 L70 40 L70 70 L30 70 Z' fill='%23cccccc'/%3E%3Cpath d='M40 30 L60 30 L60 40 L40 40 Z' fill='%23cccccc'/%3E%3C/svg%3E";
+                              e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f0f0f0'/%3E%3Cpath d='M30 40 L70 40 L70 70 L30 70 Z' fill='%23cccccc'/%3E%3Cpath d='M40 30 L60 30 L60 40 L40 40 Z' fill='%23cccccc'/%3E%3C/svg%3E";
                             }}
                           />
                         </div>
@@ -802,38 +727,25 @@ const ProductoApp = () => {
                     </td>
                     <td className="producto-price-cell">
                       <div className="producto-price">
-                        ₡
-                        {parseFloat(
-                          producto.montoPrecioProducto
-                        ).toLocaleString()}
+                        ₡{parseFloat(producto.montoPrecioProducto).toLocaleString()}
                       </div>
                       <div
                         className={`producto-stock ${
-                          parseInt(producto.stockProducto) < 10
-                            ? "producto-low-stock"
-                            : "producto-in-stock"
+                          parseInt(producto.stockProducto) < 10 ? "producto-low-stock" : "producto-in-stock"
                         }`}
                       >
                         Stock: {producto.stockProducto}
                       </div>
                     </td>
-                    <td className="producto-description-cell">
-                      {producto.descripcionProducto}
-                    </td>
-                    <td className="producto-category-cell">
-                      {producto.nombreCategoria || "Sin categoría"}
-                    </td>
+                    <td className="producto-description-cell">{producto.descripcionProducto}</td>
+                    <td className="producto-category-cell">{producto.nombreCategoria || "Sin categoría"}</td>
                     <td className="producto-actions-cell">
                       <div className="producto-actions-container">
                         <button
                           className={`producto-status-button ${
-                            producto.estadoProducto
-                              ? "producto-status-active"
-                              : "producto-status-inactive"
+                            producto.estadoProducto ? "producto-status-active" : "producto-status-inactive"
                           }`}
-                          onClick={() =>
-                            activarDesactivarProductos(producto.idProducto)
-                          }
+                          onClick={() => activarDesactivarProductos(producto.idProducto)}
                         >
                           {producto.estadoProducto ? "Activo" : "Inactivo"}
                         </button>
@@ -861,14 +773,15 @@ const ProductoApp = () => {
             </tbody>
           </table>
         </div>
-          <PaginacionApp
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-        onNextPage={handleNextPage}
-        onPreviousPage={handlePreviousPage}
-      />
-    </div>
+
+        <PaginacionApp
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          onNextPage={handleNextPage}
+          onPreviousPage={handlePreviousPage}
+        />
+      </div>
       <FooterApp />
     </div>
   );
