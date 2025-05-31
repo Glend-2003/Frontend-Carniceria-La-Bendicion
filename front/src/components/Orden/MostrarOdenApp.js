@@ -4,6 +4,7 @@ import { X, ShoppingCart, ChevronLeft, Plus, Minus, Shield } from "lucide-react"
 import "./MostrarOrden.css";
 import { useCart } from "../../contexto/ContextoCarrito";
 import { useAppContext } from "../Navbar/AppContext";
+import { toast } from "react-toastify";
 
 function MostrarOrdenApp() {
   const navigate = useNavigate();
@@ -26,26 +27,44 @@ function MostrarOrdenApp() {
 
   useEffect(() => {
     if (!imagesLoaded && cart.length > 0) {
-  Promise.all(
-    cart.map((item) => {
-      return new Promise((resolve) => {
-        if (!item.imgProducto) {
-          resolve(); // Si no hay imagen, resolvemos inmediatamente
-          return;
-        }
-        
-        const img = new Image();
-        img.src = item.imgProducto;
-        
-        img.onload = () => resolve();
-        img.onerror = () => resolve();
+      Promise.all(
+        cart.map((item) => {
+          return new Promise((resolve) => {
+            if (!item.imgProducto) {
+              resolve();
+              return;
+            }
+            
+            const img = new Image();
+            img.src = item.imgProducto;
+            
+            img.onload = () => resolve();
+            img.onerror = () => resolve();
+          });
+        })
+      ).then(() => {
+        setImagesLoaded(true);
       });
-    })
-  ).then(() => {
-    setImagesLoaded(true);
-  });
-}
+    }
   }, [cart, imagesLoaded]);
+
+  const handleIncreaseQuantity = (item) => {
+    if (item.cantidad < item.stockProducto) {
+      increaseQuantity(item.idProducto);
+    } else {
+      toast.info(`No hay más stock disponible para ${item.nombreProducto}. Máximo disponible: ${item.stockProducto}`);
+    }
+  };
+
+  const getStockMessage = (item) => {
+    if (item.stockProducto <= 0) {
+      return <span className="stock-message out-of-stock">AGOTADO</span>;
+    } else if (item.stockProducto <= 5) {
+      return <span className="stock-message low-stock">¡Últimas {item.stockProducto} unidades!</span>;
+    } else {
+      return <span className="stock-message">Disponibles: {item.stockProducto}</span>;
+    }
+  };
 
   return (
     <div className="page-container">
@@ -55,7 +74,7 @@ function MostrarOrdenApp() {
           <p>Revise sus productos y proceda al pedido cuando esté listo</p>
         </div>
       </div>
-       <div className="orden-header">
+      <div className="orden-header">
         <button 
           onClick={() => navigate("/")} 
           className="back-button"
@@ -108,7 +127,7 @@ function MostrarOrdenApp() {
                           <div className="producto-info">
                             <div className="producto-imagen-container">
                               <img
-                                src={item.imgProducto}
+                                src={item.imgProducto || "/images/placeholder-product.jpg"}
                                 alt={item.nombreProducto}
                                 className="producto-imagen"
                                 onError={(e) => {
@@ -120,6 +139,9 @@ function MostrarOrdenApp() {
                             <div className="producto-detalles">
                               <span className="producto-nombre">{item.nombreProducto}</span>
                               <span className="producto-categoria">Carnicería La Bendición</span>
+                              <div className="stock-info">
+                                {getStockMessage(item)}
+                              </div>
                             </div>
                           </div>
                         </td>
@@ -130,18 +152,28 @@ function MostrarOrdenApp() {
                               className="cantidad-btn" 
                               onClick={() => decreaseQuantity(item.idProducto)} 
                               title="Reducir cantidad"
+                              disabled={item.cantidad <= 1}
                             >
                               <Minus size={14} />
                             </button>
                             <span className="cantidad-valor">{item.cantidad}</span>
                             <button 
-                              className="cantidad-btn" 
-                              onClick={() => increaseQuantity(item.idProducto)} 
-                              title="Aumentar cantidad"
+                              className={`cantidad-btn ${item.cantidad >= item.stockProducto ? 'disabled' : ''}`} 
+                              onClick={() => handleIncreaseQuantity(item)} 
+                              title={item.cantidad >= item.stockProducto ? `Máximo disponible: ${item.stockProducto}` : "Aumentar cantidad"}
+                              disabled={item.cantidad >= item.stockProducto}
                             >
                               <Plus size={14} />
+                              {item.cantidad >= item.stockProducto && (
+                                <span className="max-stock-tooltip">Máx</span>
+                              )}
                             </button>
                           </div>
+                          {item.cantidad >= item.stockProducto && (
+                            <div className="stock-alert">
+                              Has alcanzado el máximo disponible
+                            </div>
+                          )}
                         </td>
                         <td className="subtotal">₡{(item.cantidad * item.montoPrecioProducto).toLocaleString()}</td>
                       </tr>
@@ -173,7 +205,6 @@ function MostrarOrdenApp() {
                       <p>Inicie sesión para continuar con el pago</p>
                     </div>
                     <button onClick={handleShowSidebar} className="btn-sesion">INICIAR SESIÓN</button>
-         
                   </div>
                 ) : (
                   <button
