@@ -63,7 +63,7 @@ function ListaProductosApp({ categoria }) {
     const fetchProductos = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/', { 
+                const response = await axios.get('http://localhost:8080/producto/', { 
           params: { estadoProducto: 1 } 
         });
         setProductos(response.data);
@@ -91,7 +91,7 @@ function ListaProductosApp({ categoria }) {
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-        const response = await axios.get('https://backend-carniceria-la-bendicion-qcvr.onrender.com/categoria/', {
+             const response = await axios.get('http://localhost:8080/categoria/', {
           params: { estadoCategoria: 1 }
         });
         setCategorias(response.data);
@@ -551,52 +551,53 @@ function ListaProductosApp({ categoria }) {
             </div>
           </div>
 
-          <Form.Group className="mb-4">
-            <Form.Label className="fw-bold">Cantidad:</Form.Label>
-            <div className="d-flex align-items-center">
-              <Button 
-                variant="outline-secondary" 
-                onClick={() => setCantidad(prev => Math.max(1, prev - 1))}
-                style={{ 
-                  borderColor: colors.mediumGreen,
-                  color: colors.mediumGreen,
-                  borderRadius: '8px 0 0 8px',
-                  padding: '10px 15px',
-                  fontWeight: '600'
-                }}
-              >
-                -
-              </Button>
-              <Form.Control
-                type="number"
-                min="1"
-                max={selectedProduct.stockProducto || 10}
-                value={cantidad}
-                onChange={(e) => setCantidad(Number.parseInt(e.target.value) || 1)}
-                className="text-center quantity-input"
-                style={{ 
-                  borderColor: colors.mediumGreen,
-                  borderRadius: '0',
-                  height: '45px',
-                  fontWeight: '600',
-                  fontSize: '1.1rem'
-                }}
-              />
-              <Button 
-                variant="outline-secondary" 
-                onClick={() => setCantidad(prev => Math.min(selectedProduct.stockProducto || 10, prev + 1))}
-                style={{ 
-                  borderColor: colors.mediumGreen,
-                  color: colors.mediumGreen,
-                  borderRadius: '0 8px 8px 0',
-                  padding: '10px 15px',
-                  fontWeight: '600'
-                }}
-              >
-                +
-              </Button>
-            </div>
-          </Form.Group>
+       <Form.Group className="mb-4">
+  <Form.Label className="fw-bold">Cantidad:</Form.Label>
+  <div className="d-flex align-items-center">
+    <Button 
+      variant="outline-secondary" 
+      onClick={() => setCantidad(prev => Math.max(1, prev - 1))}
+      style={{ 
+        borderColor: colors.mediumGreen,
+        color: colors.mediumGreen,
+        borderRadius: '8px 0 0 8px',
+        padding: '10px 15px',
+        fontWeight: '600'
+      }}
+    >
+      -
+    </Button>
+    <Form.Control
+      type="number"
+      min="1"
+      max={selectedProduct.stockProducto || 10}
+      value={cantidad}
+      readOnly // Esto evita la edición manual
+      className="text-center quantity-input"
+      style={{ 
+        borderColor: colors.mediumGreen,
+        borderRadius: '0',
+        height: '45px',
+        fontWeight: '600',
+        fontSize: '1.1rem',
+        backgroundColor: '#fff' // Para que no parezca deshabilitado
+      }}
+    />
+    <Button 
+      variant="outline-secondary" 
+      onClick={() => setCantidad(prev => Math.min(selectedProduct.stockProducto || 10, prev + 1))}
+      style={{ 
+        borderColor: colors.mediumGreen,
+        color: colors.mediumGreen,
+        borderRadius: '0 8px 8px 0',
+        padding: '10px 15px',
+        fontWeight: '600'
+      }}
+    >
+      +
+    </Button>
+  </div>
+</Form.Group>
 
           <Button 
             variant="success" 

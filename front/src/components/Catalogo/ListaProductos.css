@@ -88,8 +88,8 @@
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(4, 1fr); /* Cambiado de 3 a 4 productos por fila */
+  gap: 20px;
   padding: 0 10px;
 }
 
@@ -477,4 +477,67 @@
     font-size: 0.8rem;
   }
 }
+}
+
+/* Estilos para la información de stock */
+.stock-info {
+  margin-top: 5px;
+  font-size: 0.85rem;
+}
+
+.stock-message {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.stock-message.out-of-stock {
+  color: #d32f2f;
+  background-color: #ffebee;
+}
+
+.stock-message.low-stock {
+  color: #ff9800;
+  background-color: #fff3e0;
+}
+
+/* Estilos para el botón de cantidad cuando alcanza el máximo */
+.cantidad-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.max-stock-tooltip {
+  position: absolute;
+  top: -18px;
+  right: -5px;
+  background: #d32f2f;
+  color: white;
+  font-size: 0.6rem;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.stock-alert {
+  font-size: 0.75rem;
+  color: #d32f2f;
+  margin-top: 3px;
+  text-align: center;
+}
+
+/* Estilos para el tooltip del botón */
+.cantidad-btn[title]:hover:after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  z-index: 10;
 }
