@@ -56,26 +56,86 @@ function PedidoCrud() {
 
   const [loggedUser, setLoggedUser] = useState({
     nombreUsuario: '',
-    correoUsuario: ''
+    correoUsuario: '',
+    primerApellido: '',
+    segundoApellido: ''
   });
 
   const [cart, setCart] = useState([]);
+  const [userDataLoading, setUserDataLoading] = useState(false);
+
+  // Función para obtener los datos completos del usuario
+  const fetchUserData = async (userId) => {
+    try {
+      setUserDataLoading(true);
+      const response = await axios.get(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/obtenerPorId/${userId}`);
+      
+      if (response.data) {
+        const userData = response.data;
+        
+        // Actualizar el estado del usuario logueado
+        setLoggedUser({
+          nombreUsuario: userData.nombreUsuario || '',
+          correoUsuario: userData.correoUsuario || '',
+          primerApellido: userData.primerApellido || '',
+          segundoApellido: userData.segundoApellido || ''
+        });
+
+        // Autocompletar el formulario con los datos del usuario
+        setFormData(prevData => ({
+          ...prevData,
+          nombreUsuario: userData.nombreUsuario || prevData.nombreUsuario,
+          correoUsuario: userData.correoUsuario || prevData.correoUsuario,
+          primerApellido: userData.primerApellido || '',
+          segundoApellido: userData.segundoApellido || ''
+        }));
+
+        console.log('Datos del usuario cargados:', userData);
+      }
+    } catch (error) {
+      console.error('Error al obtener datos del usuario:', error);
+      setSnackbar({
+        open: true,
+        message: 'Error al cargar los datos del usuario',
+        severity: 'warning'
+      });
+    } finally {
+      setUserDataLoading(false);
+    }
+  };
 
   useEffect(() => {
     const userName = localStorage.getItem("nombreUsuario");
     const userEmail = localStorage.getItem("correoUsuario");
+    const userId = localStorage.getItem("idUsuario");
 
     if (userName && userEmail) {
-      setLoggedUser({
+      // Establecer datos básicos primero
+      setLoggedUser(prevState => ({
+        ...prevState,
         nombreUsuario: userName,
         correoUsuario: userEmail
-      });
+      }));
 
       setFormData(prevData => ({
         ...prevData,
         nombreUsuario: userName,
         correoUsuario: userEmail
       }));
+
+      // Si tenemos el ID del usuario, obtener datos completos
+      if (userId) {
+        fetchUserData(userId);
+      } else {
+        console.warn('ID de usuario no encontrado en localStorage');
+      }
+    } else {
+      console.warn('Datos de usuario no encontrados en localStorage');
+      setSnackbar({
+        open: true,
+        message: 'No se encontraron datos de usuario. Por favor, inicie sesión nuevamente.',
+        severity: 'error'
+      });
     }
   }, []);
 
@@ -156,11 +216,18 @@ function PedidoCrud() {
     const isValid = value === loggedUser[fieldName];
 
     if (!isValid) {
+      const fieldDisplayName = {
+        nombreUsuario: 'nombre de usuario',
+        correoUsuario: 'correo',
+        primerApellido: 'primer apellido',
+        segundoApellido: 'segundo apellido'
+      };
+
       setFieldValidations(prev => ({
         ...prev,
         [fieldName]: {
           isValid: false,
-          message: `Este valor debe coincidir con su ${fieldName === 'nombreUsuario' ? 'nombre de usuario' : 'correo'} registrado`
+          message: `Este valor debe coincidir con su ${fieldDisplayName[fieldName]} registrado`
         }
       }));
     }
@@ -281,7 +348,8 @@ function PedidoCrud() {
     if (name === 'nombreUsuario' || name === 'primerApellido' || name === 'segundoApellido') {
       validateLettersOnly(value, name);
 
-      if (name === 'nombreUsuario') {
+      // Validar coincidencia con datos del usuario logueado para todos los campos de apellidos y nombre
+      if (name === 'nombreUsuario' || name === 'primerApellido' || name === 'segundoApellido') {
         validateMatchWithLoggedUser(value, name);
       }
     } else if (name === 'correoUsuario') {
@@ -335,8 +403,10 @@ function PedidoCrud() {
 
     const nombreValid = validateLettersOnly(formData.nombreUsuario, 'nombreUsuario') &&
       validateMatchWithLoggedUser(formData.nombreUsuario, 'nombreUsuario');
-    const primerApellidoValid = validateLettersOnly(formData.primerApellido, 'primerApellido');
-    const segundoApellidoValid = validateLettersOnly(formData.segundoApellido, 'segundoApellido');
+    const primerApellidoValid = validateLettersOnly(formData.primerApellido, 'primerApellido') &&
+      validateMatchWithLoggedUser(formData.primerApellido, 'primerApellido');
+    const segundoApellidoValid = validateLettersOnly(formData.segundoApellido, 'segundoApellido') &&
+      validateMatchWithLoggedUser(formData.segundoApellido, 'segundoApellido');
     const correoValid = validateEmail(formData.correoUsuario) &&
       validateMatchWithLoggedUser(formData.correoUsuario, 'correoUsuario');
 
@@ -498,7 +568,8 @@ function PedidoCrud() {
     cedulaValidation.isChecking ||
     !fechaHoraRetiroValidation.isValid ||
     cart.length === 0 ||
-    hasValidationErrors();
+    hasValidationErrors() ||
+    userDataLoading;
 
   const renderErrorMessage = (fieldName) => {
     const field = fieldValidations[fieldName];
@@ -513,86 +584,62 @@ function PedidoCrud() {
     return today.toISOString().split('T')[0];
   };
 
-  return (
-    
+return (
     <div className="pedido-container">
       <div className="orden-hero">
         <div className="orden-hero-content">
-  <h1>Finalizar tu pedido</h1>
-  <p>Estás a un paso de disfrutar de nuestros productos. Completa tus datos y programa el retiro.</p>
-</div>
+          <h1>Finalizar tu pedido</h1>
+          <p>Estás a un paso de disfrutar de nuestros productos. Completa tus datos y programa el retiro.</p>
+        </div>
       </div>
-<div className="contenedor-boton">
-  <button 
-    className="btn-back" 
-    onClick={() => window.history.back()}
-  >
-    <FaArrowLeft className="icon-back" /> Volver
-  </button>
-</div>
+      <div className="contenedor-boton">
+        <button 
+          className="btn-back" 
+          onClick={() => window.history.back()}
+        >
+          <FaArrowLeft className="icon-back" /> Volver
+        </button>
+      </div>
       <div className="pedido-content">
         
         <div className="client-info-card">
           <div className="card-header">
             <h2>Información del cliente</h2>
+            {userDataLoading && (
+              <div className="loading-indicator">
+                <FaSpinner className="spinner" /> Cargando datos...
+              </div>
+            )}
           </div>
      
           <div className="card-body">
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="nombreUsuario">Nombre</label>
-                <input
-                  type="text"
-                  id="nombreUsuario"
-                  name="nombreUsuario"
-                  className={fieldValidations.nombreUsuario.isValid ? '' : 'invalid'}
-                  value={formData.nombreUsuario}
-                  onChange={handleChange}
-                  placeholder="Ingrese su nombre"
-                />
-                {renderErrorMessage('nombreUsuario')}
+                <div className="readonly-field-display">
+                  {userDataLoading ? "Cargando..." : (formData.nombreUsuario || "No hay datos registrados")}
+                </div>
               </div>
               <div className="form-group">
                 <label htmlFor="primerApellido">Primer apellido</label>
-                <input
-                  type="text"
-                  id="primerApellido"
-                  name="primerApellido"
-                  className={fieldValidations.primerApellido.isValid ? '' : 'invalid'}
-                  value={formData.primerApellido}
-                  onChange={handleChange}
-                  placeholder="Ingrese su primer apellido"
-                />
-                {renderErrorMessage('primerApellido')}
+                <div className="readonly-field-display">
+                  {userDataLoading ? "Cargando..." : (formData.primerApellido || "No hay datos registrados")}
+                </div>
               </div>
             </div>
 
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="segundoApellido">Segundo apellido</label>
-                <input
-                  type="text"
-                  id="segundoApellido"
-                  name="segundoApellido"
-                  className={fieldValidations.segundoApellido.isValid ? '' : 'invalid'}
-                  value={formData.segundoApellido}
-                  onChange={handleChange}
-                  placeholder="Ingrese su segundo apellido"
-                />
-                {renderErrorMessage('segundoApellido')}
+                <div className="readonly-field-display">
+                  {userDataLoading ? "Cargando..." : (formData.segundoApellido || "No hay datos registrados")}
+                </div>
               </div>
               <div className="form-group">
                 <label htmlFor="correoUsuario">Correo electrónico</label>
-                <input
-                  type="email"
-                  id="correoUsuario"
-                  name="correoUsuario"
-                  className={fieldValidations.correoUsuario.isValid ? '' : 'invalid'}
-                  value={formData.correoUsuario}
-                  onChange={handleChange}
-                  placeholder="ejemplo@correo.com"
-                />
-                {renderErrorMessage('correoUsuario')}
+                <div className="readonly-field-display">
+                  {userDataLoading ? "Cargando..." : (formData.correoUsuario || "No hay datos registrados")}
+                </div>
               </div>
             </div>
 
@@ -609,6 +656,7 @@ function PedidoCrud() {
                     onChange={handleChange}
                     placeholder="Ej: 101110111"
                     maxLength={9}
+                    disabled={userDataLoading}
                   />
                   <div className="cedula-status">
                     {cedulaValidation.isChecking ? (
@@ -642,6 +690,7 @@ function PedidoCrud() {
                     value={formData.fechaHoraRetiro}
                     onChange={handleChange}
                     min={`${getMinDate()}T08:00`}
+                    disabled={userDataLoading}
                   />
                   <div className="fecha-hora-status">
                     {fechaHoraRetiroValidation.wasChecked && !fechaHoraRetiroValidation.isValid && (
@@ -665,7 +714,7 @@ function PedidoCrud() {
                   name="tipoPago"
                   value={formData.tipoPago}
                   onChange={handleChange}
-                  disabled={tiposPago.length === 0}
+                  disabled={tiposPago.length === 0 || userDataLoading}
                 >
                   {tiposPago.length > 0 ? (
                     tiposPago.map(tipo => (
@@ -679,12 +728,12 @@ function PedidoCrud() {
                 </select>
               </div>
             </div>
-                 <div className="info-section">
-  <FaInfoCircle className="info-icon" />
-  <p className="info-text">
-    Por favor verifica que tus datos sean correctos. Esta información será usada para procesar tu pedido y enviarte notificaciones.
-  </p>
-</div>
+            <div className="info-section">
+              <FaInfoCircle className="info-icon" />
+              <p className="info-text">
+                Los datos personales se obtienen automáticamente de tu perfil registrado. Si necesitas modificarlos, actualiza tu perfil de usuario.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -706,11 +755,11 @@ function PedidoCrud() {
               <span className="location-value">{formData.localidad}</span>
             </div>
             <div className="info-section">
-  <FaStore className="info-icon" />
-  <p className="info-text">
-    Retira tu pedido en nuestra sucursal de {formData.sucursal}. Horario de atención: de 8:00 AM a 9:00 PM.
-  </p>
-</div>
+              <FaStore className="info-icon" />
+              <p className="info-text">
+                Retira tu pedido en nuestra sucursal de {formData.sucursal}. Horario de atención: de 8:00 AM a 9:00 PM.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -767,6 +816,11 @@ function PedidoCrud() {
                   <FaTimes className="warning-icon" /> Por favor, corrija los campos con errores antes de continuar
                 </p>
               )}
+              {userDataLoading && (
+                <p className="validation-warning">
+                  <FaSpinner className="warning-icon spinner" /> Cargando datos del usuario...
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -814,6 +868,24 @@ function PedidoCrud() {
           input.invalid, select.invalid {
             border-color: #f44336;
             background-color: rgba(244, 67, 54, 0.05);
+          }
+          
+          .readonly-field-display {
+            background-color: transparent;
+            color: #495057;
+            border: 1px solid #e0e0e0;
+            padding: 12px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            min-height: 20px;
+            display: flex;
+            align-items: center;
+          }
+          
+          .readonly-field-display:empty::before {
+            content: "No hay datos registrados";
+            color: #6c757d;
+            font-style: italic;
           }
           
           .fecha-hora-input-group {
@@ -879,10 +951,32 @@ function PedidoCrud() {
           .warning-icon {
             margin-right: 5px;
           }
+          
+          .loading-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 0.9em;
+          }
+          
+          input:disabled, select:disabled {
+            background-color: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+          }
+          
+          .validation-warning {
+            display: flex;
+            align-items: center;
+            color: #f44336;
+            font-size: 0.9em;
+            margin-top: 10px;
+          }
         `}
       </style>
     </div>
   );
 }
 
-export default PedidoCrud
+export default PedidoCrud;
