@@ -5,14 +5,20 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash, faExclamationTriangle, faImage, faUpload } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faTrash,
+  faExclamationTriangle,
+  faImage,
+  faUpload,
+} from "@fortawesome/free-solid-svg-icons";
 import SideBar from "../SideBar/SideBar";
 import useAuth from "../../hooks/useAuth";
 import { Button, Modal, Spinner } from "react-bootstrap";
-import FooterApp from '../Footer/FooterApp';
+import FooterApp from "../Footer/FooterApp";
 import "./Producto.css";
 import PaginacionApp from "../Paginacion/PaginacionApp";
-import useImageUpload from "../../hooks/useImageUpload"; 
+import useImageUpload from "../../hooks/useImageUpload";
 
 const ProductoApp = () => {
   const [productos, setProductos] = useState([]);
@@ -40,13 +46,13 @@ const ProductoApp = () => {
     originalFileInfo,
     handleFileChange,
     clearImage,
-    maxSizeMB
+    maxSizeMB,
   } = useImageUpload({
-    maxSizeMB: 5, 
-    quality: 0.7, 
+    maxSizeMB: 5,
+    quality: 0.7,
     onImageSelected: (file, preview) => {
-      console.log(`Imagen seleccionada y procesada: ${file.name} (${(file.size / (1024 * 1024)).toFixed(2)} MB)`);
-    }
+      // Callback opcional - ya no mostramos console.log
+    },
   });
 
   const unidadesMedida = ["Ud", "Kg", "Gr", "Lb", "Oz", "Lt", "Ml"];
@@ -66,8 +72,8 @@ const ProductoApp = () => {
 
   const cargarProductos = async () => {
     try {
-      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/", {
-        params: { estadoProducto: 0 }
+      const response = await axios.get("http://localhost:8080/producto/", {
+        params: { estadoProducto: 0 },
       });
       const productos = response.data;
 
@@ -88,8 +94,8 @@ const ProductoApp = () => {
 
   const cargarCategorias = async () => {
     try {
-      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/categoria/", {
-        params: { estadoCategoria: 1 }
+      const response = await axios.get("http://localhost:8080/categoria/", {
+        params: { estadoCategoria: 1 },
       });
       setCategorias(response.data);
     } catch (error) {
@@ -99,17 +105,62 @@ const ProductoApp = () => {
   };
 
   const validarCamposProducto = () => {
-    if (
-      !nombreProducto.trim() ||
-      !descripcionProducto.trim() ||
-      cantidadProducto <= 0 ||
-      !unidadMedida ||
-      !codigoProducto.trim() ||
-      stockProducto < 0 ||
-      !montoPrecioProducto ||
-      !idCategoria
-    ) {
-      toast.error("Todos los campos son obligatorios y no pueden estar vacíos");
+    if (!nombreProducto || String(nombreProducto).trim() === "") {
+      toast.error("El nombre del producto es obligatorio");
+      return false;
+    }
+
+    if (!descripcionProducto || String(descripcionProducto).trim() === "") {
+      toast.error("La descripción del producto es obligatoria");
+      return false;
+    }
+
+    if (!cantidadProducto || cantidadProducto <= 0) {
+      toast.error("La cantidad debe ser mayor a 0");
+      return false;
+    }
+
+    if (!unidadMedida || String(unidadMedida).trim() === "") {
+      toast.error("La unidad de medida es obligatoria");
+      return false;
+    }
+
+    if (!codigoProducto || String(codigoProducto).trim() === "") {
+      toast.error("El código del producto es obligatorio");
+      return false;
+    }
+
+    if (stockProducto < 0) {
+      toast.error("El stock no puede ser negativo");
+      return false;
+    }
+
+    if (!montoPrecioProducto || montoPrecioProducto <= 0) {
+      toast.error("El precio debe ser mayor a 0");
+      return false;
+    }
+
+    if (!idCategoria) {
+      toast.error("Debe seleccionar una categoría");
+      return false;
+    }
+
+    if (String(nombreProducto).length > 255) {
+      toast.error(
+        "El nombre del producto es demasiado largo (máximo 255 caracteres)"
+      );
+      return false;
+    }
+
+    if (String(descripcionProducto).length > 1000) {
+      toast.error("La descripción es demasiado larga (máximo 1000 caracteres)");
+      return false;
+    }
+
+    if (String(codigoProducto).length > 50) {
+      toast.error(
+        "El código del producto es demasiado largo (máximo 50 caracteres)"
+      );
       return false;
     }
 
@@ -118,7 +169,7 @@ const ProductoApp = () => {
 
   const agregarProducto = async () => {
     if (!validarCamposProducto()) return;
-    
+
     if (isCompressing) {
       toast.info("Por favor espere mientras la imagen se procesa...");
       return;
@@ -138,33 +189,34 @@ const ProductoApp = () => {
     if (imageFile) {
       formData.append("file", imageFile);
       try {
-        console.log(`Enviando producto con imagen optimizada: ${imageFile.name} (${(imageFile.size / (1024 * 1024)).toFixed(2)} MB)`);
-        
-        const response = await axios.post("https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/agregarConImagen", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        
-        console.log("Respuesta del servidor:", response.data);
+        const response = await axios.post(
+          "http://localhost:8080/producto/agregarConImagen",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
         toast.success("Producto agregado con éxito");
-        
         clearImage();
       } catch (error) {
-        console.error("Error al agregar producto con imagen:", error);
-        
         if (error.response) {
-          console.error("Respuesta del servidor:", error.response.data);
-          console.error("Estado HTTP:", error.response.status);
-          
           if (error.response.status === 413) {
-            toast.error(`Error: La imagen es demasiado grande. El servidor acepta un máximo de 10MB.`);
+            toast.error(
+              `Error: La imagen es demasiado grande. El servidor acepta un máximo de 10MB.`
+            );
           } else {
-            const mensaje = error.response.data.message || "Ocurrió un error al agregar el producto";
+            const mensaje =
+              error.response.data.message ||
+              "Ocurrió un error al agregar el producto";
             toast.error(`Error: ${mensaje} (${error.response.status})`);
           }
         } else {
-          toast.error("Ocurrió un error al agregar el producto. Comprueba la conexión al servidor.");
+          toast.error(
+            "Ocurrió un error al agregar el producto. Comprueba la conexión al servidor."
+          );
         }
         return;
       }
@@ -181,11 +233,12 @@ const ProductoApp = () => {
           idCategoria,
           estadoProducto,
         };
-        console.log("Enviando producto sin imagen...");
-        await axios.post("https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/agregarProducto", productoData);
+        await axios.post(
+          "http://localhost:8080/producto/agregarProducto",
+          productoData
+        );
         toast.success("Producto agregado con éxito");
       } catch (error) {
-        console.error("Error al agregar producto sin imagen:", error);
         toast.error("Ocurrió un error al agregar el producto");
         return;
       }
@@ -197,58 +250,71 @@ const ProductoApp = () => {
 
   const actualizarProducto = async () => {
     if (!validarCamposProducto()) return;
-    
+
     if (isCompressing) {
       toast.info("Por favor espere mientras la imagen se procesa...");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("idProducto", productoEdit.idProducto);
-    formData.append("nombreProducto", nombreProducto.trim());
-    formData.append("montoPrecioProducto", montoPrecioProducto);
-    formData.append("descripcionProducto", descripcionProducto.trim());
-    formData.append("cantidadProducto", cantidadProducto);
-    formData.append("tipoPesoProducto", unidadMedida);
-    formData.append("codigoProducto", codigoProducto.trim());
-    formData.append("stockProducto", stockProducto);
-    formData.append("idCategoria", idCategoria);
-    formData.append("estadoProducto", estadoProducto ? 1 : 0);
-
-    if (imageFile) {
-      formData.append("file", imageFile);
-      console.log(`Actualizando producto con imagen optimizada: ${imageFile.name} (${(imageFile.size / (1024 * 1024)).toFixed(2)} MB)`);
-    } else {
-      console.log("Actualizando producto sin cambiar la imagen");
-    }
-
     try {
-      const response = await axios.put("https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/actualizar", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      
-      console.log("Respuesta de actualización:", response.data);
+      const formData = new FormData();
+
+      if (!productoEdit?.idProducto) {
+        toast.error("Error: ID del producto no encontrado");
+        return;
+      }
+
+      formData.append("idProducto", String(productoEdit.idProducto));
+      formData.append("nombreProducto", String(nombreProducto || "").trim());
+      formData.append("montoPrecioProducto", String(montoPrecioProducto || 0));
+      formData.append(
+        "descripcionProducto",
+        String(descripcionProducto || "").trim()
+      );
+      formData.append("cantidadProducto", String(cantidadProducto || 0));
+      formData.append("tipoPesoProducto", String(unidadMedida || "Ud").trim());
+      formData.append("codigoProducto", String(codigoProducto || "").trim());
+      formData.append("stockProducto", String(stockProducto || 0));
+      formData.append("idCategoria", String(idCategoria || 1));
+      formData.append("estadoProducto", estadoProducto ? "1" : "0");
+
+      if (imageFile) {
+        formData.append("file", imageFile);
+      }
+
+      const response = await axios.put(
+        "http://localhost:8080/producto/actualizar",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          timeout: 30000,
+        }
+      );
+
       toast.success("Producto actualizado con éxito");
-      
+
       clearImage();
-      
       cargarProductos();
       handleCloseModal();
     } catch (error) {
-      console.error("Error al actualizar producto:", error);
-      
       if (error.response) {
-        console.error("Respuesta del servidor:", error.response.data);
-        console.error("Estado HTTP:", error.response.status);
-        
         if (error.response.status === 413) {
-          toast.error(`Error: La imagen es demasiado grande. El servidor acepta un máximo de 10MB.`);
+          toast.error(
+            `Error: La imagen es demasiado grande. El servidor acepta un máximo de 10MB.`
+          );
         } else {
-          const mensaje = error.response.data.message || "Ocurrió un error al actualizar el producto";
+          const mensaje =
+            error.response.data?.error ||
+            error.response.data?.message ||
+            "Ocurrió un error al actualizar el producto";
           toast.error(`Error: ${mensaje} (${error.response.status})`);
         }
+      } else if (error.request) {
+        toast.error("Error de conexión: No se pudo contactar con el servidor");
       } else {
-        toast.error("Ocurrió un error al actualizar el producto");
+        toast.error(`Error: ${error.message}`);
       }
     }
   };
@@ -267,22 +333,20 @@ const ProductoApp = () => {
     if (!isConfirmed) return;
 
     try {
-      await axios.delete(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/eliminar/${id}`);
+      await axios.delete(`http://localhost:8080/producto/eliminar/${id}`);
       toast.success("Producto eliminado con éxito");
       cargarProductos();
     } catch (error) {
-      console.error("Error al eliminar producto:", error);
       toast.error("Ocurrió un error al eliminar el producto");
     }
   };
 
   const activarDesactivarProductos = async (id) => {
     try {
-      await axios.put(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/activar/${id}`);
+      await axios.put(`http://localhost:8080/producto/activar/${id}`);
       toast.success("Cambio realizado con éxito.");
       cargarProductos();
     } catch (error) {
-      console.error("Error al realizar el cambio:", error);
       toast.error("Ocurrió un error al cambiar el estado del producto.");
     }
   };
@@ -294,11 +358,11 @@ const ProductoApp = () => {
       icon: "warning",
       confirmButtonText: "Aceptar",
     });
-  }
+  };
 
   const handleShowModal = (producto = null) => {
     clearImage();
-    
+
     if (producto) {
       setProductoEdit(producto);
       setNombreProducto(producto.nombreProducto);
@@ -312,12 +376,10 @@ const ProductoApp = () => {
       setEstadoProducto(producto.estadoProducto);
 
       if (producto?.imgProducto) {
-      // URL directa de Cloudinary
-      setExistingImagePreview(producto.imgProducto);
-      
-    } else {
-      setExistingImagePreview(null);
-    }
+        setExistingImagePreview(producto.imgProducto);
+      } else {
+        setExistingImagePreview(null);
+      }
     } else {
       setProductoEdit(null);
       setNombreProducto("");
@@ -349,7 +411,7 @@ const ProductoApp = () => {
     setIdCategoria("");
     setEstadoProducto(1);
     setExistingImagePreview(null);
-    clearImage(); 
+    clearImage();
   };
 
   const handleSearchChange = (e) => setSearch(e.target.value);
@@ -361,7 +423,10 @@ const ProductoApp = () => {
   const totalPages = Math.ceil(filteredProductos.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentProductos = filteredProductos.slice(indexOfFirstItem, indexOfLastItem);
+  const currentProductos = filteredProductos.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -376,7 +441,10 @@ const ProductoApp = () => {
       <SideBar usuario={usuario} />
       <div className="producto-main-container">
         <h1>Gestión de productos</h1>
-        <Button className="producto-add-button" onClick={() => handleShowModal()}>
+        <Button
+          className="producto-add-button"
+          onClick={() => handleShowModal()}
+        >
           <FontAwesomeIcon icon={faUpload} className="me-2" />
           Agregar producto nuevo
         </Button>
@@ -391,14 +459,20 @@ const ProductoApp = () => {
           />
         </div>
 
-        <Modal show={showModal} onHide={handleCloseModal} className="producto-modal" size="lg" centered>
+        <Modal
+          show={showModal}
+          onHide={handleCloseModal}
+          className="producto-modal"
+          size="lg"
+          centered
+        >
           <Modal.Header
             closeButton
             className="producto-modal-header"
             style={{
-              backgroundColor: '#9fc45a',
-              color: '#000',
-              borderBottom: 'none'
+              backgroundColor: "#9fc45a",
+              color: "#000",
+              borderBottom: "none",
             }}
           >
             <Modal.Title>
@@ -467,7 +541,10 @@ const ProductoApp = () => {
                     >
                       <option value="">Seleccionar Categoría</option>
                       {categorias.map((categoria) => (
-                        <option key={categoria.idCategoria} value={categoria.idCategoria}>
+                        <option
+                          key={categoria.idCategoria}
+                          value={categoria.idCategoria}
+                        >
                           {categoria.nombreCategoria}
                         </option>
                       ))}
@@ -478,10 +555,12 @@ const ProductoApp = () => {
                 <div className="producto-form-column">
                   <div className="producto-form-group">
                     <label htmlFor="imgProducto">
-                      Imagen del producto 
-                      <small className="ms-2 text-muted">(Máx. {maxSizeMB}MB)</small>
+                      Imagen del producto
+                      <small className="ms-2 text-muted">
+                        (Máx. {maxSizeMB}MB)
+                      </small>
                     </label>
-                    
+
                     <div className="file-input-container">
                       <input
                         id="imgProducto"
@@ -492,36 +571,47 @@ const ProductoApp = () => {
                       />
                       <span className="file-status">
                         {isCompressing ? (
-                          <span className="text-warning">Comprimiendo imagen...</span>
+                          <span className="text-warning">
+                            Comprimiendo imagen...
+                          </span>
+                        ) : imageFile ? (
+                          <span className="text-success">
+                            {imageFile.name} (
+                            {(imageFile.size / (1024 * 1024)).toFixed(2)} MB)
+                          </span>
                         ) : (
-                          imageFile ? 
-                            <span className="text-success">
-                              {imageFile.name} ({(imageFile.size / (1024 * 1024)).toFixed(2)} MB)
-                            </span> 
-                            : "Ningún archivo seleccionado"
+                          "Ningún archivo seleccionado"
                         )}
                       </span>
-                      
+
                       {originalFileInfo && (
                         <div className="original-file-info">
                           <small className="text-muted">
-                            Original: {originalFileInfo.name} ({originalFileInfo.sizeInMB} MB)
+                            Original: {originalFileInfo.name} (
+                            {originalFileInfo.sizeInMB} MB)
                           </small>
                         </div>
                       )}
-                      
+
                       <div className="formatos-soportados">
-                        <small>Formatos soportados: JPG, PNG, GIF, WebP, BMP, SVG</small>
+                        <small>
+                          Formatos soportados: JPG, PNG, GIF, WebP, BMP, SVG
+                        </small>
                       </div>
                     </div>
-                    
+
                     {isCompressing && (
                       <div className="compressing-indicator mt-2">
-                        <Spinner animation="border" variant="secondary" size="sm" className="me-2" />
+                        <Spinner
+                          animation="border"
+                          variant="secondary"
+                          size="sm"
+                          className="me-2"
+                        />
                         <small>Optimizando imagen para carga...</small>
                       </div>
                     )}
-                    
+
                     {imagePreview && (
                       <div className="producto-img-preview-container">
                         <img
@@ -529,8 +619,8 @@ const ProductoApp = () => {
                           alt="Vista previa"
                           className="producto-img-preview"
                         />
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           className="clear-image-btn"
                           onClick={clearImage}
                         >
@@ -538,7 +628,7 @@ const ProductoApp = () => {
                         </button>
                       </div>
                     )}
-                    
+
                     {!imagePreview && existingImagePreview && (
                       <div className="producto-img-preview-container">
                         <img
@@ -546,7 +636,9 @@ const ProductoApp = () => {
                           alt="Imagen actual"
                           className="producto-img-preview"
                         />
-                        <div className="existing-image-label">Imagen actual</div>
+                        <div className="existing-image-label">
+                          Imagen actual
+                        </div>
                       </div>
                     )}
                   </div>
@@ -573,7 +665,9 @@ const ProductoApp = () => {
                         className="producto-form-control"
                         min="1"
                         value={cantidadProducto}
-                        onChange={(e) => setCantidadProducto(parseInt(e.target.value) || 1)}
+                        onChange={(e) =>
+                          setCantidadProducto(parseInt(e.target.value) || 1)
+                        }
                       />
                     </div>
 
@@ -603,7 +697,9 @@ const ProductoApp = () => {
                       className="producto-form-control"
                       min="0"
                       value={stockProducto}
-                      onChange={(e) => setStockProducto(parseInt(e.target.value) || 0)}
+                      onChange={(e) =>
+                        setStockProducto(parseInt(e.target.value) || 0)
+                      }
                     />
                   </div>
                 </div>
@@ -613,8 +709,8 @@ const ProductoApp = () => {
                 <Button variant="outline-secondary" onClick={handleCloseModal}>
                   Cancelar
                 </Button>
-                <Button 
-                  className="producto-submit-button" 
+                <Button
+                  className="producto-submit-button"
                   type="submit"
                   disabled={isCompressing}
                 >
@@ -623,8 +719,10 @@ const ProductoApp = () => {
                       <Spinner animation="border" size="sm" className="me-2" />
                       Procesando imagen...
                     </>
+                  ) : productoEdit ? (
+                    "Actualizar"
                   ) : (
-                    productoEdit ? "Actualizar" : "Agregar"
+                    "Agregar"
                   )}
                 </Button>
               </div>
@@ -651,7 +749,11 @@ const ProductoApp = () => {
               {currentProductos.length === 0 ? (
                 <tr className="producto-no-results">
                   <td colSpan="7">
-                    <FontAwesomeIcon icon={faExclamationTriangle} className="producto-warning-icon" size="lg" />
+                    <FontAwesomeIcon
+                      icon={faExclamationTriangle}
+                      className="producto-warning-icon"
+                      size="lg"
+                    />
                     <span>No hay productos disponibles</span>
                   </td>
                 </tr>
@@ -660,8 +762,12 @@ const ProductoApp = () => {
                   <tr key={producto.idProducto} className="producto-table-row">
                     <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
                     <td className="producto-info-cell">
-                      <div className="producto-name">{producto.nombreProducto}</div>
-                      <div className="producto-code">{producto.codigoProducto}</div>
+                      <div className="producto-name">
+                        {producto.nombreProducto}
+                      </div>
+                      <div className="producto-code">
+                        {producto.codigoProducto}
+                      </div>
                       <div className="producto-quantity">
                         {producto.cantidadProducto} {producto.tipoPesoProducto}
                       </div>
@@ -674,9 +780,9 @@ const ProductoApp = () => {
                             alt={producto.nombreProducto}
                             className="producto-image"
                             onError={(e) => {
-                              console.error(`Error al cargar imagen: ${producto.imgProducto}`);
                               e.target.onerror = null;
-                              e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f0f0f0'/%3E%3Cpath d='M30 40 L70 40 L70 70 L30 70 Z' fill='%23cccccc'/%3E%3Cpath d='M40 30 L60 30 L60 40 L40 40 Z' fill='%23cccccc'/%3E%3C/svg%3E";
+                              e.target.src =
+                                "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f0f0f0'/%3E%3Cpath d='M30 40 L70 40 L70 70 L30 70 Z' fill='%23cccccc'/%3E%3Cpath d='M40 30 L60 30 L60 40 L40 40 Z' fill='%23cccccc'/%3E%3C/svg%3E";
                             }}
                           />
                         </div>
@@ -688,8 +794,19 @@ const ProductoApp = () => {
                       )}
                     </td>
                     <td className="producto-price-cell">
-                      <div className="producto-price">₡{parseFloat(producto.montoPrecioProducto).toLocaleString()}</div>
-                      <div className={`producto-stock ${parseInt(producto.stockProducto) < 10 ? "producto-low-stock" : "producto-in-stock"}`}>
+                      <div className="producto-price">
+                        ₡
+                        {parseFloat(
+                          producto.montoPrecioProducto
+                        ).toLocaleString()}
+                      </div>
+                      <div
+                        className={`producto-stock ${
+                          parseInt(producto.stockProducto) < 10
+                            ? "producto-low-stock"
+                            : "producto-in-stock"
+                        }`}
+                      >
                         Stock: {producto.stockProducto}
                       </div>
                     </td>
@@ -702,8 +819,14 @@ const ProductoApp = () => {
                     <td className="producto-actions-cell">
                       <div className="producto-actions-container">
                         <button
-                          className={`producto-status-button ${producto.estadoProducto ? "producto-status-active" : "producto-status-inactive"}`}
-                          onClick={() => activarDesactivarProductos(producto.idProducto)}
+                          className={`producto-status-button ${
+                            producto.estadoProducto
+                              ? "producto-status-active"
+                              : "producto-status-inactive"
+                          }`}
+                          onClick={() =>
+                            activarDesactivarProductos(producto.idProducto)
+                          }
                         >
                           {producto.estadoProducto ? "Activo" : "Inactivo"}
                         </button>
@@ -722,7 +845,6 @@ const ProductoApp = () => {
                           >
                             <FontAwesomeIcon icon={faEdit} />
                           </button>
-                        
                         </div>
                       </div>
                     </td>
