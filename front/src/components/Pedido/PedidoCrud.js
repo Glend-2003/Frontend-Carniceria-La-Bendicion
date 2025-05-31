@@ -175,6 +175,39 @@ function PedidoCrud() {
     fetchTiposPago();
   }, []);
 
+   useEffect(() => {
+    // Cargar datos del usuario desde localStorage o API
+    const loadUserData = async () => {
+      try {
+        const idUsuario = localStorage.getItem("idUsuario");
+        if (idUsuario) {
+          // Opcional: Podrías hacer una llamada a la API para obtener más datos del usuario
+          const response = await axios.get(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/${idUsuario}`);
+          const userData = response.data;
+          
+          setFormData(prev => ({
+            ...prev,
+            nombreUsuario: userData.nombreUsuario || localStorage.getItem("nombreUsuario") || '',
+            primerApellido: userData.primerApellido || '',
+            segundoApellido: userData.segundoApellido || '',
+            correoUsuario: userData.correoUsuario || localStorage.getItem("correoUsuario") || ''
+          }));
+        }
+      } catch (error) {
+        console.error("Error al cargar datos del usuario:", error);
+        // Si falla la API, usar datos de localStorage
+        setFormData(prev => ({
+          ...prev,
+          nombreUsuario: localStorage.getItem("nombreUsuario") || '',
+          correoUsuario: localStorage.getItem("correoUsuario") || ''
+        }));
+      }
+    };
+
+    loadUserData();
+  }, []);
+
+
   const subtotal = cart.reduce((total, item) => total + (item.montoPrecioProducto * item.cantidad), 0);
   const iva = subtotal * 0.13;
   const montoTotalPedido = subtotal + iva;
@@ -342,8 +375,12 @@ function PedidoCrud() {
     return isValid;
   };
 
-  const handleChange = (e) => {
+    const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    // Solo permitir cambios en estos campos
+    const editableFields = ['cedulaUsuario', 'fechaHoraRetiro', 'tipoPago'];
+    if (!editableFields.includes(name)) return;
 
     if (name === 'nombreUsuario' || name === 'primerApellido' || name === 'segundoApellido') {
       validateLettersOnly(value, name);
@@ -585,398 +622,334 @@ function PedidoCrud() {
   };
 
 return (
-    <div className="pedido-container">
-      <div className="orden-hero">
-        <div className="orden-hero-content">
-          <h1>Finalizar tu pedido</h1>
-          <p>Estás a un paso de disfrutar de nuestros productos. Completa tus datos y programa el retiro.</p>
+  <div className="pedido-container">
+    <div className="orden-hero">
+      <div className="orden-hero-content">
+        <h1>Finalizar tu pedido</h1>
+        <p>Estás a un paso de disfrutar de nuestros productos. Completa tus datos y programa el retiro.</p>
+      </div>
+    </div>
+    
+    <div className="contenedor-boton">
+      <button 
+        className="btn-back" 
+        onClick={() => window.history.back()}
+      >
+        <FaArrowLeft className="icon-back" /> Volver
+      </button>
+    </div>
+    
+    <div className="pedido-content">
+       <div className="client-info-card">
+      <div className="card-header">
+        <h2>Información del cliente</h2>
+      </div>
+      <div className="card-body">
+        {/* Campo Nombre (no editable) */}
+        <div className="form-group">
+          <label>Nombre</label>
+          <div className="read-only-data">
+            {formData.nombreUsuario ? (
+              <span className="data-value">{formData.nombreUsuario}</span>
+            ) : (
+              <span className="no-data-message">No hay datos registrados</span>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="contenedor-boton">
-        <button 
-          className="btn-back" 
-          onClick={() => window.history.back()}
-        >
-          <FaArrowLeft className="icon-back" /> Volver
-        </button>
-      </div>
-      <div className="pedido-content">
-        
-        <div className="client-info-card">
-          <div className="card-header">
-            <h2>Información del cliente</h2>
-            {userDataLoading && (
-              <div className="loading-indicator">
-                <FaSpinner className="spinner" /> Cargando datos...
+
+        {/* Campos Apellidos (no editables) */}
+        <div className="form-row">
+          <div className="form-group">
+            <label>Primer apellido</label>
+            <div className="read-only-data">
+              {formData.primerApellido ? (
+                <span className="data-value">{formData.primerApellido}</span>
+              ) : (
+                <span className="no-data-message">No hay datos registrados</span>
+              )}
+            </div>
+          </div>
+          <div className="form-group">
+            <label>Segundo apellido</label>
+            <div className="read-only-data">
+              {formData.segundoApellido ? (
+                <span className="data-value">{formData.segundoApellido}</span>
+              ) : (
+                <span className="no-data-message">No hay datos registrados</span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Campo Correo (no editable) */}
+        <div className="form-group">
+          <label>Correo electrónico</label>
+          <div className="read-only-data">
+            {formData.correoUsuario ? (
+              <span className="data-value">{formData.correoUsuario}</span>
+            ) : (
+              <span className="no-data-message">No hay datos registrados</span>
+            )}
+          </div>
+        </div>
+
+          {/* Campo Cédula (editable) */}
+          <div className="form-group">
+            <label htmlFor="cedulaUsuario">Cédula</label>
+            <div className="cedula-input-group">
+              <input
+                type="text"
+                id="cedulaUsuario"
+                name="cedulaUsuario"
+                className={cedulaValidation.wasChecked ? (cedulaValidation.isValid ? 'valid' : 'invalid') : ''}
+                value={formData.cedulaUsuario}
+                onChange={handleChange}
+                placeholder="Ej: 101110111"
+                maxLength={9}
+              />
+              <div className="cedula-status">
+                {cedulaValidation.isChecking ? (
+                  <FaSpinner className="spinner" />
+                ) : cedulaValidation.wasChecked ? (
+                  cedulaValidation.isValid ? (
+                    <FaCheck className="valid-icon" />
+                  ) : (
+                    <FaTimes className="invalid-icon" />
+                  )
+                ) : null}
+              </div>
+            </div>
+            {cedulaValidation.wasChecked && (
+              <div className={`cedula-message ${cedulaValidation.isValid ? "valid-message" : "invalid-message"}`}>
+                {cedulaValidation.message}
               </div>
             )}
           </div>
-     
-          <div className="card-body">
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="nombreUsuario">Nombre</label>
-                <div className="readonly-field-display">
-                  {userDataLoading ? "Cargando..." : (formData.nombreUsuario || "No hay datos registrados")}
-                </div>
-              </div>
-              <div className="form-group">
-                <label htmlFor="primerApellido">Primer apellido</label>
-                <div className="readonly-field-display">
-                  {userDataLoading ? "Cargando..." : (formData.primerApellido || "No hay datos registrados")}
-                </div>
-              </div>
-            </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="segundoApellido">Segundo apellido</label>
-                <div className="readonly-field-display">
-                  {userDataLoading ? "Cargando..." : (formData.segundoApellido || "No hay datos registrados")}
-                </div>
-              </div>
-              <div className="form-group">
-                <label htmlFor="correoUsuario">Correo electrónico</label>
-                <div className="readonly-field-display">
-                  {userDataLoading ? "Cargando..." : (formData.correoUsuario || "No hay datos registrados")}
-                </div>
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="cedulaUsuario">Cédula</label>
-                <div className="cedula-input-group">
-                  <input
-                    type="text"
-                    id="cedulaUsuario"
-                    name="cedulaUsuario"
-                    className={cedulaValidation.wasChecked ? (cedulaValidation.isValid ? 'valid' : 'invalid') : ''}
-                    value={formData.cedulaUsuario}
-                    onChange={handleChange}
-                    placeholder="Ej: 101110111"
-                    maxLength={9}
-                    disabled={userDataLoading}
-                  />
-                  <div className="cedula-status">
-                    {cedulaValidation.isChecking ? (
-                      <FaSpinner className="spinner" />
-                    ) : cedulaValidation.wasChecked ? (
-                      cedulaValidation.isValid ? (
-                        <FaCheck className="valid-icon" />
-                      ) : (
-                        <FaTimes className="invalid-icon" />
-                      )
-                    ) : null}
-                  </div>
-                </div>
-                {cedulaValidation.wasChecked && (
-                  <div className={`cedula-message ${cedulaValidation.isValid ? "valid-message" : "invalid-message"}`}>
-                    {cedulaValidation.message}
-                  </div>
-                )}
-              </div>
-              <div className="form-group">
-                <label htmlFor="fechaHoraRetiro">
-                  Fecha y hora de retiro
-                  <span className="horario-info"> (8:00 AM - 9:00 PM)</span>
-                </label>
-                <div className="fecha-hora-input-group">
-                  <input
-                    type="datetime-local"
-                    id="fechaHoraRetiro"
-                    name="fechaHoraRetiro"
-                    className={fechaHoraRetiroValidation.wasChecked ? (fechaHoraRetiroValidation.isValid ? 'valid' : 'invalid') : ''}
-                    value={formData.fechaHoraRetiro}
-                    onChange={handleChange}
-                    min={`${getMinDate()}T08:00`}
-                    disabled={userDataLoading}
-                  />
-                  <div className="fecha-hora-status">
-                    {fechaHoraRetiroValidation.wasChecked && !fechaHoraRetiroValidation.isValid && (
-                      <FaCalendarAlt className="invalid-icon" />
-                    )}
-                  </div>
-                </div>
+          {/* Campo Fecha/Hora (editable) */}
+          <div className="form-group">
+            <label htmlFor="fechaHoraRetiro">
+              Fecha y hora de retiro
+              <span className="horario-info"> (8:00 AM - 9:00 PM)</span>
+            </label>
+            <div className="fecha-hora-input-group">
+              <input
+                type="datetime-local"
+                id="fechaHoraRetiro"
+                name="fechaHoraRetiro"
+                className={fechaHoraRetiroValidation.wasChecked ? (fechaHoraRetiroValidation.isValid ? 'valid' : 'invalid') : ''}
+                value={formData.fechaHoraRetiro}
+                onChange={handleChange}
+                min={`${getMinDate()}T08:00`}
+              />
+              <div className="fecha-hora-status">
                 {fechaHoraRetiroValidation.wasChecked && !fechaHoraRetiroValidation.isValid && (
-                  <div className="fecha-hora-message invalid-message">
-                    {fechaHoraRetiroValidation.message}
-                  </div>
+                  <FaCalendarAlt className="invalid-icon" />
                 )}
               </div>
             </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="tipoPago">Tipo de Pago</label>
-                <select
-                  id="tipoPago"
-                  name="tipoPago"
-                  value={formData.tipoPago}
-                  onChange={handleChange}
-                  disabled={tiposPago.length === 0 || userDataLoading}
-                >
-                  {tiposPago.length > 0 ? (
-                    tiposPago.map(tipo => (
-                      <option key={tipo.idTipoPago} value={tipo.idTipoPago}>
-                        {tipo.descripcionTipoPago}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="">Cargando tipos de pago...</option>
-                  )}
-                </select>
+            {fechaHoraRetiroValidation.wasChecked && !fechaHoraRetiroValidation.isValid && (
+              <div className="fecha-hora-message invalid-message">
+                {fechaHoraRetiroValidation.message}
               </div>
-            </div>
-            <div className="info-section">
-              <FaInfoCircle className="info-icon" />
-              <p className="info-text">
-                Los datos personales se obtienen automáticamente de tu perfil registrado. Si necesitas modificarlos, actualiza tu perfil de usuario.
-              </p>
-            </div>
+            )}
           </div>
-        </div>
 
-        <div className="location-info-card">
-          <div className="card-header">
-            <h2>Información de la sucursal</h2>
+          {/* Campo Tipo de Pago (editable) */}
+          <div className="form-group">
+            <label htmlFor="tipoPago">Tipo de Pago</label>
+            <select
+              id="tipoPago"
+              name="tipoPago"
+              value={formData.tipoPago}
+              onChange={handleChange}
+              disabled={tiposPago.length === 0}
+            >
+              {tiposPago.length > 0 ? (
+                tiposPago.map(tipo => (
+                  <option key={tipo.idTipoPago} value={tipo.idTipoPago}>
+                    {tipo.descripcionTipoPago}
+                  </option>
+                ))
+              ) : (
+                <option value="">Cargando tipos de pago...</option>
+              )}
+            </select>
           </div>
-          <div className="card-body">
-            <div className="location-item">
-              <span className="location-label">Sucursal:</span>
-              <span className="location-value">{formData.sucursal}</span>
-            </div>
-            <div className="location-item">
-              <span className="location-label">Provincia:</span>
-              <span className="location-value">{formData.provincia}</span>
-            </div>
-            <div className="location-item">
-              <span className="location-label">Localidad:</span>
-              <span className="location-value">{formData.localidad}</span>
-            </div>
-            <div className="info-section">
-              <FaStore className="info-icon" />
-              <p className="info-text">
-                Retira tu pedido en nuestra sucursal de {formData.sucursal}. Horario de atención: de 8:00 AM a 9:00 PM.
-              </p>
-            </div>
-          </div>
-        </div>
 
-        <div className="cart-summary-card">
-          <div className="card-header">
-            <h2><FaShoppingCart className="cart-icon" /> Resumen del pedido</h2>
-          </div>
-          <div className="card-body">
-            <div className="cart-items">
-              {renderCartItems()}
-            </div>
-
-            <div className="cart-summary">
-              <div className="summary-item">
-                <span>Subtotal (sin I.V.A):</span>
-                <span>₡{subtotal.toLocaleString()}</span>
-              </div>
-              <div className="summary-item">
-                <span>I.V.A (13%):</span>
-                <span>₡{iva.toLocaleString()}</span>
-              </div>
-              <div className="summary-item total">
-                <span>Total a pagar:</span>
-                <span>₡{montoTotalPedido.toLocaleString()}</span>
-              </div>
-            </div>
-
-            <div className="submit-section">
-              <button
-                className="btn-submit"
-                onClick={handleSubmit}
-                disabled={isSubmitDisabled}
-              >
-                {status.loading ? (
-                  <>
-                    <FaSpinner className="spinner" /> Procesando...
-                  </>
-                ) : (
-                  'Finalizar Pedido'
-                )}
-              </button>
-              {!cedulaValidation.isValid && cedulaValidation.wasChecked && (
-                <p className="validation-warning">
-                  <FaTimes className="warning-icon" /> Debe ingresar una cédula válida para finalizar el pedido
-                </p>
-              )}
-              {!fechaHoraRetiroValidation.isValid && fechaHoraRetiroValidation.wasChecked && (
-                <p className="validation-warning">
-                  <FaCalendarAlt className="warning-icon" /> Debe seleccionar una fecha y hora de retiro dentro del horario permitido
-                </p>
-              )}
-              {Object.keys(fieldValidations).some(key => !fieldValidations[key].isValid) && (
-                <p className="validation-warning">
-                  <FaTimes className="warning-icon" /> Por favor, corrija los campos con errores antes de continuar
-                </p>
-              )}
-              {userDataLoading && (
-                <p className="validation-warning">
-                  <FaSpinner className="warning-icon spinner" /> Cargando datos del usuario...
-                </p>
-              )}
-            </div>
+          <div className="info-section">
+            <FaInfoCircle className="info-icon" />
+            <p className="info-text">
+              Por favor verifica que tus datos sean correctos. Esta información será usada para procesar tu pedido y enviarte notificaciones.
+            </p>
           </div>
         </div>
       </div>
 
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+      <div className="location-info-card">
+        <div className="card-header">
+          <h2>Información de la sucursal</h2>
+        </div>
+        <div className="card-body">
+          <div className="location-item">
+            <span className="location-label">Sucursal:</span>
+            <span className="location-value">{formData.sucursal}</span>
+          </div>
+          <div className="location-item">
+            <span className="location-label">Provincia:</span>
+            <span className="location-value">{formData.provincia}</span>
+          </div>
+          <div className="location-item">
+            <span className="location-label">Localidad:</span>
+            <span className="location-value">{formData.localidad}</span>
+          </div>
+          <div className="info-section">
+            <FaStore className="info-icon" />
+            <p className="info-text">
+              Retira tu pedido en nuestra sucursal de {formData.sucursal}. Horario de atención: de 8:00 AM a 9:00 PM.
+            </p>
+          </div>
+        </div>
+      </div>
 
-      <style>
-        {`
-          .spinner {
-            animation: spin 1s linear infinite;
-          }
-          @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
-          
-          .horario-info {
-            font-size: 0.8em;
-            color: #666;
-            font-weight: normal;
-          }
-          
-          .field-error-message {
-            color: #f44336;
-            font-size: 0.85em;
-            margin-top: 5px;
-          }
-          
-          .field-info-message {
-            color: #2196F3;
-            font-size: 0.85em;
-            margin-top: 5px;
-          }
-          
-          input.invalid, select.invalid {
-            border-color: #f44336;
-            background-color: rgba(244, 67, 54, 0.05);
-          }
-          
-          .readonly-field-display {
-            background-color: transparent;
-            color: #495057;
-            border: 1px solid #e0e0e0;
-            padding: 12px 15px;
-            border-radius: 4px;
-            font-size: 14px;
-            min-height: 20px;
-            display: flex;
-            align-items: center;
-          }
-          
-          .readonly-field-display:empty::before {
-            content: "No hay datos registrados";
-            color: #6c757d;
-            font-style: italic;
-          }
-          
-          .fecha-hora-input-group {
-            position: relative;
-            display: flex;
-            align-items: center;
-          }
-          
-          .fecha-hora-status {
-            position: absolute;
-            right: 10px;
-            display: flex;
-            align-items: center;
-          }
-          
-          .fecha-hora-message {
-            margin-top: 5px;
-            font-size: 0.85em;
-          }
-          
-          input[type="datetime-local"].valid {
-            border-color: #4caf50;
-          }
-          
-          input[type="datetime-local"].invalid {
-            border-color: #f44336;
-          }
-          
-          .hora-input-group {
-            position: relative;
-            display: flex;
-            align-items: center;
-          }
-          
-          .hora-status {
-            position: absolute;
-            right: 10px;
-            display: flex;
-            align-items: center;
-          }
-          
-          .hora-message {
-            margin-top: 5px;
-            font-size: 0.85em;
-          }
-          
-          .invalid-message {
-            color: #f44336;
-          }
-          
-          .valid-message {
-            color: #4caf50;
-          }
-          
-          .valid-icon {
-            color: #4caf50;
-          }
-          
-          .invalid-icon {
-            color: #f44336;
-          }
-          
-          .warning-icon {
-            margin-right: 5px;
-          }
-          
-          .loading-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #666;
-            font-size: 0.9em;
-          }
-          
-          input:disabled, select:disabled {
-            background-color: #f5f5f5;
-            color: #999;
-            cursor: not-allowed;
-          }
-          
-          .validation-warning {
-            display: flex;
-            align-items: center;
-            color: #f44336;
-            font-size: 0.9em;
-            margin-top: 10px;
-          }
-        `}
-      </style>
+      <div className="cart-summary-card">
+        <div className="card-header">
+          <h2><FaShoppingCart className="cart-icon" /> Resumen del pedido</h2>
+        </div>
+        <div className="card-body">
+          <div className="cart-items">
+            {renderCartItems()}
+          </div>
+
+          <div className="cart-summary">
+            <div className="summary-item">
+              <span>Subtotal (sin I.V.A):</span>
+              <span>₡{subtotal.toLocaleString()}</span>
+            </div>
+            <div className="summary-item">
+              <span>I.V.A (13%):</span>
+              <span>₡{iva.toLocaleString()}</span>
+            </div>
+            <div className="summary-item total">
+              <span>Total a pagar:</span>
+              <span>₡{montoTotalPedido.toLocaleString()}</span>
+            </div>
+          </div>
+
+          <div className="submit-section">
+            <button
+              className="btn-submit"
+              onClick={handleSubmit}
+              disabled={isSubmitDisabled}
+            >
+              {status.loading ? (
+                <>
+                  <FaSpinner className="spinner" /> Procesando...
+                </>
+              ) : (
+                'Finalizar Pedido'
+              )}
+            </button>
+            {!cedulaValidation.isValid && cedulaValidation.wasChecked && (
+              <p className="validation-warning">
+                <FaTimes className="warning-icon" /> Debe ingresar una cédula válida para finalizar el pedido
+              </p>
+            )}
+            {!fechaHoraRetiroValidation.isValid && fechaHoraRetiroValidation.wasChecked && (
+              <p className="validation-warning">
+                <FaCalendarAlt className="warning-icon" /> Debe seleccionar una fecha y hora de retiro dentro del horario permitido
+              </p>
+            )}
+            {Object.keys(fieldValidations).some(key => !fieldValidations[key].isValid) && (
+              <p className="validation-warning">
+                <FaTimes className="warning-icon" /> Por favor, corrija los campos con errores antes de continuar
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
-  );
+
+    <Snackbar
+      open={snackbar.open}
+      autoHideDuration={6000}
+      onClose={handleCloseSnackbar}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    >
+      <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+        {snackbar.message}
+      </Alert>
+    </Snackbar>
+
+    <style>
+      {`
+        .read-only-field {
+          background-color: #f5f5f5;
+          border: 1px solid #ddd;
+          cursor: not-allowed;
+          color: #555;
+        }
+        .spinner {
+          animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .horario-info {
+          font-size: 0.8em;
+          color: #666;
+          font-weight: normal;
+        }
+        .field-error-message {
+          color: #f44336;
+          font-size: 0.85em;
+          margin-top: 5px;
+        }
+        input.invalid, select.invalid {
+          border-color: #f44336;
+          background-color: rgba(244, 67, 54, 0.05);
+        }
+        .fecha-hora-input-group {
+          position: relative;
+          display: flex;
+          align-items: center;
+        }
+        .fecha-hora-status {
+          position: absolute;
+          right: 10px;
+          display: flex;
+          align-items: center;
+        }
+        .fecha-hora-message {
+          margin-top: 5px;
+          font-size: 0.85em;
+        }
+        input[type="datetime-local"].valid {
+          border-color: #4caf50;
+        }
+        input[type="datetime-local"].invalid {
+          border-color: #f44336;
+        }
+        .invalid-message {
+          color: #f44336;
+        }
+        .valid-message {
+          color: #4caf50;
+        }
+        .valid-icon {
+          color: #4caf50;
+        }
+        .invalid-icon {
+          color: #f44336;
+        }
+        .warning-icon {
+          margin-right: 5px;
+        }
+      `}
+    </style>
+  </div>
+);
 }
 
 export default PedidoCrud;
