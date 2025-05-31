@@ -70,6 +70,10 @@ const ProductoApp = () => {
     cargarCategorias();
   }, []);
 
+    useEffect(() => {
+    setCurrentPage(1); // Reiniciar a la primera página cuando cambia el término de búsqueda
+  }, [search]);
+
   const cargarProductos = async () => {
     try {
       const response = await axios.get("http://localhost:8080/producto/", {
@@ -416,8 +420,11 @@ const ProductoApp = () => {
 
   const handleSearchChange = (e) => setSearch(e.target.value);
 
+ // Función de filtrado mejorada
   const filteredProductos = productos.filter((producto) =>
-    producto.nombreProducto.toLowerCase().includes(search.toLowerCase())
+    producto.nombreProducto.toLowerCase().includes(search.toLowerCase()) ||
+    producto.codigoProducto.toLowerCase().includes(search.toLowerCase()) ||
+    (producto.categoria?.nombreCategoria.toLowerCase().includes(search.toLowerCase()))
   );
 
   const totalPages = Math.ceil(filteredProductos.length / itemsPerPage);
@@ -448,16 +455,16 @@ const ProductoApp = () => {
           <FontAwesomeIcon icon={faUpload} className="me-2" />
           Agregar producto nuevo
         </Button>
-        <div className="producto-search-container">
-          <label>Buscar producto</label>
-          <input
-            type="text"
-            className="producto-search-input"
-            placeholder="Buscar producto por nombre"
-            value={search}
-            onChange={handleSearchChange}
-          />
-        </div>
+       <div className="producto-search-container">
+        <label>Buscar producto</label>
+        <input
+          type="text"
+          className="producto-search-input"
+          placeholder="Buscar por nombre, código o categoría"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
 
         <Modal
           show={showModal}
@@ -854,14 +861,14 @@ const ProductoApp = () => {
             </tbody>
           </table>
         </div>
-        <PaginacionApp
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-          onNextPage={handleNextPage}
-          onPreviousPage={handlePreviousPage}
-        />
-      </div>
+          <PaginacionApp
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        onNextPage={handleNextPage}
+        onPreviousPage={handlePreviousPage}
+      />
+    </div>
       <FooterApp />
     </div>
   );
