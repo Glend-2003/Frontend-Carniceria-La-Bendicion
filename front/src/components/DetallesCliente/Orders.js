@@ -572,6 +572,23 @@ const Orders = () => {
                             <div className="product-price">
                               ₡{(producto.montoPrecioProducto * producto.cantidadProducto).toLocaleString()}
                             </div>
+                            <div className="IVA-info">
+                              {(() => {
+                                // Si el tipo de peso es "unidad", usamos cantidadProducto, si no, usamos cantidadProducto * tipoPesoProducto (asumiendo que tipoPesoProducto es un número)
+                                let cantidad = producto.cantidadProducto;
+                                let peso = 1;
+                                if (producto.tipoPesoProducto !== 'unidad' && !isNaN(Number(producto.tipoPesoProducto))) {
+                                  peso = Number(producto.tipoPesoProducto);
+                                }
+                                const subtotal = producto.montoPrecioProducto * cantidad * peso;
+                                const iva = subtotal * 0.13;
+                                return (
+                                  <span>
+                                    IVA: ₡{iva.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                  </span>
+                                );
+                              })()}
+                            </div>
                           </div>
                         </div>
                       ))}
