@@ -12,8 +12,9 @@
     "@mui/material": "^6.4.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/user-event": "^14.4.3",
     "axios": "^1.7.7",
+    "axios-mock-adapter": "^1.21.4",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.8",
     "compressorjs": "^1.2.1",
@@ -40,7 +41,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
+    "test:integration": "jest tests/integration",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -62,6 +64,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
     "typescript": "^4.9.5"
   }
 }
