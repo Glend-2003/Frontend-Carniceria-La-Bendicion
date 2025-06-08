@@ -6,7 +6,7 @@ import MockAdapter from 'axios-mock-adapter';
 import TipoPagoApp from '../../src/components/TipoPago/TipoPagoApp';
 import '@testing-library/jest-dom';
 
-// Mocks simples
+// Mocks simples PRUEBAAAAA
 jest.mock('../../src/components/SideBar/SideBar', () => () => <div>SideBar</div>);
 jest.mock('../../src/components/Footer/FooterApp', () => () => <div>Footer</div>);
 jest.mock('../../src/hooks/useAuth', () => () => ({ usuario: { id: 1 } }));
