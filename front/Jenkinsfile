@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage('Instalar') {
             steps {
-                sh 'npm install'
+                bat 'npm install'  // Cambiado de 'sh' a 'bat' para Windows
             }
         }
         
         stage('Pruebas') {
             steps {
-                sh 'npm run test:integration -- --watchAll=false'
+                bat 'npm run test:integration -- --watchAll=false'  // Usa 'bat' en lugar de 'sh'
             }
         }
         
@@ -22,7 +22,7 @@ pipeline {
                 } 
             }
             steps {
-                sh 'npm run build'
+                bat 'npm run build'  // Cambiado a 'bat'
             }
         }
         
@@ -30,8 +30,9 @@ pipeline {
             when { branch 'main' }
             steps {
                 echo 'Desplegando a producción...'
-                // Aquí pones tu comando de deploy
-                // sh 'tu-comando-de-deploy'
+                // Ejemplo para Windows (puedes usar bat o powershell):
+                bat 'echo Realizando deploy...'
+                // Si usas un comando específico (ej: AWS, Firebase, etc.), ajústalo aquí.
             }
         }
     }
@@ -39,16 +40,16 @@ pipeline {
     post {
         success {
             emailext (
-                subject: '✅ Pruebas OK - TipoPago',
-                body: 'Las pruebas pasaron. Todo bien!',
-                to: 'tu-email@gmail.com'
+                subject: '✅ Pipeline Exitoso - TipoPago',
+                body: 'El pipeline se ejecutó correctamente en la rama ${env.BRANCH_NAME}.',
+                to: 'degutierrezh02@gmail.com'  // Email actualizado
             )
         }
         failure {
             emailext (
-                subject: '❌ Pruebas FALLAN - TipoPago',
-                body: 'Las pruebas fallaron. Revisar código.',
-                to: 'tu-email@gmail.com'
+                subject: '❌ Pipeline Fallido - TipoPago',
+                body: 'El pipeline falló en la rama ${env.BRANCH_NAME}. Revisar Jenkins: ${env.BUILD_URL}',
+                to: 'degutierrezh02@gmail.com'  // Email actualizado
             )
         }
     }
