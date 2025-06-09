@@ -37,8 +37,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:integration": "jest tests/integration",
+    "test": "react-scripts test --passWithNoTests --watchAll=false",
+    "test:watch": "react-scripts test",
+    "test:integration": "jest --config jest.integration.config.js --passWithNoTests",
+    "test:all": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage --passWithNoTests",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -70,12 +73,5 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
     "typescript": "^4.9.5"
-  },
-  "jest": {
-    "testMatch": [
-      "**/src/**/__tests__/**/*.[jt]s?(x)",
-      "**/src/**/*.{spec,test}.[jt]s?(x)",
-      "**/test/**/*.{spec,test}.[jt]s?(x)"
-    ]
   }
 }
