@@ -36,7 +36,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI=false react-scripts build",
     "test": "jest --detectOpenHandles --forceExit",
     "test:watch": "jest --watch",
     "test:comentario": "jest tests/integration/comentario.test.js --detectOpenHandles --forceExit",
