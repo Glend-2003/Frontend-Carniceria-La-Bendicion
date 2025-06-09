@@ -29,7 +29,7 @@ const TipoPagoApp = () => {
 
   const cargarTipoPago = async () => {
     try {
-      
+      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/tipopago/");
       setTipoPagos(response.data);
     } catch (error) {
       console.error("Error al cargar tipos de pago:", error);
