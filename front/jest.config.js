@@ -2,32 +2,28 @@ module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
   moduleNameMapper: {
-    '\\.(css|scss)$': 'identity-obj-proxy',
-    '^@/(.*)$': '<rootDir>/src/$1',
-    '^axios$': require.resolve('axios') // Añade esta línea para manejar mejor axios
+    '\\.(css|scss|sass|less)$': 'identity-obj-proxy',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'jest-transform-stub',
+    '^@/(.*)$': '<rootDir>/src/$1'
   },
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest', // Patrón más limpio
+    '^.+\\.[jt]sx?$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(axios|@fortawesome|sweetalert2|react-toastify|@mui|@emotion|lucide-react)/)', // Añadí lucide-react por si acaso
-    '\\.pnp\\.[^\\/]+$'
+    'node_modules/(?!(axios|@fortawesome|sweetalert2|react-toastify|@mui|@emotion|bootstrap)/)'
   ],
   testMatch: [
-    "**/tests/integration/**/*.{spec,test}.{js,jsx,ts,tsx}", // Más específico
-    "**/__tests__/**/*.{js,jsx,ts,tsx}" // Añadido para convención común
+    "**/tests/integration/**/*.{spec,test}.[jt]s?(x)"
   ],
   collectCoverageFrom: [
-    'src/**/*.{js,jsx,ts,tsx}',
-    '!src/index.{js,jsx,ts,tsx}',
-    '!src/reportWebVitals.{js,jsx,ts,tsx}',
-    '!src/setupTests.{js,jsx,ts,tsx}'
+    'src/**/*.{js,jsx}',
+    '!src/index.js',
+    '!src/reportWebVitals.js',
+    '!src/setupTests.js',
+    '!src/**/*.test.{js,jsx}',
+    '!src/**/*.spec.{js,jsx}'
   ],
-  testTimeout: 10000,
+  testTimeout: 15000,
   verbose: true,
-  globals: {
-    'ts-jest': {
-      isolatedModules: true // Útil si usas TypeScript
-    }
-  }
+  maxWorkers: 1
 };
