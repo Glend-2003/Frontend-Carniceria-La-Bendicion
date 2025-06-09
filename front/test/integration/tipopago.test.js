@@ -16,6 +16,20 @@ jest.mock('react-toastify', () => ({
   ToastContainer: () => null
 }));
 
+// Mock de react-router-dom
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => jest.fn(),
+  useLocation: () => ({
+    pathname: '/tipopago'
+  })
+}));
+
+// Mock de SweetAlert2
+jest.mock('sweetalert2', () => ({
+  fire: jest.fn().mockResolvedValue({ isConfirmed: true })
+}));
+
 describe('TipoPago - Integración', () => {
   let mockAxios;
   const API_URL = 'https://backend-carniceria-la-bendicion-qcvr.onrender.com';
@@ -26,6 +40,9 @@ describe('TipoPago - Integración', () => {
     mockAxios.onGet(`${API_URL}/tipopago/`).reply(200, [
       { idTipoPago: 1, descripcionTipoPago: 'Efectivo', estadoTipoPago: 1 }
     ]);
+    
+    // Limpiar mocks
+    jest.clearAllMocks();
   });
 
   afterEach(() => {
@@ -36,26 +53,39 @@ describe('TipoPago - Integración', () => {
   test('Debe agregar un nuevo tipo de pago', async () => {
     // Mock para agregar
     mockAxios.onPost(`${API_URL}/tipopago/agregar`).reply(201);
+    // Mock para recargar después de agregar
+    mockAxios.onGet(`${API_URL}/tipopago/`).reply(200, [
+      { idTipoPago: 1, descripcionTipoPago: 'Efectivo', estadoTipoPago: 1 },
+      { idTipoPago: 2, descripcionTipoPago: 'Tarjeta', estadoTipoPago: 1 }
+    ]);
 
     render(<TipoPagoApp />);
 
-    // Esperar carga
-    await waitFor(() => screen.getByText('Efectivo'));
+    // Esperar carga inicial
+    await waitFor(() => {
+      expect(screen.getByText('Efectivo')).toBeInTheDocument();
+    });
 
-    // Abrir modal
-    fireEvent.click(screen.getByText('Agregar nuevo tipo de pago'));
+    // Abrir modal de agregar
+    const addButton = screen.getByText('Agregar nuevo tipo de pago');
+    fireEvent.click(addButton);
 
     // Llenar formulario
-    const input = screen.getByPlaceholderText('Nombre del tipo de pago');
+    const input = await waitFor(() => 
+      screen.getByPlaceholderText('Nombre del tipo de pago')
+    );
     fireEvent.change(input, { target: { value: 'Tarjeta' } });
 
-    // Enviar
-    fireEvent.click(screen.getByText('Agregar'));
+    // Enviar formulario
+    const submitButton = screen.getByText('Agregar');
+    fireEvent.click(submitButton);
 
     // Verificar petición
     await waitFor(() => {
       expect(mockAxios.history.post).toHaveLength(1);
       expect(mockAxios.history.post[0].url).toBe(`${API_URL}/tipopago/agregar`);
+      const requestData = JSON.parse(mockAxios.history.post[0].data);
+      expect(requestData.descripcionTipoPago).toBe('Tarjeta');
     });
   });
 
@@ -63,39 +93,86 @@ describe('TipoPago - Integración', () => {
   test('No debe permitir tipos de pago duplicados', async () => {
     render(<TipoPagoApp />);
 
-    await waitFor(() => screen.getByText('Efectivo'));
+    // Esperar carga inicial
+    await waitFor(() => {
+      expect(screen.getByText('Efectivo')).toBeInTheDocument();
+    });
 
-    // Abrir modal
-    fireEvent.click(screen.getByText('Agregar nuevo tipo de pago'));
+    // Abrir modal de agregar
+    const addButton = screen.getByText('Agregar nuevo tipo de pago');
+    fireEvent.click(addButton);
 
     // Intentar agregar duplicado
-    const input = screen.getByPlaceholderText('Nombre del tipo de pago');
+    const input = await waitFor(() => 
+      screen.getByPlaceholderText('Nombre del tipo de pago')
+    );
     fireEvent.change(input, { target: { value: 'Efectivo' } });
 
-    fireEvent.click(screen.getByText('Agregar'));
+    const submitButton = screen.getByText('Agregar');
+    fireEvent.click(submitButton);
 
-    // No debe hacer petición
+    // Verificar que no se haga petición POST
     await waitFor(() => {
       expect(mockAxios.history.post).toHaveLength(0);
+    });
+
+    // Verificar que se muestre mensaje de error
+    await waitFor(() => {
+      expect(screen.getByText(/ya existe/i)).toBeInTheDocument();
     });
   });
 
   // PRUEBA 3: Cambiar estado
   test('Debe cambiar el estado de un tipo de pago', async () => {
     // Mock para cambio de estado
-    mockAxios.onPut(/\/tipopago\/activar\/\d+/).reply(200);
+    mockAxios.onPut(`${API_URL}/tipopago/activar/1`).reply(200);
+    // Mock para recargar después del cambio
+    mockAxios.onGet(`${API_URL}/tipopago/`).reply(200, [
+      { idTipoPago: 1, descripcionTipoPago: 'Efectivo', estadoTipoPago: 0 }
+    ]);
 
     render(<TipoPagoApp />);
 
-    await waitFor(() => screen.getByText('Efectivo'));
+    // Esperar carga inicial
+    await waitFor(() => {
+      expect(screen.getByText('Efectivo')).toBeInTheDocument();
+    });
 
-    // Hacer clic en botón de estado
-    fireEvent.click(screen.getByText('Activo'));
+    // Buscar y hacer clic en botón de estado
+    const stateButton = screen.getByText('Activo');
+    fireEvent.click(stateButton);
 
     // Verificar petición
     await waitFor(() => {
       expect(mockAxios.history.put).toHaveLength(1);
-      expect(mockAxios.history.put[0].url).toMatch(/\/tipopago\/activar\/\d+/);
+      expect(mockAxios.history.put[0].url).toBe(`${API_URL}/tipopago/activar/1`);
+    });
+  });
+
+  // PRUEBA 4: Cargar datos iniciales
+  test('Debe cargar y mostrar los tipos de pago iniciales', async () => {
+    render(<TipoPagoApp />);
+
+    // Verificar que se carguen los datos
+    await waitFor(() => {
+      expect(screen.getByText('Efectivo')).toBeInTheDocument();
+    });
+
+    // Verificar que se haya hecho la petición GET
+    expect(mockAxios.history.get).toHaveLength(1);
+    expect(mockAxios.history.get[0].url).toBe(`${API_URL}/tipopago/`);
+  });
+
+  // PRUEBA 5: Manejar errores de red
+  test('Debe manejar errores de red correctamente', async () => {
+    // Mock para error en carga inicial
+    mockAxios.onGet(`${API_URL}/tipopago/`).networkError();
+
+    render(<TipoPagoApp />);
+
+    // Verificar que se maneje el error
+    await waitFor(() => {
+      expect(mockAxios.history.get).toHaveLength(1);
     });
   });
 });

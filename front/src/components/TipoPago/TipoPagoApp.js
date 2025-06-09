@@ -74,7 +74,7 @@ const TipoPagoApp = () => {
         estadoTipoPago: 1,
       };
 
-      await axios.post("https://backend-carniceria-la-bendicion-qcvr.onrender.com/tipopago/agregar", tipoPagoData);
+
       toast.success("Tipo de pago agregado con éxito");
       cargarTipoPago();
       handleCloseModal();
