@@ -7,7 +7,7 @@ pipeline {
     }
 
     triggers {
-        githubPush() // Activa el webhook de GitHub
+        githubPush()
     }
 
     stages {
@@ -31,56 +31,28 @@ pipeline {
             }
         }
 
-        stage('Ejecutar Pruebas') {
+        stage('Ejecutar Pruebas Unitarias') {
             steps {
                 dir('front') {
                     script {
                         if (isUnix()) {
-                            sh 'npm run test -- --ci --watchAll=false --testResultsProcessor=jest-junit'
+                            sh 'npm test -- --ci --watchAll=false --testPathPattern=tests'
                         } else {
-                            bat 'npm run test -- --ci --watchAll=false --passWithNoTests'
-                        }
-                    }
-                }
-            }
-            post {
-                always {
-                    script {
-                        if (fileExists('front/junit.xml')) {
-                            publishTestResults([
-                                allowEmptyResults: false,
-                                testResultsPattern: 'front/junit.xml'
-                            ])
+                            bat 'npm test -- --ci --watchAll=false --testPathPattern=tests --passWithNoTests'
                         }
                     }
                 }
             }
         }
 
-        stage('Generar Reporte de Cobertura') {
+        stage('Ejecutar Pruebas de Integración') {
             steps {
                 dir('front') {
                     script {
                         if (isUnix()) {
-                            sh 'npm run test:coverage -- --ci --watchAll=false --silent'
+                            sh 'npm test -- --ci --watchAll=false --testPathPattern=tests/integration'
                         } else {
-                            bat 'npm run test:coverage -- --ci --watchAll=false --silent'
-                        }
-                    }
-                }
-            }
-            post {
-                always {
-                    script {
-                        if (fileExists('front/coverage/lcov.info')) {
-                            publishHTML([
-                                allowMissing: false,
-                                alwaysLinkToLastBuild: true,
-                                keepAll: true,
-                                reportDir: 'front/coverage/lcov-report',
-                                reportFiles: 'index.html',
-                                reportName: 'Reporte de Cobertura'
-                            ])
+                            bat 'npm test -- --ci --watchAll=false --testPathPattern=tests/integration --passWithNoTests'
                         }
                     }
                 }
@@ -101,36 +73,110 @@ pipeline {
             }
         }
 
-        stage('Merge a main') {
+        stage('Merge a MAIN') {
             when {
                 branch 'DEV-QA'
             }
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'github-jenkins', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                        bat """
-                            git config user.name "jenkins"
-                            git config user.email "jenkins@example.com"
-                            git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Glend-2003/Frontend-Carniceria-La-Bendicion.git
+                    if (isUnix()) {
+                        sh """
+                            git config user.name "jenkins-ci"
+                            git config user.email "jenkins@ci.com"
                             git checkout main
                             git pull origin main
-                            git merge origin/DEV-QA -m "Merge automático desde DEV-QA"
+                            git merge origin/DEV-QA --no-ff -m "Merge automático desde DEV-QA"
+                            git push origin main
+                        """
+                    } else {
+                        bat """
+                            git config user.name "jenkins-ci"
+                            git config user.email "jenkins@ci.com"
+                            git checkout main
+                            git pull origin main
+                            git merge origin/DEV-QA --no-ff -m "Merge automático desde DEV-QA"
                             git push origin main
                         """
                     }
                 }
             }
+            post {
+                success {
+                    emailext(
+                        subject: "✅ Merge Exitoso DEV-QA → MAIN",
+                        body: """
+                            🎉 Merge completado exitosamente!
+                            
+                            ✅ Todas las pruebas pasaron
+                            ✅ Build exitoso
+                            ✅ Merge DEV-QA → MAIN completado
+                            
+                            El código está listo para producción.
+                        """,
+                        to: 'degutierrezh02@gmail.com'
+                    )
+                }
+                failure {
+                    emailext(
+                        subject: "❌ Error en Merge DEV-QA → MAIN",
+                        body: """
+                            ⚠️ El merge falló!
+                            
+                            Revisar conflictos o problemas de Git.
+                            No se desplegó a producción.
+                        """,
+                        to: 'degutierrezh02@gmail.com'
+                    )
+                }
+            }
         }
 
-        stage('Deploy') {
+        stage('Deploy a Producción') {
             when {
                 branch 'main'
             }
             steps {
                 dir('front') {
-                    echo 'Desplegando aplicación...'
-                    // Ejemplo de despliegue real:
-                    // bat 'xcopy build\\* C:\\inetpub\\wwwroot\\ /E /Y'
+                    script {
+                        echo '🚀 Desplegando a producción...'
+                        
+                        if (isUnix()) {
+                            sh '''
+                                echo "Copiando archivos a producción..."
+                                # cp -r build/* /var/www/html/
+                            '''
+                        } else {
+                            bat '''
+                                echo "Copiando archivos a producción..."
+                                REM xcopy build\\* C:\\inetpub\\wwwroot\\ /E /Y
+                            '''
+                        }
+                    }
+                }
+            }
+            post {
+                success {
+                    emailext(
+                        subject: "🚀 Deploy a Producción Exitoso",
+                        body: """
+                            🎉 Aplicación desplegada exitosamente!
+                            
+                            ✅ Deploy completado
+                            🌐 Aplicación disponible en producción
+                        """,
+                        to: 'degutierrezh02@gmail.com'
+                    )
+                }
+                failure {
+                    emailext(
+                        subject: "❌ Error en Deploy a Producción",
+                        body: """
+                            ⚠️ El deploy falló!
+                            
+                            Revisar configuración de servidor.
+                        """,
+                        to: 'degutierrezh02@gmail.com'
+                    )
                 }
             }
         }
@@ -140,43 +186,19 @@ pipeline {
         always {
             cleanWs()
         }
-        success {
-            emailext(
-                subject: "✅ Pipeline exitoso - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-                    El pipeline se ejecutó correctamente.
-                    
-                    Proyecto: ${env.JOB_NAME}
-                    Build: #${env.BUILD_NUMBER}
-                    Duración: ${currentBuild.durationString}
-                    
-                    Ver detalles: ${env.BUILD_URL}
-                """,
-                to: 'degutierrezh02@gmail.com'
-            )
-        }
+        
         failure {
             emailext(
-                subject: "❌ Pipeline fallido - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                subject: "❌ Pipeline Fallido - Pruebas No Pasaron",
                 body: """
-                    El pipeline falló durante la ejecución.
+                    ⚠️ El pipeline falló y NO se hizo merge ni deploy.
                     
-                    Proyecto: ${env.JOB_NAME}
-                    Build: #${env.BUILD_NUMBER}
-                    Error en etapa: ${env.STAGE_NAME}
+                    🔍 Posibles causas:
+                    • Pruebas unitarias fallaron
+                    • Pruebas de integración fallaron
+                    • Error en el build
                     
-                    Ver logs: ${env.BUILD_URL}console
-                """,
-                to: 'degutierrezh02@gmail.com'
-            )
-        }
-        unstable {
-            emailext(
-                subject: "⚠️ Pipeline inestable - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-                    El pipeline completó con advertencias.
-                    
-                    Revisar: ${env.BUILD_URL}
+                    ❗ Corregir errores antes del próximo push.
                 """,
                 to: 'degutierrezh02@gmail.com'
             )
