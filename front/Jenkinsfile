@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Instalar') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        
+        stage('Pruebas') {
+            steps {
+                sh 'npm run test:integration -- --watchAll=false'
+            }
+        }
+        
+        stage('Build') {
+            when { 
+                anyOf { 
+                    branch 'main'
+                    branch 'DEV-QA' 
+                } 
+            }
+            steps {
+                sh 'npm run build'
+            }
+        }
+        
+        stage('Deploy') {
+            when { branch 'main' }
+            steps {
+                echo 'Desplegando a producción...'
+                // Aquí pones tu comando de deploy
+                // sh 'tu-comando-de-deploy'
+            }
+        }
+    }
+    
+    post {
+        success {
+            emailext (
+                subject: '✅ Pruebas OK - TipoPago',
+                body: 'Las pruebas pasaron. Todo bien!',
+                to: 'tu-email@gmail.com'
+            )
+        }
+        failure {
+            emailext (
+                subject: '❌ Pruebas FALLAN - TipoPago',
+                body: 'Las pruebas fallaron. Revisar código.',
+                to: 'tu-email@gmail.com'
+            )
+        }
+    }
+}
