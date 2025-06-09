@@ -1,55 +1,53 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Instalar') {
             steps {
-                bat 'npm install'  // Cambiado de 'sh' a 'bat' para Windows
+                dir('front') {
+                    bat 'npm install'
+                }
             }
         }
-        
+
         stage('Pruebas') {
             steps {
-                bat 'npm run test:integration -- --watchAll=false'  // Usa 'bat' en lugar de 'sh'
+                dir('front') {
+                    bat 'npm run test'
+                }
             }
         }
-        
+
         stage('Build') {
-            when { 
-                anyOf { 
-                    branch 'main'
-                    branch 'DEV-QA' 
-                } 
-            }
             steps {
-                bat 'npm run build'  // Cambiado a 'bat'
+                dir('front') {
+                    bat 'npm run build'
+                }
             }
         }
-        
+
         stage('Deploy') {
-            when { branch 'main' }
             steps {
-                echo 'Desplegando a producción...'
-                // Ejemplo para Windows (puedes usar bat o powershell):
-                bat 'echo Realizando deploy...'
-                // Si usas un comando específico (ej: AWS, Firebase, etc.), ajústalo aquí.
+                dir('front') {
+                    // Aquí tu comando de despliegue
+                }
             }
         }
     }
-    
+
     post {
         success {
-            emailext (
-                subject: '✅ Pipeline Exitoso - TipoPago',
-                body: 'El pipeline se ejecutó correctamente en la rama ${env.BRANCH_NAME}.',
-                to: 'degutierrezh02@gmail.com'  // Email actualizado
+            emailext(
+                subject: '✅ Pipeline exitoso',
+                body: 'El pipeline se ejecutó correctamente.',
+                to: 'degutierrezh02@gmail.com'
             )
         }
         failure {
-            emailext (
-                subject: '❌ Pipeline Fallido - TipoPago',
-                body: 'El pipeline falló en la rama ${env.BRANCH_NAME}. Revisar Jenkins: ${env.BUILD_URL}',
-                to: 'degutierrezh02@gmail.com'  // Email actualizado
+            emailext(
+                subject: '❌ Pipeline fallido',
+                body: 'El pipeline falló en la etapa de instalación o posterior.',
+                to: 'degutierrezh02@gmail.com'
             )
         }
     }
