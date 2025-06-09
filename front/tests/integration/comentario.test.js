@@ -116,7 +116,7 @@ describe('Comentario - Pruebas Básicas', () => {
     });
 
     // Buscar y hacer clic en el botón de estado "Visible"
-    const stateButton = screen.getByText('Visible');
+    const stateButton = screen.getByText('Oculto');
     fireEvent.click(stateButton);
 
     // Verificar que se hizo la petición PUT
