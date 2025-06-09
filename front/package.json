@@ -37,11 +37,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --passWithNoTests --watchAll=false",
-    "test:watch": "react-scripts test",
-    "test:integration": "jest --config jest.integration.config.js --passWithNoTests",
-    "test:all": "jest --passWithNoTests",
-    "test:coverage": "jest --coverage --passWithNoTests",
+    "test": "react-scripts test",
+    "test:tipopago": "react-scripts test src/test/integration/tipopago.test.js --watchAll=false",
+    "test:integration": "jest --config jest.integration.config.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
