@@ -58,7 +58,7 @@ describe('Comentario - Pruebas Básicas', () => {
     mockAxios.onGet('https://backend-carniceria-la-bendicion-qcvr.onrender.com/comentario/admin').reply(200, [
       { 
         idComentario: 1, 
-        descripcionComentario: 'Excelente servicio', 
+        
         numCalificacion: 5,
         fechaComentario: '2024-01-01T10:00:00.000Z',
         correoUsuario: 'test@example.com',
