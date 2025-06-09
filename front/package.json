@@ -39,6 +39,7 @@
     "build": "react-scripts build",
     "test": "jest --detectOpenHandles --forceExit",
     "test:watch": "jest --watch",
+    "test:comentario": "jest tests/integration/comentario.test.js --detectOpenHandles --forceExit",
     "test:integration": "jest --config jest.integration.config.js --passWithNoTests",
     "test:all": "jest --passWithNoTests",
     "test:coverage": "jest --coverage --passWithNoTests",
