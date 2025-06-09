@@ -6,6 +6,10 @@ pipeline {
         retry(1)
     }
 
+    triggers {
+        githubPush() // Activa el webhook de GitHub
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -41,7 +45,6 @@ pipeline {
             }
             post {
                 always {
-                    // Publicar resultados de pruebas si existen
                     script {
                         if (fileExists('front/junit.xml')) {
                             publishTestResults([
@@ -68,7 +71,6 @@ pipeline {
             }
             post {
                 always {
-                    // Publicar cobertura si existe
                     script {
                         if (fileExists('front/coverage/lcov.info')) {
                             publishHTML([
@@ -99,6 +101,27 @@ pipeline {
             }
         }
 
+        stage('Merge a main') {
+            when {
+                branch 'DEV-QA'
+            }
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'github-jenkins', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                        bat """
+                            git config user.name "jenkins"
+                            git config user.email "jenkins@example.com"
+                            git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Glend-2003/Frontend-Carniceria-La-Bendicion.git
+                            git checkout main
+                            git pull origin main
+                            git merge origin/DEV-QA -m "Merge automático desde DEV-QA"
+                            git push origin main
+                        """
+                    }
+                }
+            }
+        }
+
         stage('Deploy') {
             when {
                 branch 'main'
@@ -106,8 +129,8 @@ pipeline {
             steps {
                 dir('front') {
                     echo 'Desplegando aplicación...'
-                    // Aquí tu comando de despliegue específico
-                    // Ejemplo: bat 'xcopy build\\* C:\\inetpub\\wwwroot\\ /E /Y'
+                    // Ejemplo de despliegue real:
+                    // bat 'xcopy build\\* C:\\inetpub\\wwwroot\\ /E /Y'
                 }
             }
         }
@@ -115,7 +138,6 @@ pipeline {
 
     post {
         always {
-            // Limpiar workspace
             cleanWs()
         }
         success {
