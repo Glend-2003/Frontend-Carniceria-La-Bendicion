@@ -39,10 +39,13 @@
     "build": "CI=false react-scripts build",
     "test": "jest --detectOpenHandles --forceExit",
     "test:watch": "jest --watch",
+    "test:tipopago": "jest tests/integration/tipopago.test.js --detectOpenHandles --forceExit",
+    "test:categoria": "jest tests/integration/categoria.test.js --detectOpenHandles --forceExit",
     "test:comentario": "jest tests/integration/comentario.test.js --detectOpenHandles --forceExit",
-    "test:integration": "jest --config jest.integration.config.js --passWithNoTests",
+    "test:registrar": "jest tests/integration/registrar.test.js --detectOpenHandles --forceExit",
+    "test:integration": "jest tests/integration --detectOpenHandles --forceExit",
     "test:all": "jest --passWithNoTests",
-    "test:coverage": "jest --coverage --passWithNoTests",
+    "test:coverage": "jest --coverage --detectOpenHandles --forceExit",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

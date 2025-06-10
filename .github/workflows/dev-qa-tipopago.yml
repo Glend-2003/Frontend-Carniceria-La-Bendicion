@@ -1,205 +1,51 @@
-name: Tests de integración TipoPago - DEV-QA
+name: Tests de integración - DEV-QA
 
 on:
   push:
     branches:
       - DEV-QA
-    paths:
-      - 'src/components/TipoPago/**'
-      - 'tests/integration/tipopago.test.js'
-      - '.github/workflows/dev-qa-tipopago.yml'
-      - 'package.json'
-      - 'yarn.lock'
-      - 'package-lock.json'
+      - main
   pull_request:
     branches:
       - DEV-QA
-    paths:
-      - 'src/components/TipoPago/**'
-      - 'tests/integration/tipopago.test.js'
-      - '.github/workflows/dev-qa-tipopago.yml'
-      - 'package.json'
-      - 'yarn.lock'
-      - 'package-lock.json'
+      - main
 
 jobs:
   test:
-    name: Ejecutar pruebas de integración TipoPago
+    name: Ejecutar pruebas
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
 
     steps:
       - name: Checkout del código
         uses: actions/checkout@v4
 
-      - name: Configurar Node.js ${{ matrix.node-version }}
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '18'
           cache: 'npm'
 
       - name: Instalar dependencias
-        run: |
-          if [ -f yarn.lock ]; then
-            yarn install --frozen-lockfile
-          else
-            npm ci
-          fi
+        run: npm ci
 
-      - name: Ejecutar linter
-        run: |
-          if [ -f yarn.lock ]; then
-            yarn lint
-          else
-            npm run lint
-          fi
+      - name: Ejecutar pruebas de TipoPago
+        run: npm run test:tipopago
 
-      - name: Ejecutar pruebas unitarias
-        run: |
-          if [ -f yarn.lock ]; then
-            yarn test:unit
-          else
-            npm run test:unit
-          fi
+      - name: Ejecutar pruebas de Categoria
+        run: npm run test:categoria
 
-      - name: Ejecutar pruebas de integración TipoPago
-        run: |
-          if [ -f yarn.lock ]; then
-            yarn test tests/integration/tipopago.test.js -- --coverage
-          else
-            npm test -- tests/integration/tipopago.test.js --coverage
-          fi
+      - name: Ejecutar pruebas de Comentario
+        run: npm run test:comentario
+
+      - name: Ejecutar pruebas de Registrar
+        run: npm run test:registrar
 
       - name: Generar reporte de cobertura
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage/lcov.info
-          flags: integration-tests
-          name: tipopago-coverage
+        run: npm run test:coverage
 
-      - name: Subir resultados de pruebas
-        if: always()
+      - name: Subir reporte de cobertura
         uses: actions/upload-artifact@v3
+        if: always()
         with:
-          name: test-results-${{ matrix.node-version }}
-          path: |
-            coverage/
-            test-results/
-
-      - name: Comentar resultados en PR
-        if: github.event_name == 'pull_request' && always()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const coverage = JSON.parse(fs.readFileSync('./coverage/coverage-summary.json', 'utf8'));
-            const total = coverage.total;
-            
-            const comment = `
-            ## 📊 Resultados de Pruebas - TipoPago
-            
-            ### Cobertura de Código:
-            - **Líneas**: ${total.lines.pct}%
-            - **Funciones**: ${total.functions.pct}%
-            - **Ramas**: ${total.branches.pct}%
-            - **Declaraciones**: ${total.statements.pct}%
-            
-            ✅ Todas las pruebas pasaron exitosamente.
-            `;
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: comment
-            });
-
-  performance:
-    name: Pruebas de rendimiento
-    runs-on: ubuntu-latest
-    needs: test
-    
-    steps:
-      - name: Checkout del código
-        uses: actions/checkout@v4
-        
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          
-      - name: Instalar dependencias
-        run: npm ci
-        
-      - name: Build de producción
-        run: npm run build
-        
-      - name: Analizar bundle
-        run: |
-          npm install -g webpack-bundle-analyzer
-          npx webpack-bundle-analyzer build/static/js/*.js --mode static --report bundle-report.html
-          
-      - name: Lighthouse CI
-        uses: treosh/lighthouse-ci-action@v10
-        with:
-          urls: |
-            http://localhost:3000
-          uploadArtifacts: true
-          temporaryPublicStorage: true
-
-  security:
-    name: Análisis de seguridad
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout del código
-        uses: actions/checkout@v4
-        
-      - name: Ejecutar audit de seguridad
-        run: |
-          if [ -f yarn.lock ]; then
-            yarn audit --level moderate
-          else
-            npm audit --audit-level=moderate
-          fi
-          
-      - name: Análisis SAST con Semgrep
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: >-
-            p/security-audit
-            p/react
-
-  deploy-preview:
-    name: Deploy Preview
-    runs-on: ubuntu-latest
-    needs: [test, performance, security]
-    if: github.event_name == 'pull_request'
-    
-    steps:
-      - name: Checkout del código
-        uses: actions/checkout@v4
-        
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          
-      - name: Instalar y construir
-        run: |
-          npm ci
-          npm run build
-          
-      - name: Deploy a Vercel Preview
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          zeit-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-args: '--prod'
-          vercel-org-id: ${{ secrets.ORG_ID}}
-          vercel-project-id: ${{ secrets.PROJECT_ID}}
+          name: coverage-report
+          path: coverage/
