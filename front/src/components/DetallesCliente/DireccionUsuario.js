@@ -292,9 +292,6 @@ const DireccionUsuario = () => {
         <SideBarUsuario usuario={usuario} handleLogout={handleLogout} />
 
         <div className="profile-content">
-          <div className="profile-header">
-            <h2>Mi Dirección</h2>
-          </div>
 
           <div className="profile-card">
             <div className="card-header">

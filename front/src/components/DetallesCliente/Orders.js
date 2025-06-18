@@ -415,7 +415,6 @@ const Orders = () => {
 
         <div className="orders-content">
           <div className="orders-header">
-            <h2 className="orders-title">Mis Pedidos</h2>
             <button 
               className={`filter-button ${showFilters ? 'active' : ''}`}
               onClick={() => setShowFilters(!showFilters)}

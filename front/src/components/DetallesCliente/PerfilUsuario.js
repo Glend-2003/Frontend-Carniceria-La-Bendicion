@@ -233,9 +233,6 @@ const handleSubmit = async (e) => {
         <SideBarUsuario usuario={usuario} handleLogout={handleLogout} />
 
         <div className="profile-content">
-          <div className="profile-header">
-            <h2>Mi Perfil</h2>
-          </div>
 
           <div className="profile-card">
             <div className="card-header">
