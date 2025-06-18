@@ -60,7 +60,7 @@ const Resena = () => {
         return;
       }
       
-      const response = await fetch(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/obtenerPorId/${userId}`);
+      const response = await fetch(`http://localhost:8080/usuario/obtenerPorId/${userId}`);
       
       if (!response.ok) {
         throw new Error("Error al obtener datos del usuario");
@@ -87,7 +87,7 @@ const Resena = () => {
   const fetchComentarios = async () => {
     try {
       setLoading(true);
-      const response = await fetch("https://backend-carniceria-la-bendicion-qcvr.onrender.com/comentario/usuario");
+      const response = await fetch("http://localhost:8080/comentario/usuario");
       if (!response.ok) {
         throw new Error("Error al cargar los comentarios");
       }
@@ -133,7 +133,7 @@ const Resena = () => {
         usuario: usuarioActual || { idUsuario: parseInt(userId) }
       };
 
-      const response = await fetch("https://backend-carniceria-la-bendicion-qcvr.onrender.com/comentario/agregar", {
+      const response = await fetch("http://localhost:8080/comentario/agregar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

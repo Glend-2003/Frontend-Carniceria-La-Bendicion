@@ -88,7 +88,7 @@ const PedidosApp = () => {
     try {
       setLoading(true);
       setRefreshing(true);
-      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/pedido/");
+      const response = await axios.get("http://localhost:8080/pedido/");
 
       const sortedPedidos = response.data.sort((a, b) =>
         new Date(b.fechaPedido) - new Date(a.fechaPedido)
@@ -118,7 +118,7 @@ const PedidosApp = () => {
 
   const fetchTiposPago = async () => {
     try {
-      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/tipopago/");
+      const response = await axios.get("http://localhost:8080/tipopago/");
       setTiposPago(response.data);
     } catch (err) {
       console.error("Error fetching tipos de pago:", err);
@@ -164,7 +164,7 @@ const PedidosApp = () => {
     try {
       setLoading(true);
 
-      let url = `https://backend-carniceria-la-bendicion-qcvr.onrender.com/pedido/filtrar?idUsuario=0`;
+      let url = `http://localhost:8080/pedido/filtrar?idUsuario=0`;
 
       const filtrandoEntregados = filterStatus === "Entregado";
 
@@ -271,7 +271,7 @@ const PedidosApp = () => {
 
     try {
       await axios.post(
-        `https://backend-carniceria-la-bendicion-qcvr.onrender.com/pedido/actualizar`,
+        `http://localhost:8080/pedido/actualizar`,
         editFormData
       );
 
@@ -322,7 +322,7 @@ const PedidosApp = () => {
       const correoCliente = pedidoActual?.carrito?.usuario?.correoUsuario || '';
 
       await axios.put(
-        `https://backend-carniceria-la-bendicion-qcvr.onrender.com/pedido/actualizarEstadoPedido/${pedidoId}`,
+        `http://localhost:8080/pedido/actualizarEstadoPedido/${pedidoId}`,
         null,
         {
           params: {

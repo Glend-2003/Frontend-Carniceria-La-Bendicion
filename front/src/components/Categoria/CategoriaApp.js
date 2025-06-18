@@ -34,7 +34,7 @@ const CategoriaApp = () => {
 
   const cargarCategorias = async () => {
     try {
-      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/categoria/", {
+      const response = await axios.get("http://localhost:8080/categoria/", {
         params: { estadoCategoria: 0 }
       });
       setCategorias(response.data);
@@ -75,7 +75,7 @@ const CategoriaApp = () => {
     }
 
     try {
-      await axios.post("https://backend-carniceria-la-bendicion-qcvr.onrender.com/categoria/agregar", {
+      await axios.post("http://localhost:8080/categoria/agregar", {
         nombreCategoria: nombreCategoria.trim(),
         descripcionCategoria: descripcionCategoria.trim(),
       });
@@ -127,7 +127,7 @@ const CategoriaApp = () => {
 
       if (!isConfirmed) return;
       
-      await axios.put("https://backend-carniceria-la-bendicion-qcvr.onrender.com/categoria/actualizar", {
+      await axios.put("http://localhost:8080/categoria/actualizar", {
         idCategoria: categoriaEdit.idCategoria,
         nombreCategoria: nombreCategoria.trim(),
         descripcionCategoria: descripcionCategoria.trim(),
@@ -168,7 +168,7 @@ const CategoriaApp = () => {
 
       if (!isConfirmed) return;
 
-      await axios.delete(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/categoria/eliminar/${id}`);
+      await axios.delete(`http://localhost:8080/categoria/eliminar/${id}`);
       toast.success("Categoría eliminada con éxito");
       await cargarCategorias();
     } catch (error) {
@@ -179,7 +179,7 @@ const CategoriaApp = () => {
 
   const activarDesactivarCategoria = async (id) => {
     try {
-      await axios.put(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/categoria/activar/${id}`);
+      await axios.put(`http://localhost:8080/categoria/activar/${id}`);
       toast.success("Cambio realizado con éxito.");
       await cargarCategorias();
     } catch (error) {

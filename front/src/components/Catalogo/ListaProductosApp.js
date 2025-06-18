@@ -63,7 +63,7 @@ function ListaProductosApp({ categoria }) {
     const fetchProductos = async () => {
       try {
         setLoading(true);
-                const response = await axios.get('https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/', { 
+                const response = await axios.get('http://localhost:8080/producto/', { 
           params: { estadoProducto: 1 } 
         });
         setProductos(response.data);
@@ -91,7 +91,7 @@ function ListaProductosApp({ categoria }) {
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-             const response = await axios.get(' https://backend-carniceria-la-bendicion-qcvr.onrender.com/categoria/', {
+             const response = await axios.get('http://localhost:8080/categoria/', {
           params: { estadoCategoria: 1 }
         });
         setCategorias(response.data);

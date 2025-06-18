@@ -15,7 +15,7 @@ function CarritoApp({showCart, handleShowCart, cart, removeFromCart }) {
               <ListGroup.Item key={index}>
                 {item.imgProducto ? (
                   <img
-                    src={`https://backend-carniceria-la-bendicion-qcvr.onrender.com/producto/images/${item.imgProducto}`}
+                    src={`http://localhost:8080/producto/images/${item.imgProducto}`}
                     alt={item.imgProducto}
                     width="50"
                   />

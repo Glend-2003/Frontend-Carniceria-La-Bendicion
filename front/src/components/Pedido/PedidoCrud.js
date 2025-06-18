@@ -68,7 +68,7 @@ function PedidoCrud() {
   const fetchUserData = async (userId) => {
     try {
       setUserDataLoading(true);
-      const response = await axios.get(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/obtenerPorId/${userId}`);
+      const response = await axios.get(`http://localhost:8080/usuario/obtenerPorId/${userId}`);
       
       if (response.data) {
         const userData = response.data;
@@ -154,7 +154,7 @@ function PedidoCrud() {
 
     const fetchTiposPago = async () => {
       try {
-        const response = await axios.get('https://backend-carniceria-la-bendicion-qcvr.onrender.com/tipopago/');
+        const response = await axios.get('http://localhost:8080/tipopago/');
         setTiposPago(response.data);
 
         if (response.data && response.data.length > 0) {
@@ -182,7 +182,7 @@ function PedidoCrud() {
         const idUsuario = localStorage.getItem("idUsuario");
         if (idUsuario) {
           // Opcional: Podrías hacer una llamada a la API para obtener más datos del usuario
-          const response = await axios.get(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/${idUsuario}`);
+          const response = await axios.get(`http://localhost:8080/usuario/${idUsuario}`);
           const userData = response.data;
           
           setFormData(prev => ({
@@ -483,7 +483,7 @@ function PedidoCrud() {
         cantidadCarrito: cart.length
       };
 
-      const carritoResponse = await axios.post('https://backend-carniceria-la-bendicion-qcvr.onrender.com/carrito', carritoData);
+      const carritoResponse = await axios.post('http://localhost:8080/carrito', carritoData);
       const idCarrito = carritoResponse.data.idCarrito;
 
       for (const item of cart) {
@@ -495,13 +495,13 @@ function PedidoCrud() {
           cantidadProducto: item.cantidad
         };
 
-        await axios.post(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/carrito/${idCarrito}/productos`, productoCarrito);
+        await axios.post(`http://localhost:8080/carrito/${idCarrito}/productos`, productoCarrito);
       }
 
       await new Promise(resolve => setTimeout(resolve, 3000));
 
       try {
-        await axios.get(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/carrito/usuario/${idUsuario}`);
+        await axios.get(`http://localhost:8080/carrito/usuario/${idUsuario}`);
       } catch (verifyError) {
       }
 
@@ -541,9 +541,9 @@ function PedidoCrud() {
         estadoEntregaPedido: "Pendiente"
       };
 
-      await axios.post('https://backend-carniceria-la-bendicion-qcvr.onrender.com/pedido/agregar', pedidoData);
+      await axios.post('http://localhost:8080/pedido/agregar', pedidoData);
 
-      await axios.put(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/carrito/${idCarrito}`, {
+      await axios.put(`http://localhost:8080/carrito/${idCarrito}`, {
         usuario: {
           idUsuario: parseInt(idUsuario, 10)
         },

@@ -92,7 +92,7 @@ const AuthOffcanvas = () => {
 
     setIsLoading(true);
     try {
-      const response = await axios.post("https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/login", loginData);
+      const response = await axios.post("http://localhost:8080/usuario/login", loginData);
       setIsLoading(false);
 
       if (response.data.token) {
@@ -140,7 +140,7 @@ const AuthOffcanvas = () => {
 
     setIsLoading(true);
     try {
-      const response = await axios.post("https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/verificarCambioContrasena", {
+      const response = await axios.post("http://localhost:8080/usuario/verificarCambioContrasena", {
         correoUsuario: loginData.correoUsuario,
       });
       if (response.status === 200) {

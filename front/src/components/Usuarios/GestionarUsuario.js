@@ -76,7 +76,7 @@ const GestionarUsuario = () => {
 
   const cargarUsuarios = async () => {
     try {
-      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/");
+      const response = await axios.get("http://localhost:8080/usuario/");
       setUsers(response.data);
     } catch (error) {
       console.error("Error al cargar los usuarios:", error);
@@ -86,7 +86,7 @@ const GestionarUsuario = () => {
 
   const cargarRoles = async () => {
     try {
-      const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/rol/");
+      const response = await axios.get("http://localhost:8080/rol/");
       setRoles(response.data);
     } catch (error) {
       console.error("Error al cargar los roles:", error);
@@ -393,10 +393,10 @@ const GestionarUsuario = () => {
 
     try {
       if (userEdit?.idUsuario) {
-        await axios.put("https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/actualizar", userData);
+        await axios.put("http://localhost:8080/usuario/actualizar", userData);
         toast.success("Usuario actualizado con éxito");
       } else {
-        await axios.post("https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/registrar", userData);
+        await axios.post("http://localhost:8080/usuario/registrar", userData);
         toast.success("Usuario agregado con éxito");
       }
       cargarUsuarios();
@@ -431,7 +431,7 @@ const GestionarUsuario = () => {
     if (!isConfirmed) return;
 
     try {
-      await axios.delete(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/eliminar/${idUsuario}`);
+      await axios.delete(`http://localhost:8080/usuario/eliminar/${idUsuario}`);
       toast.success("Usuario eliminado con éxito");
       cargarUsuarios();
     } catch (error) {
@@ -442,7 +442,7 @@ const GestionarUsuario = () => {
 
   const activarDesactivarUsuario = async (id) => {
     try {
-      await axios.put(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/activar/${id}`);
+      await axios.put(`http://localhost:8080/usuario/activar/${id}`);
       toast.success("Cambio realizado con éxito.");
       cargarUsuarios();
     } catch (error) {

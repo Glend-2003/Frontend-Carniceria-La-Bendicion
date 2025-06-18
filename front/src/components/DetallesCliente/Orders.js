@@ -188,10 +188,10 @@ const Orders = () => {
     try {
       setLoading(true);
       
-      let url = `https://backend-carniceria-la-bendicion-qcvr.onrender.com/pedido/usuario/${idUsuario}`;
+      let url = `http://localhost:8080/pedido/usuario/${idUsuario}`;
       
       if (Object.keys(filters).length > 0) {
-        url = `https://backend-carniceria-la-bendicion-qcvr.onrender.com/pedido/filtrar?idUsuario=${idUsuario}`;
+        url = `http://localhost:8080/pedido/filtrar?idUsuario=${idUsuario}`;
         
         if (filters.estadoEntrega) {
           url += `&estadoEntrega=${encodeURIComponent(filters.estadoEntrega)}`;
@@ -310,7 +310,7 @@ const Orders = () => {
     if (!pedidoACancelar) return;
     
     try {
-      await axios.delete(`https://backend-carniceria-la-bendicion-qcvr.onrender.com/pedido/eliminar/${pedidoACancelar}`);
+      await axios.delete(`http://localhost:8080/pedido/eliminar/${pedidoACancelar}`);
       showSnackbar("Pedido cancelado con éxito. Se notificará a la carnicería.", "success");
 
       await crearNotificacion(usuario.idUsuario);
@@ -326,7 +326,7 @@ const Orders = () => {
 
   const crearNotificacion = async (idUsuario) => {
     try {
-      const response = await axios.post("https://backend-carniceria-la-bendicion-qcvr.onrender.com/notificacion/agregar", {
+      const response = await axios.post("http://localhost:8080/notificacion/agregar", {
         idUsuario: {
           idUsuario: idUsuario
         }

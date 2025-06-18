@@ -236,7 +236,7 @@ const Registrar = () => {
     };
 
     axios
-      .post("https://backend-carniceria-la-bendicion-qcvr.onrender.com/usuario/registrar", registroData)
+      .post("http://localhost:8080/usuario/registrar", registroData)
       .then((response) => {
         console.log("Usuario registrado con éxito:", response.data);
         showSnackbar("¡Usuario registrado con éxito! Redirigiendo...", "success");

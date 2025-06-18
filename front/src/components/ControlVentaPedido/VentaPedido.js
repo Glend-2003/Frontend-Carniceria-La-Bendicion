@@ -56,7 +56,7 @@ const PedidosCompletadosApp = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("https://backend-carniceria-la-bendicion-qcvr.onrender.com/pedido/Entregado");
+        const response = await axios.get("http://localhost:8080/pedido/Entregado");
         setPedidos(response.data);
         setFilteredPedidos(response.data);
         calcularEstadisticas(response.data);
